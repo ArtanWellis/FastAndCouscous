@@ -16,9 +16,35 @@ const orders = [
       {
           name: "Burger Bacon",
           quantity: 3,
-      }],
+      },{
+        name: "Double Cheese Burger",
+        quantity: 1,
+        Ingredients: ["+Extra Cheese"]
+      },
+      {
+        name: "Veggie Burger",
+        quantity: 2,
+        Ingredients: ["-Meat", "+Avocado"]
+      },
+      {
+        name: "Chicken Burger",
+        quantity: 1,
+        Ingredients: ["+Spicy Sauce"]
+      },
+      {
+        name: "Fish Burger",
+        quantity: 1,
+        Ingredients: ["-Tartar Sauce"]
+      },
+      {
+        name: "BBQ Burger",
+        quantity: 2,
+        Ingredients: ["+BBQ Sauce", "-Onion Rings"]
+      },
+      
+    ],
       PayedHour: "18h38",
-      Type : "DineIn"
+      Type : "TakeAway"
   },
   {   
       id:352,
@@ -97,7 +123,28 @@ const Kitchen=()=> {
                 <View style={styles.OrderItem}>
                     <OrderItem order={firstOrder}/>
                 </View>
-            </View>
+                <View style={styles.BottomButton}>
+                        <View style={styles.ButtonWrapper}>
+                            <Button 
+                                buttonStyle={[styles.Button , {backgroundColor:'#87B6A1'}]} 
+                                title='Terminer la dernière commande'
+                                titleStyle={styles.titleStyle}
+                            />
+                        </View>
+                        <View style={styles.ButtonWrapper}>
+                            <Button 
+                                buttonStyle={[styles.Button , {backgroundColor:'#19C319'}]} 
+                                icon = {
+                                    <Image
+                                        source={require('../assets/images/arrow.png')}
+                                        style={{width: 25, height: 25}}
+                                        resizeMode="contain"
+                                    />
+                                }
+                            />
+                        </View>
+                    </View>
+            </View>  
         </View>
         <View style={styles.Waiting}>
 
@@ -133,7 +180,7 @@ const styles = {
     },
     titleStyle:{
         color : 'white',
-        fontSize:10,
+        fontSize:9,
     },
     ButtonWrapper: {
         flex: 0.45,
@@ -144,6 +191,7 @@ const styles = {
         borderRadius:10,
         backgroundColor:'#F0CA81',
         padding:10,
+
     },
     TextWrapper:{
         flex:0.05,
@@ -156,7 +204,13 @@ const styles = {
         textAlign:'center',
     },
     OrderItem:{
-        flex:0.95
-    }
+        flex:0.95,
+    },
+    BottomButton:{
+        flex:0.10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        position:'abosolute',
+    },
 };
 export default Kitchen;
