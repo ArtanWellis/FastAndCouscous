@@ -1,5 +1,6 @@
 import React from 'react';
-import { View , Text} from 'react-native';
+import { View , Image , Text} from 'react-native';
+import { Button  } from 'react-native-elements';
 
 import OrderItem from './orders';
 
@@ -17,7 +18,7 @@ const orders = [
           quantity: 3,
       }],
       PayedHour: "18h38",
-      Type : "Sur Place"
+      Type : "DineIn"
   },
   {   
       id:352,
@@ -33,7 +34,7 @@ const orders = [
           quantity: 3,
       }],
       PayedHour: "18h48",
-      Type : "Sur Place"
+      Type : "DineIn"
   },
   {   
       id:353,
@@ -56,17 +57,101 @@ const orders = [
           quantity: 5,
       }],
       PayedHour: "19h08",
-      Type : "A emporter"
+      Type : "Delivery"
   },
 ];
 
 const Kitchen=()=> {
     const firstOrder = orders[0];   
   return (
-    <View>
-        <OrderItem order={firstOrder} />
-    </View>
-  );
+    <View style={styles.container}>
+        <View style={styles.InProgress}>
+            <View style={styles.ButtonDiv}>
+                <View style={styles.ButtonWrapper}>
+                    <Button 
+                        buttonStyle={[styles.Button , {backgroundColor:'#FF8181'}]} 
+                        title='Récupérer la dernière commande'
+                        titleStyle={styles.titleStyle}
+                    />
+                </View>
+                <View style={styles.ButtonWrapper}>
+                    <Button 
+                        buttonStyle={[styles.Button , {backgroundColor:'#19C319'}]} 
+                        titleStyle={[styles.titleStyle ,{fontSize:15}]}
+                        title='Mode novice : ' 
+                        icon = {
+                            <Image
+                                source={require('../assets/images/lock.png')}
+                                style={{width: 20, height: 20}}
+                                resizeMode="contain"
+                            />
+                        }
+                        iconRight
+                    />
+                </View>
+            </View>
+            <View style={styles.firstOrder}>
+                <View style={styles.TextWrapper}>
+                    <Text style={styles.Text}>En COURS</Text>
+                </View>
+                <OrderItem order={firstOrder}/>
+            </View>
+        </View>
+        <View style={styles.Waiting}>
+
+        </View>
+    </View>);
 };
 
+const styles = {
+    container:{
+        margin:20,
+        flex:1,
+        flexDirection: 'row',
+    } ,
+    InProgress:{
+        flex:0.35,
+        flexDirection: 'column',
+        marginRight:40,
+    },
+    Waiting:{
+        flex:0.7,
+        backgroundColor:'red'
+    },
+    ButtonDiv:{
+        flex:0.08,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom:10,
+    },
+    Button:{
+        borderRadius:5,
+        width:'100%',
+        height:'100%',
+    },
+    titleStyle:{
+        color : 'white',
+        fontSize:10,
+    },
+    ButtonWrapper: {
+        flex: 0.45,
+    },
+    firstOrder:{
+        flex:0.92,
+        flexDirection: 'column',
+        borderRadius:10,
+        backgroundColor:'#F0CA81',
+        padding:10,
+    },
+    TextWrapper:{
+        flex:0.18,
+        justifyContent:'center',
+    },
+    Text:{
+        fontSize:15,
+        fontWeight:'bold',
+        textAlign:'center',
+        backgroundColor:'#F0CA81',
+    }
+};
 export default Kitchen;

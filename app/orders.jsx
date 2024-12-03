@@ -1,17 +1,29 @@
 import React from 'react';
-import {StyleSheet,View,Text} from 'react-native';
+import {StyleSheet,View,Text,Image} from 'react-native';
+
+const getImageSource = (type) => {
+  switch (type) {
+    case 'DineIn':
+      return require('../assets/images/DineIn.png');
+    case 'Delivery':
+      return require('../assets/images/Delivery.png');
+    default:
+      return require('../assets/images/icon.png');
+  }
+};
 
 const OrderItem = ({order}) => {
-  print(order.items);
   if (!order) {
     return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
   }
   return (
-    <View>
-        <Text >{order.id}</Text>
-        <Text>{order.PayedHour}</Text>
-        <Text>{order.Type}</Text>
-        <Items items={order.items} />  
+    <View style={styles.OrderItem}>
+        <Text style={styles.Id}>Commande #{order.id}</Text>
+        <Text>Payée à {order.PayedHour}</Text>
+        <Image
+          source = {(getImageSource(order.Type))}
+        />
+        <Items items={order.items}/>  
     </View>
   );
 }
@@ -54,6 +66,28 @@ function Ingredients({ ingredients }) {
 
 
 const styles = StyleSheet.create({
+    OrderItem:{
+      backgroundColor: '#FFFEEB', 
+      marginBottom:20,
+      borderRadius: 10,
+      width:'100%',
+      height:'100%',
+    },
+    Id:{
+      fontSize: 10,
+      fontWeight: 'bold',
+    },
+
+
+
+
+
+
+
+
+
+
+
     ingredient: {
       fontSize: 20,
       fontWeight: 'bold',
