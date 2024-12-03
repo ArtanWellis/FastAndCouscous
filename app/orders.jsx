@@ -20,7 +20,8 @@ const OrderItem = ({order}) => {
     <View style={styles.OrderItem}>
         <Text style={styles.Id}>Commande #{order.id}</Text>
         <Text>Payée à {order.PayedHour}</Text>
-        <Image
+        <Image 
+          style={{width: 50, height: 50}}
           source = {(getImageSource(order.Type))}
         />
         <Items items={order.items}/>  

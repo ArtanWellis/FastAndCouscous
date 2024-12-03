@@ -92,9 +92,11 @@ const Kitchen=()=> {
             </View>
             <View style={styles.firstOrder}>
                 <View style={styles.TextWrapper}>
-                    <Text style={styles.Text}>En COURS</Text>
+                    <Text style={styles.Text}>EN COURS</Text>
                 </View>
-                <OrderItem order={firstOrder}/>
+                <View style={styles.OrderItem}>
+                    <OrderItem order={firstOrder}/>
+                </View>
             </View>
         </View>
         <View style={styles.Waiting}>
@@ -144,14 +146,17 @@ const styles = {
         padding:10,
     },
     TextWrapper:{
-        flex:0.18,
+        flex:0.05,
         justifyContent:'center',
+        marginBottom:10,
     },
     Text:{
         fontSize:15,
         fontWeight:'bold',
         textAlign:'center',
-        backgroundColor:'#F0CA81',
+    },
+    OrderItem:{
+        flex:0.95
     }
 };
 export default Kitchen;
