@@ -1,10 +1,10 @@
-import React from 'react';
-import { View , Image , Text} from 'react-native';
+import React , {useState} from 'react';
+import { View , Image , Text , Alert} from 'react-native';
 import { Button  } from 'react-native-elements';
 
 import OrderItem from './orders';
 
-const orders = [
+let initialOrders = [
   {   
       id:351,
       items :[
@@ -85,10 +85,116 @@ const orders = [
       PayedHour: "19h08",
       Type : "Delivery"
   },
+  {   
+    id:354,
+    items :[
+    {
+        name: "Veggie Burger",
+        quantity: 2,
+        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
+    },
+    {
+        name: "Bacon Burger",
+        quantity: 3,
+    },
+    {
+        name: "Cheese Burger",
+        quantity: 3,
+    },
+    {
+        name: "Double Meat Burger",
+        quantity: 5,
+    }],
+    PayedHour: "19h08",
+    Type : "Delivery"
+},
+{   
+    id:355,
+    items :[
+    {
+        name: "Veggie Burger",
+        quantity: 2,
+        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
+    },
+    {
+        name: "Bacon Burger",
+        quantity: 3,
+    },
+    {
+        name: "Cheese Burger",
+        quantity: 3,
+    },
+    {
+        name: "Double Meat Burger",
+        quantity: 5,
+    }],
+    PayedHour: "19h08",
+    Type : "Delivery"
+},
+{   
+    id:356,
+    items :[
+    {
+        name: "Veggie Burger",
+        quantity: 2,
+        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
+    },
+    {
+        name: "Bacon Burger",
+        quantity: 3,
+    },
+    {
+        name: "Cheese Burger",
+        quantity: 3,
+    },
+    {
+        name: "Double Meat Burger",
+        quantity: 5,
+    }],
+    PayedHour: "19h08",
+    Type : "Delivery"
+},
 ];
 
 const Kitchen=()=> {
-    const firstOrder = orders[0];   
+    const [orders, setOrders] = useState(initialOrders);
+
+    const firstOrder = orders[0];
+    const waitingOrders= orders.slice(1,4)
+    let nbLeft=orders.length-4 > 0 ? orders.length-4 : 0
+
+    const handleOrderClick = (order) => {
+        if(order==firstOrder) return;
+        Alert.alert(
+            "Confirmer l'action",
+            "Voulez-vous vraiment sélectionner cette commande ?",
+            [
+              {
+                text: "Annuler",
+                style: "cancel"
+              },
+              {
+                text: "Confirmer",
+                onPress: () => {
+                  const index = orders.findIndex(o => o.id === order.id);
+                  if (index !== -1) {
+                    const newOrders = [...orders];
+                    newOrders[0] = order;
+                    newOrders[index] = firstOrder;
+                    setOrders(newOrders);
+                  }
+                }
+              }
+            ]
+        );
+    };
+
+    const handleSuppOrder = ()=>{
+            console.log(orders.slice(1))
+            const newOrders = orders.slice(1)
+            setOrders(newOrders)
+    }
+
   return (
     <View style={styles.container}>
         <View style={styles.InProgress}>
@@ -121,33 +227,27 @@ const Kitchen=()=> {
                     <Text style={styles.Text}>EN COURS</Text>
                 </View>
                 <View style={styles.OrderItem}>
-                    <OrderItem order={firstOrder}/>
+                    <OrderItem order={firstOrder} onOrderClick={handleOrderClick}/>
                 </View>
                 <View style={styles.BottomButton}>
-                        <View style={styles.ButtonWrapper}>
-                            <Button 
-                                buttonStyle={[styles.Button , {backgroundColor:'#87B6A1'}]} 
-                                title='Terminer la dernière commande'
-                                titleStyle={styles.titleStyle}
-                            />
-                        </View>
-                        <View style={styles.ButtonWrapper}>
-                            <Button 
-                                buttonStyle={[styles.Button , {backgroundColor:'#19C319'}]} 
-                                icon = {
-                                    <Image
-                                        source={require('../assets/images/arrow.png')}
-                                        style={{width: 25, height: 25}}
-                                        resizeMode="contain"
-                                    />
-                                }
-                            />
-                        </View>
-                    </View>
+                    <Button 
+                        onPress={ () => handleSuppOrder()}
+                        buttonStyle={[styles.Button , {backgroundColor:'#87B6A1'}]} 
+                        title='Terminer la commande'
+                        titleStyle={[styles.titleStyle,{fontSize:15}]}
+                    />
+                </View>
             </View>  
         </View>
         <View style={styles.Waiting}>
-
+            <View style={styles.OrdersWrapper}>
+                {waitingOrders.map((order,index)=>(
+                    <OrderItem key={index} order={order} onOrderClick={handleOrderClick} />
+                ))}
+            </View>
+            <Text style={styles.nbLeft}>
+                Nombre de commande restantes : {nbLeft} / {orders.length}
+            </Text>
         </View>
     </View>);
 };
@@ -165,7 +265,7 @@ const styles = {
     },
     Waiting:{
         flex:0.7,
-        backgroundColor:'red'
+        flexDirection :'column',
     },
     ButtonDiv:{
         flex:0.08,
@@ -208,9 +308,17 @@ const styles = {
     },
     BottomButton:{
         flex:0.10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         position:'abosolute',
+        
     },
+    OrdersWrapper:{
+        flex:0.95,
+    },
+    nbLeft:{
+        flex:0.03,
+        textAlign : 'center',
+        fontWeight:'bold',
+    }
 };
 export default Kitchen;

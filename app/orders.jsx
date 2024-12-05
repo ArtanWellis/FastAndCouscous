@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,View,Text,Image, ScrollView} from 'react-native';
+import {StyleSheet,View,Text,Image,TouchableOpacity, ScrollView} from 'react-native';
 
 const getImageSource = (type) => {
   switch (type) {
@@ -14,12 +14,14 @@ const getImageSource = (type) => {
   }
 };
 
-const OrderItem = ({order}) => {
+const OrderItem = ({order , onOrderClick}) => {
   if (!order) {
     return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
   }
   return (
     <ScrollView style={styles.OrderItem}>
+      <TouchableOpacity onPress={() => onOrderClick ? onOrderClick(order) : onOrderClick(null)}>
+
         <View style={styles.upOrder}>
           <Text style={[styles.textOrder]}>Commande #{order.id}</Text>
           <Text style={[styles.textOrder ,{ color : "#797B7E"}]}>Payée à {order.PayedHour}</Text>
@@ -31,6 +33,7 @@ const OrderItem = ({order}) => {
         <View style={styles.bottomOrder}>
           <Items items={order.items}/>  
         </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -57,7 +60,6 @@ const Items = ({ items }) =>{
 }
 
 function Ingredients({ ingredients }) {
-  console.log(ingredients);
   if(!ingredients){
     return;
   }
@@ -130,10 +132,10 @@ const styles = StyleSheet.create({
       paddingHorizontal: 16,
     },
     positiveItem: {
-      color: 'red',
+      color: 'green',
     },
     negativeItem: {
-      color: 'green',
+      color: 'red',
     }
   });
   
