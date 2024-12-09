@@ -41,7 +41,7 @@ const OrderItem = ({order , onOrderClick}) => {
 const Items = ({ items }) =>{
     return (
       <View>
-        {items.map((item) => (
+        {items.map((item,key) => (
           <View style={styles.Items} key={item.id}>            
             <Image
               style={{width: 25, height: 25}}
@@ -64,14 +64,15 @@ function Ingredients({ ingredients }) {
     return;
   }
   return (
-    <View style={styles.ingredients}>
-      {ingredients.map((ingredient) => {
+    <View style={styles.ingredients} >
+      {ingredients.map((ingredient,key) => {
         let moreOrLess = ingredient.startsWith('+');
         return (
           <View
             style={[
               styles.ingredientItem
-            ]}>
+            ]}
+            key ={ingredient.name}>
             <Text style ={[ styles.ingredient ,moreOrLess ? styles.positiveItem : styles.negativeItem ]}>{ingredient}</Text>
           </View>
         );

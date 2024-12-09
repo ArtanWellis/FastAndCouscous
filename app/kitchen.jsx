@@ -158,7 +158,7 @@ let initialOrders = [
 
 const Kitchen=()=> {
     const [orders, setOrders] = useState(initialOrders);
-
+    const [lastOrder, setLastOrder] = useState(null);
     const firstOrder = orders[0];
     const waitingOrders= orders.slice(1,4)
     let nbLeft=orders.length-4 > 0 ? orders.length-4 : 0
@@ -190,17 +190,29 @@ const Kitchen=()=> {
     };
 
     const handleSuppOrder = ()=>{
-            console.log(orders.slice(1))
             const newOrders = orders.slice(1)
             setOrders(newOrders)
+            setLastOrder(firstOrder)
+            console.log(lastOrder)
+
+
     }
 
+    const retrieveLastOrder = () => {
+        console.log(lastOrder)
+        if(lastOrder){
+            const newOrders = [lastOrder,...orders];
+            setOrders(newOrders);
+            setLastOrder(null)
+        }
+    }
   return (
     <View style={styles.container}>
         <View style={styles.InProgress}>
             <View style={styles.ButtonDiv}>
                 <View style={styles.ButtonWrapper}>
                     <Button 
+                        onPress={ () => retrieveLastOrder()}
                         buttonStyle={[styles.Button , {backgroundColor:'#FF8181'}]} 
                         title='Récupérer la dernière commande'
                         titleStyle={styles.titleStyle}
