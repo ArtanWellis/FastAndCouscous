@@ -1,5 +1,5 @@
 import React  ,{ useState } from 'react';
-import { View, Text, StyleSheet, ScrollView,TouchableOpacity  } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
 import OrderItem from './orders';
 
 const initialOrders = [
@@ -27,13 +27,34 @@ const initialOrders = [
 
 const Comptoir = () => {
     const [orders, setOrders] = useState(initialOrders);
+    const [isRushMode, setIsRushMode] = useState(false);
 
   const handleValidate = (id) => {
     setOrders(orders.filter(order => order.id !== id));
   };
+  const toggleRushMode = () => {
+    setIsRushMode(!isRushMode);
+  };
+  const hotItems = orders.filter(order =>
+    order.items.some(item => item.category === "hot")
+  );
+  const coldItems = orders.filter(order =>
+    order.items.some(item => item.category === "cold")
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Comptoir</Text>
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchLabel}>Mode Rush</Text>
+        <Switch
+          value={isRushMode}
+          onValueChange={toggleRushMode}
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isRushMode ? "#007AFF" : "#f4f3f4"}
+        />
+      </View>
+      {!isRushMode ? (
       <ScrollView contentContainerStyle={styles.ordersContainer}>
         {orders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
@@ -47,6 +68,42 @@ const Comptoir = () => {
           </View>
         ))}
       </ScrollView>
+      ) : (
+        <View style={styles.rushModeContainer}>
+          <View style={styles.rushColumn}>
+            <Text style={styles.rushTitle}>Plats Chauds</Text>
+            <ScrollView>
+              {hotItems.map((order) => (
+                <View key={order.id} style={styles.orderCard}>
+                  <OrderItem order={order} />
+                  <TouchableOpacity
+                    style={styles.validateButton}
+                    onPress={() => handleValidate(order.id)}
+                  >
+                    <Text style={styles.validateButtonText}>Valider</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+          <View style={styles.rushColumn}>
+            <Text style={styles.rushTitle}>Plats Froids et Boissons</Text>
+            <ScrollView>
+              {coldItems.map((order) => (
+                <View key={order.id} style={styles.orderCard}>
+                  <OrderItem order={order} />
+                  <TouchableOpacity
+                    style={styles.validateButton}
+                    onPress={() => handleValidate(order.id)}
+                  >
+                    <Text style={styles.validateButtonText}>Valider</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -63,12 +120,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center'
   },
+  switchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  switchLabel: {
+    fontSize: 16,
+    marginRight: 10,
+  },
   scrollContainer: {
     flex: 1
   },
   ordersContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Permet d'afficher plusieurs commandes sur la même ligne
+    flexWrap: 'wrap', 
     justifyContent: 'space-between',
   },
   orderCard: {
