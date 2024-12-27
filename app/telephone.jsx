@@ -255,9 +255,10 @@ const styles = {
         flex:1,
         flexDirection: 'column',
     } ,
-    Waiting:{
-        flex:0.5,
-        flexDirection :'column',
+    title:{
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 24
     },
     actualOrder: {
         backgroundColor: '#DEDEDE80',
@@ -280,23 +281,7 @@ const styles = {
         marginTop: 20,
         fontSize: 16,
     },
-    input: {
-        fontSize: 16,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        backgroundColor: '#fff',
-    },
-    result: {
-        marginTop: 20,
-        fontSize: 16,
-        color: 'blue',
-        textAlign: 'center',
-    },
-    OrdersWrapper:{
-        flex:0.95,
-    },
+   
 
 };
 export default Telephone;
