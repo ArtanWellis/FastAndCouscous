@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, Dimensions, Platform, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Kitchen from './kitchen';
 import Comptoir from './comptoir';
+import ColdPage from './ColdPage';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => {
         <Stack.Screen name="Index" component={Index} />
         <Stack.Screen name="Kitchen" component={Kitchen} options={{ title: 'Cuisine' }} />
         <Stack.Screen name="Comptoir" component={Comptoir} options={{ title: 'Comptoir' }} />
+        <Stack.Screen name="ColdScreen" component={ColdPage} />
     </Stack.Navigator>
   );
 };

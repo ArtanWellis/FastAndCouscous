@@ -2,13 +2,14 @@ import React  ,{ useState } from 'react';
 import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
 import OrderItem from './orders';
 
+
 const initialOrders = [
   {
     id: 351,
     items: [
-      { name: "Cheese Burger", quantity: 2 },
-      { name: "French Fries", quantity: 1 },
-      { name: "Coca Cola", quantity: 1 },
+      { name: "Cheese Burger", quantity: 2, category: "hot"},
+      { name: "French Fries", quantity: 1,category: "hot" },
+      { name: "Coca Cola", quantity: 1,category: "cold" },
     ],
     PayedHour: "18h38",
     Type: "DineIn"
@@ -16,9 +17,9 @@ const initialOrders = [
   {
     id: 352,
     items: [
-      { name: "Chicken Nuggets", quantity: 1 },
-      { name: "Salad", quantity: 1 },
-      { name: "Orange Juice", quantity: 1 },
+      { name: "Chicken Nuggets", quantity: 1, category: "hot"  },
+      { name: "Salad", quantity: 1, category: "cold" },
+      { name: "Orange Juice", quantity: 1, category: "cold" },
     ],
     PayedHour: "18h48",
     Type: "DineIn"
@@ -28,19 +29,114 @@ const initialOrders = [
 const Comptoir = () => {
     const [orders, setOrders] = useState(initialOrders);
     const [isRushMode, setIsRushMode] = useState(false);
+    const [coldWindow, setColdWindow] = useState(null);
 
   const handleValidate = (id) => {
     setOrders(orders.filter(order => order.id !== id));
   };
+
+
   const toggleRushMode = () => {
+    if (!isRushMode) {
+      // Séparer les plats froids
+      const coldItems = orders.map((order) => ({
+        ...order,
+        items: order.items.filter((item) => item.category === "cold"),
+      })).filter((order) => order.items.length > 0);
+
+      const stylesCSS = `
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #F5FCFF;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .orders-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .order-card {
+        width: 48%;
+        margin-bottom: 15px;
+        background-color: #FFF;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .validate-button {
+        background-color: #19C319;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    `;
+
+    // Créer une nouvelle fenêtre avec les styles injectés
+    const coldData = JSON.stringify(coldItems);
+    const newWindow = window.open("", "_blank", "width=800,height=600");
+    newWindow.document.write(`
+      <html>
+        <head>
+          <title>Plats Froids</title>
+          <style>${stylesCSS}</style>
+        </head>
+        <body>
+          <h1 class="title">Plats Froids et Boissons</h1>
+          <div class="orders-container" id="cold-orders"></div>
+          <script>
+            const coldOrders = ${coldData};
+            const coldOrdersContainer = document.getElementById("cold-orders");
+            coldOrders.forEach(order => {
+              const orderDiv = document.createElement("div");
+              orderDiv.classList.add("order-card");
+              orderDiv.innerHTML = \`
+                <h3>Commande #\${order.id}</h3>
+                \${order.items.map(item => \`<p>\${item.quantity}x \${item.name}</p>\`).join("")}
+                <button class="validate-button">Valider</button>
+              \`;
+              coldOrdersContainer.appendChild(orderDiv);
+            });
+          </script>
+        </body>
+      </html>
+    `);
+      setColdWindow(newWindow);
+    } else {
+      // Fermer la fenêtre ouverte
+      if (coldWindow) {
+        coldWindow.close();
+        setColdWindow(null);
+      }
+    }
     setIsRushMode(!isRushMode);
   };
-  const hotItems = orders.filter(order =>
-    order.items.some(item => item.category === "hot")
-  );
-  const coldItems = orders.filter(order =>
-    order.items.some(item => item.category === "cold")
-  );
+
+
+  const displayedOrders = isRushMode
+  ? orders.map(order => ({
+      ...order,
+      items: order.items.filter(item => item.category === "hot"),
+    })).filter(order => order.items.length > 0)
+  : orders; // Afficher toutes les commandes si le mode rush est désactivé
+
+  
+  // const hotItems = orders.filter(order =>
+  //   order.items.some(item => item.category === "hot")
+  // );
+  // const coldItems = orders.filter(order =>
+  //   order.items.some(item => item.category === "cold")
+  // );
 
   return (
     <View style={styles.container}>
@@ -54,9 +150,8 @@ const Comptoir = () => {
           thumbColor={isRushMode ? "#007AFF" : "#f4f3f4"}
         />
       </View>
-      {!isRushMode ? (
       <ScrollView contentContainerStyle={styles.ordersContainer}>
-        {orders.map((order) => (
+         {displayedOrders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
             <OrderItem order={order} />
             <TouchableOpacity
@@ -66,44 +161,8 @@ const Comptoir = () => {
               <Text style={styles.validateButtonText}>Valider</Text>
             </TouchableOpacity>
           </View>
-        ))}
+          ))}
       </ScrollView>
-      ) : (
-        <View style={styles.rushModeContainer}>
-          <View style={styles.rushColumn}>
-            <Text style={styles.rushTitle}>Plats Chauds</Text>
-            <ScrollView>
-              {hotItems.map((order) => (
-                <View key={order.id} style={styles.orderCard}>
-                  <OrderItem order={order} />
-                  <TouchableOpacity
-                    style={styles.validateButton}
-                    onPress={() => handleValidate(order.id)}
-                  >
-                    <Text style={styles.validateButtonText}>Valider</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-          <View style={styles.rushColumn}>
-            <Text style={styles.rushTitle}>Plats Froids et Boissons</Text>
-            <ScrollView>
-              {coldItems.map((order) => (
-                <View key={order.id} style={styles.orderCard}>
-                  <OrderItem order={order} />
-                  <TouchableOpacity
-                    style={styles.validateButton}
-                    onPress={() => handleValidate(order.id)}
-                  >
-                    <Text style={styles.validateButtonText}>Valider</Text>
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
-        </View>
-      )}
     </View>
   );
 };
