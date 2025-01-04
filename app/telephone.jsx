@@ -305,46 +305,25 @@ const Telephone = () => {
     };
 
     const applyFilter = (filter) => {
-        const findNextOrderWithItems = (startIndex) => {
-            let index = startIndex;
-            let looped = false;
+        const currentOrderResult = findNextOrderWithFilter(indiceOrder, filter);
 
-            while (true) {
-                const order = orders[index];
-                let filteredItems;
-
-                if (filter === 'complet') {
-                    filteredItems = order.items; // Pas de filtre
-                } else if (filter === 'chaud' || filter === 'froid') {
-                    filteredItems = order.items.filter(item => item.temperature === filter); // Filtrer par température
-                } else {
-                    filteredItems = order.items.filter(item => item.type === filter); // Filtrer par type
-                }
-
-                if (filteredItems.length > 0) {
-                    return { order, filteredItems };
-                }
-
-                index = (index + 1) % orders.length;
-                if (index === startIndex) {
-                    if (looped) break;
-                    looped = true;
-                }
-            }
-
-            return null;
-        };
-
-        const result = findNextOrderWithItems(indiceOrder);
-
-        if (result) {
-            const { order, filteredItems } = result;
+        if (currentOrderResult) {
+            const { order, filteredItems, index } = currentOrderResult;
             setActualOrder(order);
             setFilteredOrder({ ...order, items: filteredItems });
-            setIndiceOrder(orders.indexOf(order));
+            setIndiceOrder(index);
+
+            // Trouver la commande suivante pour l'aperçu
+            const nextOrderResult = findNextOrderWithFilter(index, filter);
+            if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+            } else {
+                setNextFilteredOrder(null);
+            }
         } else {
             setActualOrder(null);
             setFilteredOrder(null);
+            setNextFilteredOrder(null);
         }
     };
 
@@ -382,6 +361,11 @@ const Telephone = () => {
         }
     };
 
+    const areOrdersEqual = (order1, order2) => {
+        if (!order1 || !order2) return false;
+        return order1.id === order2.id;
+    };
+
     const switchOrder = () => {
         const nextOrderResult = findNextOrderWithFilter(indiceOrder, selectedFilter);
 
@@ -393,7 +377,7 @@ const Telephone = () => {
 
             // Trouver la commande suivante pour l'aperçu
             const nextNextOrder = findNextOrderWithFilter(index, selectedFilter);
-            if (nextNextOrder) {
+            if (nextNextOrder && !areOrdersEqual(nextNextOrder.order, order)) {
                 setNextFilteredOrder({ ...nextNextOrder.order, items: nextNextOrder.filteredItems });
             } else {
                 setNextFilteredOrder(null);
