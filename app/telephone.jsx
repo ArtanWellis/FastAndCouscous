@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import {View, Image, Text, Alert, Platform,StyleSheet} from 'react-native';
+import {View, Image, Text, Alert, Platform, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import { Button  } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 import OrderItem from './orders';
@@ -197,17 +197,84 @@ let initialOrders = [
         quantity: 5,
         temperature : "chaud",
         type : "burger",
-    }],
+    },{
+            name: "Veggie Burger",
+            quantity: 2,
+            temperature : "chaud",
+            type : "burger",
+            Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
+        },
+        {
+            name: "Bacon Burger",
+            quantity: 3,
+            temperature : "chaud",
+            type : "burger",
+        },
+        {
+            name: "Cheese Burger",
+            quantity: 3,
+            temperature : "chaud",
+            type : "burger",
+        },
+        {
+            name: "Double Meat Burger",
+            quantity: 5,
+            temperature : "chaud",
+            type : "burger",
+        },{
+            name: "Cheese Burger",
+            quantity: 3,
+            temperature : "chaud",
+            type : "burger",
+        },
+        {
+            name: "Double Meat Burger",
+            quantity: 5,
+            temperature : "chaud",
+            type : "burger",
+        }],
     PayedHour: "19h08",
     Type : "Delivery"
 },
 ];
 
+const OrderBlurred = ({order , onOrderClick}) => {
+    if (!order) {
+        return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
+    }
+    return (
+        <ScrollView style={styles.OrderItem}>
+            <TouchableOpacity onPress={() => onOrderClick ? onOrderClick(order) : onOrderClick(null)}>
+
+                <View style={styles.upOrder}>
+                    <Text style={[styles.textOrderBlurred]}>Prochaine commande : #{order.id} </Text>
+                </View>
+                <View style={styles.bottomOrder}>
+                    <ItemsBlurred items={order.items}/>
+                </View>
+            </TouchableOpacity>
+        </ScrollView>
+    );
+}
+const ItemsBlurred = ({ items }) =>{
+    return (
+        <View>
+            {items.map((item,key) => (
+                <View style={styles.Items} key={item.id}>
+                    <Text style = {styles.Quantity}>{item.quantity}X</Text>
+                    <Text style = {{fontSize:18,fontWeight:'bold'}} >       ------------</Text>
+                </View>
+
+            ))}
+        </View>
+    );
+}
 const Telephone = () => {
     const [orders, setOrders] = useState(initialOrders);
     const [indiceOrder, setIndiceOrder] = useState(0);
     const [actualOrder, setActualOrder] = useState(orders[0]);
-    const [filteredOrder, setFilteredOrder] = useState(orders[0]); // Nouvelle variable pour l'ordre filtré
+    const [filteredOrder, setFilteredOrder] = useState(orders[0]);
+    const [nextFilteredOrder, setNextFilteredOrder] = useState(orders[1]);
     const [selectedFilter, setSelectedFilter] = useState('complet');
 
     const filterOptions = [
@@ -221,6 +288,21 @@ const Telephone = () => {
         { label: 'Boissons', value: 'boisson' },
         { label: 'Glaces', value: 'glace' },
     ];
+
+    const filterItems = (order, filter) => {
+        if (!order) return null;
+
+        let filteredItems;
+        if (filter === 'complet') {
+            filteredItems = order.items;
+        } else if (filter === 'chaud' || filter === 'froid') {
+            filteredItems = order.items.filter(item => item.temperature === filter);
+        } else {
+            filteredItems = order.items.filter(item => item.type === filter);
+        }
+
+        return filteredItems.length > 0 ? { ...order, items: filteredItems } : null;
+    };
 
     const applyFilter = (filter) => {
         const findNextOrderWithItems = (startIndex) => {
@@ -266,20 +348,66 @@ const Telephone = () => {
         }
     };
 
-    const switchOrder = () => {
-        let newIndice = indiceOrder + 1;
-        if (newIndice >= orders.length) {
-            newIndice = 0;
+    const findNextOrderWithFilter = (currentIndex, filter) => {
+        let index = currentIndex + 1;
+        let looped = false;
+
+        while (true) {
+            if (index >= orders.length) {
+                if (looped) return null;
+                index = 0;
+                looped = true;
+            }
+
+            const order = orders[index];
+            let filteredItems;
+
+            if (filter === 'complet') {
+                filteredItems = order.items;
+            } else if (filter === 'chaud' || filter === 'froid') {
+                filteredItems = order.items.filter(item => item.temperature === filter);
+            } else {
+                filteredItems = order.items.filter(item => item.type === filter);
+            }
+
+            if (filteredItems.length > 0) {
+                return {
+                    order,
+                    filteredItems,
+                    index
+                };
+            }
+
+            index++;
         }
-        setIndiceOrder(newIndice);
-        setActualOrder(orders[newIndice]);
-        setFilteredOrder(orders[newIndice]); // Réinitialiser au changement de commande
     };
 
-    // Appeler `applyFilter` à chaque changement de filtre
+    const switchOrder = () => {
+        const nextOrderResult = findNextOrderWithFilter(indiceOrder, selectedFilter);
+
+        if (nextOrderResult) {
+            const { order, filteredItems, index } = nextOrderResult;
+            setIndiceOrder(index);
+            setActualOrder(order);
+            setFilteredOrder({ ...order, items: filteredItems });
+
+            // Trouver la commande suivante pour l'aperçu
+            const nextNextOrder = findNextOrderWithFilter(index, selectedFilter);
+            if (nextNextOrder) {
+                setNextFilteredOrder({ ...nextNextOrder.order, items: nextNextOrder.filteredItems });
+            } else {
+                setNextFilteredOrder(null);
+            }
+        } else {
+            setActualOrder(null);
+            setFilteredOrder(null);
+            setNextFilteredOrder(null);
+        }
+    };
+
     React.useEffect(() => {
         applyFilter(selectedFilter);
-    }, [selectedFilter, actualOrder]);
+    }, [selectedFilter]);
 
     const finishOrder = () => {
         Alert.alert(
@@ -300,10 +428,11 @@ const Telephone = () => {
 
                         if (updatedOrders.length > 0) {
                             setActualOrder(updatedOrders[0]);
-                            setFilteredOrder(updatedOrders[0]); // Réinitialiser la commande filtrée
+                            applyFilter(selectedFilter);
                         } else {
                             setActualOrder(null);
                             setFilteredOrder(null);
+                           // setNextFilteredOrder(null);
                         }
                     }
                 }
@@ -322,27 +451,40 @@ const Telephone = () => {
                 items={filterOptions}
                 value={selectedFilter}
                 style={{
-                    inputIOS: styles.input, // iOS style
-                    inputAndroid: styles.input, // Android style
+                    inputIOS: styles.input,
+                    inputAndroid: styles.input,
                 }}
             />
-            <View style={styles.actualOrder}>
-                {filteredOrder && filteredOrder.items.length > 0 ? (
-                    <OrderItem order={filteredOrder} onOrderClick={switchOrder} />
-                ) : (
-                    <Text>Aucune commande ne correspond au filtre.</Text>
-                )}
-                <Button
-                    title="Valider"
-                    color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
-                    style={styles.button}
-                    onPress={finishOrder}
-                />
-            </View>
-
             <Text style={styles.nbLeft}>
                 Commande actuelle Numéro : {indiceOrder + 1} / {orders.length}
             </Text>
+            <View style={styles.actualOrder}>
+                {filteredOrder && filteredOrder.items.length > 0 ? (
+                    <OrderItem order={filteredOrder} onOrderClick={function (){}}/>
+                ) : (
+                    <Text>Aucune commande ne correspond au filtre.</Text>
+                )}
+                <View style={styles.buttonDiv}>
+                    <Button
+                        title="Suivant"
+                        color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
+                        style={styles.button}
+                        onPress={switchOrder}
+                    />
+                    <Button
+                        title="Valider"
+                        color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
+                        style={styles.button}
+                        onPress={finishOrder}
+                    />
+                </View>
+            </View>
+
+            {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
+                <OrderBlurred order={nextFilteredOrder} onOrderClick={function (){}}/>
+            ) : (
+                <Text>Aucune autre commande ne correspond au filtre.</Text>
+            )}
         </View>
     );
 };
@@ -359,6 +501,10 @@ const styles = {
         textAlign: 'center',
         fontSize: 24
     },
+    buttonDiv:  {
+        flexDirection : 'row',
+       gap : 100
+    },
     actualOrder: {
         backgroundColor: '#DEDEDE80',
         padding: 10,
@@ -366,7 +512,7 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '75%'
+        height: '65%'
     },
     button: {
         borderRadius: 5,
@@ -380,7 +526,18 @@ const styles = {
         marginTop: 20,
         fontSize: 16,
     },
-
+    Items:{
+        flexDirection: 'row',
+        width: '80%',
+        borderBottomWidth: 1,
+        borderBottomColor: '#E3E3E3',
+    },
+    textOrderBlurred:{
+        flex:0.49,
+        fontSize: 20,
+        fontWeight: 'bold',
+    }
 
 };
 export default Telephone;
+
