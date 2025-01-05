@@ -1,7 +1,13 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform, Button } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, StyleSheet, Dimensions, Platform, Button, TouchableOpacity, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Kitchen from './kitchen';
+
+import Telephone from "./telephone";
+
+import Comptoir from './comptoir';
+import ColdPage from './ColdPage';
+
 
 const Stack = createStackNavigator();
 
@@ -15,6 +21,12 @@ const App = () => {
       >
         <Stack.Screen name="Index" component={Index} />
         <Stack.Screen name="Kitchen" component={Kitchen} options={{ title: 'Cuisine' }} />
+
+        <Stack.Screen name="Telephone" component={Telephone} options={{ title: 'Telephone' }} />
+
+        <Stack.Screen name="Comptoir" component={Comptoir} options={{ title: 'Comptoir' }} />
+        <Stack.Screen name="ColdScreen" component={ColdPage} />
+
     </Stack.Navigator>
   );
 };
@@ -25,24 +37,41 @@ const Index = ({ navigation }) => {
 
   return (
     <View style={[
-      styles.container, 
+      styles.container,
       isLandscape && styles.landscapeContainer
     ]}>
+      <Image 
+        source={require('../assets/images/logoo.png')} 
+        style={styles.logo} 
+        resizeMode="contain" 
+      />
       <Text style={[
-        styles.title, 
+        styles.title,
         isLandscape && styles.landscapeTitle
       ]}>
-        Bienvenue sur votre application
+        Bienvenue sur Fast and Couscous
       </Text>
-      <Button 
-        title="Aller à la Cuisine"
-        onPress={() => navigation.navigate("Kitchen")}
-        color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
-        style={[
-          styles.button,
-          isLandscape && styles.landscapeButton
-        ]}
-      />
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Kitchen")}
+        >
+          <Text style={styles.buttonText}>Aller à la Cuisine</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Comptoir")}
+        >
+          <Text style={styles.buttonText}>Aller au Comptoir</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Telephone")}
+        >
+          <Text style={styles.buttonText}>Adaptation pour téléphone</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -64,20 +93,28 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   landscapeTitle: {
-    fontSize: 20,
-    marginBottom: 0
+    fontSize: 50,
+    fontWeight: 'bold',
+    marginBottom: 20
+  },
+  buttonContainer: {
+    width: '80%',
+    alignItems: 'center',
   },
   button: {
-    width: '80%',
-    marginTop: 20
+    backgroundColor: Platform.OS === 'ios' ? '#007AFF' : '#2196F3',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '100%',
+    alignItems: 'center',
   },
-  landscapeButton: {
-    width: 'auto',
-    marginTop: 0
+  buttonText: {
+    color: '#fff',
+    fontSize: 25,
+    fontWeight: 'bold',
   },
-  card: {
-    backgroundColor: '#F5FCFF'
-  }
 });
 
 export default App;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,View,Text,Image} from 'react-native';
+import {StyleSheet,View,Text,Image,TouchableOpacity, ScrollView} from 'react-native';
 
 const getImageSource = (type) => {
   switch (type) {
@@ -7,56 +7,88 @@ const getImageSource = (type) => {
       return require('../assets/images/DineIn.png');
     case 'Delivery':
       return require('../assets/images/Delivery.png');
+    case 'TakeAway':
+      return require('../assets/images/TakeAway.png');
     default:
       return require('../assets/images/icon.png');
   }
 };
-
-const OrderItem = ({order}) => {
+const imageMap = {
+    "bacon burger": require('../assets/images/burger bacon.png'),
+    "cheese burger": require('../assets/images/cheese burger.png'),
+    "moyenne frites": require('../assets/images/moyenne frite.png'),
+    "veggie burger": require('../assets/images/veggie burger.png'),
+    "jus d'orange": require('../assets/images/jus d\'orange.png'),
+    "double cheese burger": require('../assets/images/double cheese burger.png'),
+    "coca cola": require('../assets/images/coca cola.png'),
+    "fish burger": require('../assets/images/fish burger.png'),
+    "bbq burger": require('../assets/images/bbq burger.png'),
+    "mcflurry oreo": require('../assets/images/mcfluzzy oreo.png'),
+    "salade cesar": require('../assets/images/salade cesar.png'),
+    "nuggets x6": require('../assets/images/nuggets x6.png'),
+    "double meat burger": require('../assets/images/double meat burger.png'),
+    "chicken burger": require('../assets/images/chicken burger.png'),
+    "burger bacon": require('../assets/images/burger bacon.png'),
+};
+const OrderItem = ({order , onOrderClick}) => {
   if (!order) {
     return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
   }
   return (
-    <View style={styles.OrderItem}>
-        <Text style={styles.Id}>Commande #{order.id}</Text>
-        <Text>Payée à {order.PayedHour}</Text>
-        <Image 
-          style={{width: 50, height: 50}}
-          source = {(getImageSource(order.Type))}
-        />
-        <Items items={order.items}/>  
-    </View>
+    <ScrollView style={styles.OrderItem}>
+      <TouchableOpacity onPress={() => onOrderClick ? onOrderClick(order) : onOrderClick(null)}>
+
+        <View style={styles.upOrder}>
+          <Text style={[styles.textOrder]}>Commande #{order.id}</Text>
+          <Text style={[styles.textOrder ,{ color : "#797B7E"}]}>Payée à {order.PayedHour}</Text>
+          <Image 
+            style={{width: 25, height: 25}}
+            source = {(getImageSource(order.Type))}
+          />
+        </View>
+        <View style={styles.bottomOrder}>
+          <Items items={order.items}/>  
+        </View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
-const Items = ({ items }) =>{
+const Items = ({ items }) => {
     return (
-      <View>
-        {items.map((item) => (
-          <View key={item.id}>
-            <Text>{item.name}</Text>
-            <Text>{item.quantity}</Text>
-            <Ingredients ingredients = {item.Ingredients}/>
-          </View>
-        ))}
-      </View>
+        <View>
+            {items.map((item, key) => (
+                <View style={styles.Items} key={item.id}>
+                    <Image
+                        style={{ width: 25, height: 25, resizeMode: 'contain' }}
+                        source={imageMap[item.name.toLowerCase()] || require('../assets/images/adaptive-icon.png')}
+                        // Utilise une image par défaut si le nom de l'image n'existe pas
+                    />
+                    <Text style={styles.Quantity}>{item.quantity}X</Text>
+                    <View style={styles.WrapperIngredient}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+                        <Ingredients ingredients={item.Ingredients} />
+                    </View>
+                </View>
+            ))}
+        </View>
     );
-}
+};
 
 function Ingredients({ ingredients }) {
-  console.log(ingredients);
   if(!ingredients){
     return;
   }
   return (
-    <View style={styles.ingredients}>
-      {ingredients.map((ingredient) => {
+    <View style={styles.ingredients} >
+      {ingredients.map((ingredient,key) => {
         let moreOrLess = ingredient.startsWith('+');
         return (
           <View
             style={[
               styles.ingredientItem
-            ]}>
+            ]}
+            key ={ingredient.name}>
             <Text style ={[ styles.ingredient ,moreOrLess ? styles.positiveItem : styles.negativeItem ]}>{ingredient}</Text>
           </View>
         );
@@ -73,38 +105,53 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       width:'100%',
       height:'100%',
+      
     },
-    Id:{
+    upOrder:{
+      flex:0.05,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding:10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#B0B0B0', 
+    },
+    textOrder:{
+      flex:0.49, 
       fontSize: 10,
       fontWeight: 'bold',
     },
-
-
-
-
-
-
-
-
-
-
-
+    bottomOrder:{
+      flex:0.95,
+      padding:10,
+    },
+    Items:{
+      flexDirection: 'row', 
+      justifyContent: 'space-around',
+      borderBottomWidth: 1,
+      borderBottomColor: '#E3E3E3', 
+    },
+    WrapperIngredient:{
+        flex:0.5,
+    },
+    Quantity:{
+      fontSize:22,
+    },
     ingredient: {
-      fontSize: 20,
       fontWeight: 'bold',
+      
     },
     ingredientItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingVertical: 8,
       paddingHorizontal: 16,
     },
     positiveItem: {
-      color: 'red',
+      color: 'green',
     },
     negativeItem: {
-      color: 'green',
+      color: 'red',
     }
   });
   
