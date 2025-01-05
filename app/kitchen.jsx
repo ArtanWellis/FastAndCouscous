@@ -368,7 +368,7 @@ const Kitchen = () => {
         <View style={styles.container}>
             <View style={[
                 styles.InProgress,
-                isNoviceMode ? { flex: 0.6 } : { flex: 0.35 }
+                isNoviceMode ? { flex: 0.6 } : { flex: 0.5}
             ]}>
                 <View style={styles.ButtonDiv}>
                     <View style={styles.ButtonWrapper}>
@@ -436,7 +436,7 @@ const Kitchen = () => {
 
             <View style={[
                 styles.Waiting,
-                isNoviceMode ? { flex: 0.4 } : { flex: 0.7 }
+                isNoviceMode ? { flex: 0.4 } : { flex: 0.5 }
             ]}>
                 <View style={styles.OrdersWrapper}>
                     {waitingOrders.map((order, index) => (
