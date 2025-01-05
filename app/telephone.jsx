@@ -100,7 +100,7 @@ let initialOrders = [
           type : "burger",
       },
       {
-          name: "Moyenne frite",
+          name: "Moyenne frites",
           quantity: 5,
           category : "hot",
           type : "frite",
