@@ -289,46 +289,10 @@ const Telephone = () => {
         { label: 'Glaces', value: 'glace' },
     ];
 
-    const filterItems = (order, filter) => {
-        if (!order) return null;
 
-        let filteredItems;
-        if (filter === 'complet') {
-            filteredItems = order.items;
-        } else if (filter === 'chaud' || filter === 'froid') {
-            filteredItems = order.items.filter(item => item.temperature === filter);
-        } else {
-            filteredItems = order.items.filter(item => item.type === filter);
-        }
 
-        return filteredItems.length > 0 ? { ...order, items: filteredItems } : null;
-    };
-
-    const applyFilter = (filter) => {
-        const currentOrderResult = findNextOrderWithFilter(indiceOrder, filter);
-
-        if (currentOrderResult) {
-            const { order, filteredItems, index } = currentOrderResult;
-            setActualOrder(order);
-            setFilteredOrder({ ...order, items: filteredItems });
-            setIndiceOrder(index);
-
-            // Trouver la commande suivante pour l'aperçu
-            const nextOrderResult = findNextOrderWithFilter(index, filter);
-            if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
-                setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
-            } else {
-                setNextFilteredOrder(null);
-            }
-        } else {
-            setActualOrder(null);
-            setFilteredOrder(null);
-            setNextFilteredOrder(null);
-        }
-    };
-
-    const findNextOrderWithFilter = (currentIndex, filter) => {
-        let index = currentIndex + 1;
+    const findNextOrderWithFilter = (currentIndex, filter, includeCurrentIndex = true) => {
+        let index = includeCurrentIndex ? currentIndex : currentIndex + 1;
         let looped = false;
 
         while (true) {
@@ -366,8 +330,30 @@ const Telephone = () => {
         return order1.id === order2.id;
     };
 
+    const applyFilter = (filter) => {
+        const currentOrderResult = findNextOrderWithFilter(indiceOrder, filter, true);
+
+        if (currentOrderResult) {
+            const { order, filteredItems, index } = currentOrderResult;
+            setActualOrder(order);
+            setFilteredOrder({ ...order, items: filteredItems });
+            setIndiceOrder(index);
+
+            const nextOrderResult = findNextOrderWithFilter(index, filter, false);
+            if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+            } else {
+                setNextFilteredOrder(null);
+            }
+        } else {
+            setActualOrder(null);
+            setFilteredOrder(null);
+            setNextFilteredOrder(null);
+        }
+    };
+
     const switchOrder = () => {
-        const nextOrderResult = findNextOrderWithFilter(indiceOrder, selectedFilter);
+        const nextOrderResult = findNextOrderWithFilter(indiceOrder, selectedFilter, false);
 
         if (nextOrderResult) {
             const { order, filteredItems, index } = nextOrderResult;
@@ -375,8 +361,7 @@ const Telephone = () => {
             setActualOrder(order);
             setFilteredOrder({ ...order, items: filteredItems });
 
-            // Trouver la commande suivante pour l'aperçu
-            const nextNextOrder = findNextOrderWithFilter(index, selectedFilter);
+            const nextNextOrder = findNextOrderWithFilter(index, selectedFilter, false);
             if (nextNextOrder && !areOrdersEqual(nextNextOrder.order, order)) {
                 setNextFilteredOrder({ ...nextNextOrder.order, items: nextNextOrder.filteredItems });
             } else {
@@ -388,7 +373,6 @@ const Telephone = () => {
             setNextFilteredOrder(null);
         }
     };
-
     React.useEffect(() => {
         applyFilter(selectedFilter);
     }, [selectedFilter]);
@@ -400,30 +384,106 @@ const Telephone = () => {
             [
                 {
                     text: "Annuler",
-                    style: "cancel"
+                    style: "cancel",
                 },
                 {
                     text: "Confirmer",
                     onPress: () => {
                         const updatedOrders = orders.filter((_, index) => index !== indiceOrder);
-
                         setOrders(updatedOrders);
-                        setIndiceOrder(0);
 
-                        if (updatedOrders.length > 0) {
-                            setActualOrder(updatedOrders[0]);
-                            applyFilter(selectedFilter);
-                        } else {
+                        if (updatedOrders.length === 0) {
+                            // Si aucune commande restante
                             setActualOrder(null);
                             setFilteredOrder(null);
-                           // setNextFilteredOrder(null);
+                            setNextFilteredOrder(null);
+                        } else {
+                            // Ajuster l'indice si nécessaire
+                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
+                            setIndiceOrder(newIndice);
+                            // Réappliquer le filtre pour mettre à jour l'affichage
+                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
+
+                            if (currentOrderResult) {
+                                const { order, filteredItems, index } = currentOrderResult;
+                                setActualOrder(order);
+                                setFilteredOrder({ ...order, items: filteredItems });
+
+                                // Mettre à jour la prochaine commande filtrée
+                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
+                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+                                } else {
+                                    setNextFilteredOrder(null);
+                                }
+                            }
                         }
-                    }
-                }
+                    },
+                },
             ]
         );
     };
 
+    const validateFilteredItems = () => {
+        Alert.alert(
+            "Confirmer l'action",
+            "Voulez-vous valider les éléments filtrés de cette commande ?",
+            [
+                {
+                    text: "Annuler",
+                    style: "cancel",
+                },
+                {
+                    text: "Confirmer",
+                    onPress: () => {
+                        const updatedOrders = orders.map((order, index) => {
+                            if (index === indiceOrder) {
+                                const filteredItemNames = new Set(
+                                    filteredOrder.items.map(item => item.name)
+                                );
+                                const remainingItems = order.items.filter(
+                                    item => !filteredItemNames.has(item.name)
+                                );
+                                return {
+                                    ...order,
+                                    items: remainingItems
+                                };
+                            }
+                            return order;
+                        }).filter(order => order.items.length > 0);
+
+                        setOrders(updatedOrders);
+
+                        if (updatedOrders.length === 0) {
+                            setActualOrder(null);
+                            setFilteredOrder(null);
+                            setNextFilteredOrder(null);
+                        } else {
+                            // Ajuster l'indice si nécessaire
+                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
+                            setIndiceOrder(newIndice);
+                            // Réappliquer le filtre pour mettre à jour l'affichage
+                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
+
+                            if (currentOrderResult) {
+                                const { order, filteredItems, index } = currentOrderResult;
+                                setActualOrder(order);
+                                setFilteredOrder({ ...order, items: filteredItems });
+
+                                // Mettre à jour la prochaine commande filtrée
+                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
+                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+                                } else {
+                                    setNextFilteredOrder(null);
+                                }
+                            }
+                        }
+                    },
+                },
+            ]
+        );
+    };
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -448,20 +508,31 @@ const Telephone = () => {
                 ) : (
                     <Text>Aucune commande ne correspond au filtre.</Text>
                 )}
-                <View style={styles.buttonDiv}>
+                {filteredOrder && filteredOrder.items.length > 0 ? (
+                    <View>
+                        <View style={styles.buttonSuiv}>
                     <Button
                         title="Suivant"
                         color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
                         style={styles.button}
                         onPress={switchOrder}
                     />
+                        </View>
+                    <View style={styles.buttonDiv}>
                     <Button
-                        title="Valider"
+                        title="Valider filtre"
+                        color={Platform.OS === 'ios' ? '#FFB700' : '#FFB700'}
+                        style={styles.button}
+                        onPress={validateFilteredItems}
+                    />
+                    <Button
+                        title="Valider complet"
                         color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
                         style={styles.button}
                         onPress={finishOrder}
                     />
-                </View>
+                    </View>
+                </View>):(<Text> </Text>)}
             </View>
 
             {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
@@ -487,7 +558,7 @@ const styles = {
     },
     buttonDiv:  {
         flexDirection : 'row',
-       gap : 100
+       gap : 50
     },
     actualOrder: {
         backgroundColor: '#DEDEDE80',
@@ -520,8 +591,10 @@ const styles = {
         flex:0.49,
         fontSize: 20,
         fontWeight: 'bold',
-    }
-
+    },
+    buttonSuiv:{
+        padding : 10
+}
 };
 export default Telephone;
 
