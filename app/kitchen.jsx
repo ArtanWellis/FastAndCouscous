@@ -436,6 +436,7 @@ const Kitchen = () => {
                     </View>
                 </View>
             </View>
+
             <View style={[
                 styles.Waiting,
                 isNoviceMode ? { flex: 0.4 } : { flex: 0.7 }
@@ -444,6 +445,7 @@ const Kitchen = () => {
                     {waitingOrders.map((order, index) => (
                         <OrderItem key={index} order={order} onOrderClick={handleOrderClick} />
                     ))}
+
                 </View>
                 <Text style={styles.nbLeft}>
                     Nombre de commande restantes : {nbLeft} / {orders.length}
@@ -461,9 +463,11 @@ const styles = StyleSheet.create({
     },
     InProgress: {
         flex: 0.35,
+
         flexDirection: 'column',
         marginRight: 40,
     },
+
     Waiting: {
         flex: 0.7,
         flexDirection: 'column',
@@ -479,9 +483,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+
     titleStyle: {
         color: 'white',
         fontSize: 9,
+
     },
     ButtonWrapper: {
         flex: 0.45,

@@ -13,7 +13,23 @@ const getImageSource = (type) => {
       return require('../assets/images/icon.png');
   }
 };
+const imageMap = {
+    "burger bacon": require('../assets/images/burger bacon.png'),
+    "cheese burger": require('../assets/images/cheese burger.png'),
+    "moyenne frite": require('../assets/images/moyenne frite.png'),
+    "veggie burger": require('../assets/images/veggie burger.png'),
+    "jus d'orange": require('../assets/images/jus d\'orange.png'),
+    "double cheese burger": require('../assets/images/double cheese burger.png'),
+    "coca cola": require('../assets/images/coca cola.png'),
+    "fish burger": require('../assets/images/fish burger.png'),
+    "bbq burger": require('../assets/images/bbq burger.png'),
+    "mcfluzzy oreo": require('../assets/images/mcfluzzy oreo.png'),
+    "salade cesar": require('../assets/images/salade cesar.png'),
+    "nuggets x6": require('../assets/images/nuggets x6.png'),
+    "double meat burger": require('../assets/images/double meat burger.png'),
+    "chicken burger": require('../assets/images/chicken burger.png'),
 
+};
 const OrderItem = ({order , onOrderClick}) => {
   if (!order) {
     return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
@@ -38,26 +54,26 @@ const OrderItem = ({order , onOrderClick}) => {
   );
 }
 
-const Items = ({ items }) =>{
+const Items = ({ items }) => {
     return (
-      <View>
-        {items.map((item,key) => (
-          <View style={styles.Items} key={item.id}>            
-            <Image
-              style={{width: 25, height: 25}}
-              source = {require('../assets/images/favicon.png')}
-            />
-            <Text style = {styles.Quantity}>{item.quantity}X</Text>
-            <View style={styles.WrapperIngredient}>
-              <Text style = {{fontSize:15}} >{item.name}</Text>
-              <Ingredients ingredients = {item.Ingredients}/>
-            </View>
-          </View>
-
-        ))}
-      </View>
+        <View>
+            {items.map((item, key) => (
+                <View style={styles.Items} key={item.id}>
+                    <Image
+                        style={{ width: 25, height: 25 }}
+                        source={imageMap[item.name.toLowerCase()] || require('../assets/images/adaptive-icon.png')}
+                        // Utilise une image par défaut si le nom de l'image n'existe pas
+                    />
+                    <Text style={styles.Quantity}>{item.quantity}X</Text>
+                    <View style={styles.WrapperIngredient}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+                        <Ingredients ingredients={item.Ingredients} />
+                    </View>
+                </View>
+            ))}
+        </View>
     );
-}
+};
 
 function Ingredients({ ingredients }) {
   if(!ingredients){
@@ -120,7 +136,6 @@ const styles = StyleSheet.create({
     },
     Quantity:{
       fontSize:22,
-      fontWeight: 'bold',
     },
     ingredient: {
       fontWeight: 'bold',
