@@ -14,7 +14,7 @@ const getImageSource = (type) => {
   }
 };
 const imageMap = {
-    "burger bacon": require('../assets/images/burger bacon.png'),
+    "bacon burger": require('../assets/images/burger bacon.png'),
     "cheese burger": require('../assets/images/cheese burger.png'),
     "moyenne frite": require('../assets/images/moyenne frite.png'),
     "veggie burger": require('../assets/images/veggie burger.png'),

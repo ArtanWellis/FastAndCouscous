@@ -5,25 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3126215d-d5a9-40dc-8c74-9e1bdd480aac" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/images/bbq burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/burger bacon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/cheese burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/chicken burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/coca cola.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/double cheese burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/double meat burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/fish burger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/jus d'orange.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/mcfluzzy oreo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/moyenne frite.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/nuggets x6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/salade cesar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/veggie burger.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/comptoir.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/comptoir.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/orders.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/orders.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/telephone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/telephone.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +72,7 @@
       <workItem from="1735996519873" duration="763000" />
       <workItem from="1735997307821" duration="10892000" />
       <workItem from="1736094885742" duration="2078000" />
-      <workItem from="1736108681104" duration="3101000" />
+      <workItem from="1736108681104" duration="3351000" />
     </task>
     <servers />
   </component>
