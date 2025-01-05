@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform, Button } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform, Button, TouchableOpacity, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Kitchen from './kitchen';
 
@@ -40,39 +40,38 @@ const Index = ({ navigation }) => {
       styles.container,
       isLandscape && styles.landscapeContainer
     ]}>
+      <Image 
+        source={require('../assets/images/logoo.png')} 
+        style={styles.logo} 
+        resizeMode="contain" 
+      />
       <Text style={[
         styles.title,
         isLandscape && styles.landscapeTitle
       ]}>
-        Bienvenue sur votre application
+        Bienvenue sur Fast and Couscous
       </Text>
 
-
       <View style={styles.buttonContainer}>
-        <Button
-          title="Aller à la Cuisine"
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate("Kitchen")}
-          color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
-        />
-        <View style={{ marginVertical: 10 }} /> {/* Espacement ajouté */}
-        <Button
-          title="Aller au Comptoir"
+        >
+          <Text style={styles.buttonText}>Aller à la Cuisine</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => navigation.navigate("Comptoir")}
-          color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
-        />
-        <View style={{ marginVertical: 10 }} />
-        <Button
-            title="Adaptation pour téléphone"
-            onPress={() => navigation.navigate("Telephone")}
-            color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
-            style={[
-              styles.button,
-              isLandscape && styles.landscapeButton
-            ]}
-        />
-
+        >
+          <Text style={styles.buttonText}>Aller au Comptoir</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Telephone")}
+        >
+          <Text style={styles.buttonText}>Adaptation pour téléphone</Text>
+        </TouchableOpacity>
       </View>
-
     </View>
   );
 };
@@ -94,25 +93,28 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   landscapeTitle: {
-    fontSize: 20,
-    marginBottom: 0
-  },
-  button: {
-    width: '80%',
-    marginTop: 20,
+    fontSize: 50,
+    fontWeight: 'bold',
     marginBottom: 20
   },
-
-  landscapeButton: {
-    width: 'auto',
-    marginTop: 20
-  },
   buttonContainer: {
-    alignItems: 'center', // Centre les boutons horizontalement
+    width: '80%',
+    alignItems: 'center',
   },
-  card: {
-    backgroundColor: '#F5FCFF'
-  }
+  button: {
+    backgroundColor: Platform.OS === 'ios' ? '#007AFF' : '#2196F3',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginVertical: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
 });
 
 export default App;

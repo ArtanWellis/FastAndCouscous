@@ -260,11 +260,9 @@ const Kitchen = () => {
             const recipe1Id = `${orderIndex}-${i}`;
             const recipe2Id = `${orderIndex}-${i + 1}`;
             
-            // Ne créer une rangée que si au moins une des recettes n'est pas masquée
             if (!hiddenRecipes.has(recipe1Id) || (items[i + 1] && !hiddenRecipes.has(recipe2Id))) {
                 rows.push(
                     <View style={styles.recipeRow} key={i}>
-                        {/* Première recette */}
                         {!hiddenRecipes.has(recipe1Id) && (
                             <View style={styles.recipeBox}>
                                 <TouchableOpacity 
@@ -273,7 +271,7 @@ const Kitchen = () => {
                                 >
                                     <Image 
                                         source={require('../assets/images/close.png')} 
-                                        style={{ width: 20, height: 20 }} 
+                                        style={{ width: 35, height: 35 }} 
                                         resizeMode="contain" 
                                     />
                                 </TouchableOpacity>
@@ -312,7 +310,6 @@ const Kitchen = () => {
                             </View>
                         )}
     
-                        {/* Deuxième recette */}
                         {items[i + 1] && !hiddenRecipes.has(recipe2Id) && (
                             <View style={styles.recipeBox}>
                                 <TouchableOpacity 
@@ -321,7 +318,7 @@ const Kitchen = () => {
                                 >
                                     <Image 
                                         source={require('../assets/images/close.png')} 
-                                        style={{ width: 20, height: 20 }} 
+                                        style={{ width: 35, height: 35 }} 
                                         resizeMode="contain" 
                                     />
                                 </TouchableOpacity>
@@ -510,7 +507,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     OrderItemFull: { flex: 0.95 },
-    OrderItemPartial: { flex: 0.6 },
+    OrderItemPartial: { flex: 0.3 },
     BottomButton: {
         flex: 0.1,
         justifyContent: 'flex-end',
@@ -529,7 +526,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     recipeContainer: {
-        flex: 0.4,
+        flex: 0.7,
         padding: 10,
         marginLeft: 10,
         borderRadius: 10,
@@ -537,21 +534,22 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     recipeTitle: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
     },
     recipeItem: {
-        fontSize: 14,
+        fontSize: 18,
         fontWeight: 'bold',
         marginTop: 5,
+        marginBottom: 5,
     },
     recipeIngredient: {
-        fontSize: 12,
+        fontSize: 17,
         marginLeft: 10,
     },
     recipeScroll: {
-        maxHeight: 500,
+        maxHeight: 550,
         paddingRight: 5,
     },
     recipeRow: {
@@ -583,12 +581,12 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     ingredientIcon: {
-        width: 20,
-        height: 20,
+        width: 35,
+        height: 35,
         marginRight: 8,
     },
     closeButton: { position: 'absolute', top: 5, right: 5, zIndex: 1 },
-    closeIcon: { width: 20, height: 20 }, 
+    closeIcon: { width: 400, height: 40 }, 
 });
 
 export default Kitchen;
