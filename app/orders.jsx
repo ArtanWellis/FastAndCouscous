@@ -49,9 +49,9 @@ const Items = ({ items }) =>{
             />
             <Text style = {styles.Quantity}>{item.quantity}X</Text>
             <View style={styles.WrapperIngredient}>
-              <Text style = {{fontSize:15}} >{item.name}</Text>
+              <Text style = {{fontSize:18,fontWeight:'bold'}} >{item.name}</Text>
               <Ingredients ingredients = {item.Ingredients}/>
-            </View>
+            </View> 
           </View>
 
         ))}
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
     },
     Quantity:{
       fontSize:22,
-      fontWeight: 'bold',
     },
     ingredient: {
       fontWeight: 'bold',

@@ -239,7 +239,7 @@ const Kitchen=()=> {
                     <Text style={styles.Text}>EN COURS</Text>
                 </View>
                 <View style={styles.OrderItem}>
-                    <OrderItem order={firstOrder} onOrderClick={handleOrderClick}/>
+                    <OrderItem order={firstOrder}  onOrderClick={handleOrderClick}/>
                 </View>
                 <View style={styles.BottomButton}>
                     <Button 
@@ -271,12 +271,12 @@ const styles = {
         flexDirection: 'row',
     } ,
     InProgress:{
-        flex:0.35,
+        flex:0.5,
         flexDirection: 'column',
         marginRight:40,
     },
     Waiting:{
-        flex:0.7,
+        flex:0.5,
         flexDirection :'column',
     },
     ButtonDiv:{
@@ -292,7 +292,7 @@ const styles = {
     },
     titleStyle:{
         color : 'white',
-        fontSize:9,
+        fontSize:11,
     },
     ButtonWrapper: {
         flex: 0.45,
