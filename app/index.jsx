@@ -47,15 +47,6 @@ const Index = ({ navigation }) => {
         Bienvenue sur votre application
       </Text>
 
-      <Button
-          title="Adaptation pour téléphone"
-          onPress={() => navigation.navigate("Telephone")}
-          color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
-          style={[
-            styles.button,
-            isLandscape && styles.landscapeButton
-          ]}
-      />
 
       <View style={styles.buttonContainer}>
         <Button
@@ -69,6 +60,17 @@ const Index = ({ navigation }) => {
           onPress={() => navigation.navigate("Comptoir")}
           color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
         />
+        <View style={{ marginVertical: 10 }} />
+        <Button
+            title="Adaptation pour téléphone"
+            onPress={() => navigation.navigate("Telephone")}
+            color={Platform.OS === 'ios' ? '#007AFF' : '#2196F3'}
+            style={[
+              styles.button,
+              isLandscape && styles.landscapeButton
+            ]}
+        />
+
       </View>
 
     </View>

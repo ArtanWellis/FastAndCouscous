@@ -11,7 +11,7 @@ let initialOrders = [
       {
           name: "Cheese Burger",
           quantity: 2,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
           Ingredients : ["-Fromage" , "+Bacon"]
       },
@@ -21,34 +21,34 @@ let initialOrders = [
       },{
             name: "Double Cheese Burger",
             quantity: 1,
-            temperature : "chaud",
+            category : "hot",
               type : "burger",
             Ingredients: ["+Extra Cheese"]
       },
       {
         name: "Veggie Burger",
         quantity: 2,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
         Ingredients: ["-Meat", "+Avocado"]
       },
       {
         name: "McFlurry Oreo",
         quantity: 1,
-          temperature : "froid",
+          category : "cold",
           type : "glace",
       },
       {
         name: "Fish Burger",
         quantity: 1,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
         Ingredients: ["-Tartar Sauce"]
       },
       {
         name: "BBQ Burger",
         quantity: 2,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
         Ingredients: ["+BBQ Sauce", "-Onion Rings"]
       },
@@ -63,7 +63,7 @@ let initialOrders = [
       {
           name: "Cheese Burger",
           quantity: 2,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
           Ingredients : ["+Fromage" , "-Bacon"]
 
@@ -71,7 +71,7 @@ let initialOrders = [
       {
           name: "Bacon Burger",
           quantity: 3,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
       }],
       PayedHour: "18h48",
@@ -83,26 +83,26 @@ let initialOrders = [
       {
           name: "Veggie Burger",
           quantity: 2,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
           Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
       },
       {
           name: "Coca cola",
           quantity: 3,
-          temperature : "froid",
+          category : "cold",
           type : "boisson",
       },
       {
           name: "Cheese Burger",
           quantity: 3,
-          temperature : "chaud",
+          category : "hot",
           type : "burger",
       },
       {
           name: "Moyenne frites",
           quantity: 5,
-          temperature : "chaud",
+          category : "hot",
           type : "frite",
       }],
       PayedHour: "19h08",
@@ -114,26 +114,26 @@ let initialOrders = [
     {
         name: "Veggie Burger",
         quantity: 2,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
         Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
     },
     {
         name: "Nuggets x6",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "nugget",
     },
     {
         name: "Cheese Burger",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },
     {
         name: "Salade cesar",
         quantity: 5,
-        temperature : "froid",
+        category : "cold",
         type : "salade",
     }],
     PayedHour: "19h08",
@@ -145,26 +145,26 @@ let initialOrders = [
     {
         name: "Veggie Burger",
         quantity: 2,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
         Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
     },
     {
         name: "Bacon Burger",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },
     {
         name: "Cheese Burger",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },
     {
         name: "Double Meat Burger",
         quantity: 5,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     }],
     PayedHour: "19h08",
@@ -176,61 +176,61 @@ let initialOrders = [
     {
         name: "Veggie Burger",
         quantity: 2,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
         Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
     },
     {
         name: "Bacon Burger",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },
     {
         name: "Cheese Burger",
         quantity: 3,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },
     {
         name: "Double Meat Burger",
         quantity: 5,
-        temperature : "chaud",
+        category : "hot",
         type : "burger",
     },{
             name: "Veggie Burger",
             quantity: 2,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
             Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
         },
         {
             name: "Bacon Burger",
             quantity: 3,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
         },
         {
             name: "Cheese Burger",
             quantity: 3,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
         },
         {
             name: "Double Meat Burger",
             quantity: 5,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
         },{
             name: "Cheese Burger",
             quantity: 3,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
         },
         {
             name: "Double Meat Burger",
             quantity: 5,
-            temperature : "chaud",
+            category : "hot",
             type : "burger",
         }],
     PayedHour: "19h08",
@@ -262,7 +262,7 @@ const ItemsBlurred = ({ items }) =>{
             {items.map((item,key) => (
                 <View style={styles.Items} key={item.id}>
                     <Text style = {styles.Quantity}>{item.quantity}X</Text>
-                    <Text style = {{fontSize:18,fontWeight:'bold'}} >       ------------</Text>
+                    <Text style = {{fontSize:18,fontWeight:'bold'}} >       {item.name}</Text>
                 </View>
 
             ))}
@@ -279,8 +279,8 @@ const Telephone = () => {
 
     const filterOptions = [
         { label: 'Complet', value: 'complet' },
-        { label: 'Chaud', value: 'chaud' },
-        { label: 'Froid', value: 'froid' },
+        { label: 'Chaud', value: 'hot' },
+        { label: 'Froid', value: 'cold' },
         { label: 'Burger', value: 'burger' },
         { label: 'Nuggets', value: 'nugget' },
         { label: 'Frites', value: 'frite' },
@@ -307,8 +307,8 @@ const Telephone = () => {
 
             if (filter === 'complet') {
                 filteredItems = order.items;
-            } else if (filter === 'chaud' || filter === 'froid') {
-                filteredItems = order.items.filter(item => item.temperature === filter);
+            } else if (filter === 'hot' || filter === 'cold') {
+                filteredItems = order.items.filter(item => item.category === filter);
             } else {
                 filteredItems = order.items.filter(item => item.type === filter);
             }
@@ -534,12 +534,13 @@ const Telephone = () => {
                     </View>
                 </View>):(<Text> </Text>)}
             </View>
-
+            <View style={styles.centeredContainer}>
             {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
-                <OrderBlurred order={nextFilteredOrder} onOrderClick={function (){}}/>
+                <OrderBlurred  order={nextFilteredOrder} onOrderClick={function (){}}/>
             ) : (
                 <Text>Aucune autre commande ne correspond au filtre.</Text>
             )}
+            </View>
         </View>
     );
 };
@@ -594,7 +595,9 @@ const styles = {
     },
     buttonSuiv:{
         padding : 10
-}
+},
+
+
 };
 export default Telephone;
 

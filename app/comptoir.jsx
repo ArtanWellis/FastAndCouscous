@@ -8,7 +8,7 @@ const initialOrders = [
     id: 351,
     items: [
       { name: "Cheese Burger", quantity: 2, category: "hot"},
-      { name: "French Fries", quantity: 1,category: "hot" },
+      { name: "Moyenne frites", quantity: 1,category: "hot" },
       { name: "Coca Cola", quantity: 1,category: "cold" },
     ],
     PayedHour: "18h38",
@@ -17,9 +17,9 @@ const initialOrders = [
   {
     id: 352,
     items: [
-      { name: "Chicken Nuggets", quantity: 1, category: "hot"  },
-      { name: "Salad", quantity: 1, category: "cold" },
-      { name: "Orange Juice", quantity: 1, category: "cold" },
+      { name: "Nuggets x6", quantity: 1, category: "hot"  },
+      { name: "Salade cesar", quantity: 1, category: "cold" },
+      { name: "Jus d'orange", quantity: 1, category: "cold" },
     ],
     PayedHour: "18h48",
     Type: "DineIn"
