@@ -193,18 +193,23 @@ const Kitchen = () => {
     const [lastOrder, setLastOrder] = useState(null);
     const [isNoviceMode, setIsNoviceMode] = useState(false);
     const [orderIndex, setOrderIndex] = useState(0);
+    const [hiddenRecipes, setHiddenRecipes] = useState(new Set());
     const firstOrder = orders[0];
     const waitingOrders = orders.slice(1, 4);
     let nbLeft = orders.length - 4 > 0 ? orders.length - 4 : 0;
 
     const toggleNoviceMode = () => {
         setIsNoviceMode(!isNoviceMode);
+        setHiddenRecipes(new Set());
     };
 
     const handleCloseRecipe = (orderIndex, itemIndex) => {
-        const newOrders = [...orders];
-        newOrders[orderIndex].items.splice(itemIndex, 1);
-        setOrders(newOrders);
+        const recipeId = `${orderIndex}-${itemIndex}`;
+        setHiddenRecipes(prev => {
+            const newHidden = new Set(prev);
+            newHidden.add(recipeId);
+            return newHidden;
+        });
     };
 
     const handleOrderClick = (order) => {
@@ -252,97 +257,111 @@ const Kitchen = () => {
     const renderRecipeRows = (orderIndex, items) => {
         const rows = [];
         for (let i = 0; i < items.length; i += 2) {
-            rows.push(
-                <View style={styles.recipeRow} key={i}>
-                    {/* Première recette */}
-                    <View style={styles.recipeBox}>
-                    <TouchableOpacity 
-                            style={styles.closeButton} 
-                            onPress={() => handleCloseRecipe(orderIndex, i)}
-                        >
-                            <Image source={require('../assets/images/close.png')} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                        </TouchableOpacity>
-                        <Text style={styles.recipeItem}>{items[i].name}:</Text>
-                        {!burgerRecipes[items[i].name] && console.warn(`La recette du burger "${items[i].name}" est introuvable.`)}
-                        {burgerRecipes[items[i].name]?.map((ingredient, index) => (
-                            <View key={index} style={styles.ingredientRow}>
-                                {ingredientIcons[ingredient] && (
-                                    <Image 
-                                        source={ingredientIcons[ingredient]} 
-                                        style={styles.ingredientIcon} 
-                                        resizeMode="contain" 
-                                    />
-                                )}
-                                <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                            </View>
-                        ))}
-                        {items[i].Ingredients?.map((customIngredient, index) => (
-                            <View key={index} style={styles.ingredientRow}>
-                                {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                    <Image 
-                                        source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
-                                        style={styles.ingredientIcon} 
-                                        resizeMode="contain" 
-                                    />
-                                )}
-                                <Text
-                                    style={[
-                                        styles.recipeIngredient,
-                                        customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                    ]}
+            const recipe1Id = `${orderIndex}-${i}`;
+            const recipe2Id = `${orderIndex}-${i + 1}`;
+            
+            // Ne créer une rangée que si au moins une des recettes n'est pas masquée
+            if (!hiddenRecipes.has(recipe1Id) || (items[i + 1] && !hiddenRecipes.has(recipe2Id))) {
+                rows.push(
+                    <View style={styles.recipeRow} key={i}>
+                        {/* Première recette */}
+                        {!hiddenRecipes.has(recipe1Id) && (
+                            <View style={styles.recipeBox}>
+                                <TouchableOpacity 
+                                    style={styles.closeButton} 
+                                    onPress={() => handleCloseRecipe(orderIndex, i)}
                                 >
-                                    {customIngredient}
-                                </Text>
+                                    <Image 
+                                        source={require('../assets/images/close.png')} 
+                                        style={{ width: 20, height: 20 }} 
+                                        resizeMode="contain" 
+                                    />
+                                </TouchableOpacity>
+                                <Text style={styles.recipeItem}>{items[i].name}:</Text>
+                                {burgerRecipes[items[i].name]?.map((ingredient, index) => (
+                                    <View key={index} style={styles.ingredientRow}>
+                                        {ingredientIcons[ingredient] && (
+                                            <Image 
+                                                source={ingredientIcons[ingredient]} 
+                                                style={styles.ingredientIcon} 
+                                                resizeMode="contain" 
+                                            />
+                                        )}
+                                        <Text style={styles.recipeIngredient}>{ingredient}</Text>
+                                    </View>
+                                ))}
+                                {items[i].Ingredients?.map((customIngredient, index) => (
+                                    <View key={index} style={styles.ingredientRow}>
+                                        {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
+                                            <Image 
+                                                source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
+                                                style={styles.ingredientIcon} 
+                                                resizeMode="contain" 
+                                            />
+                                        )}
+                                        <Text
+                                            style={[
+                                                styles.recipeIngredient,
+                                                customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
+                                            ]}
+                                        >
+                                            {customIngredient}
+                                        </Text>
+                                    </View>
+                                ))}
                             </View>
-                        ))}
-                    </View>
+                        )}
     
-                    {/* Deuxième recette */}
-                    {items[i + 1] && (
-                        <View style={styles.recipeBox}>
-                            <TouchableOpacity 
-                                style={styles.closeButton} 
-                                onPress={() => handleCloseRecipe(orderIndex, i + 1)}
-                            >
-                            <Image source={require('../assets/images/close.png')} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            </TouchableOpacity>
-                            <Text style={styles.recipeItem}>{items[i + 1].name}:</Text>
-                            {!burgerRecipes[items[i + 1].name] && console.warn(`La recette du burger "${items[i + 1].name}" est introuvable.`)}
-                            {burgerRecipes[items[i + 1].name]?.map((ingredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[ingredient] && (
-                                        <Image 
-                                            source={ingredientIcons[ingredient]} 
-                                            style={styles.ingredientIcon} 
-                                            resizeMode="contain" 
-                                        />
-                                    )}
-                                    <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                                </View>
-                            ))}
-                            {items[i + 1].Ingredients?.map((customIngredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                        <Image 
-                                            source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
-                                            style={styles.ingredientIcon} 
-                                            resizeMode="contain" 
-                                        />
-                                    )}
-                                    <Text
-                                        style={[
-                                            styles.recipeIngredient,
-                                            customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                        ]}
-                                    >
-                                        {customIngredient}
-                                    </Text>
-                                </View>
-                            ))}
-                        </View>
-                    )}
-                </View>
-            );
+                        {/* Deuxième recette */}
+                        {items[i + 1] && !hiddenRecipes.has(recipe2Id) && (
+                            <View style={styles.recipeBox}>
+                                <TouchableOpacity 
+                                    style={styles.closeButton} 
+                                    onPress={() => handleCloseRecipe(orderIndex, i + 1)}
+                                >
+                                    <Image 
+                                        source={require('../assets/images/close.png')} 
+                                        style={{ width: 20, height: 20 }} 
+                                        resizeMode="contain" 
+                                    />
+                                </TouchableOpacity>
+                                <Text style={styles.recipeItem}>{items[i + 1].name}:</Text>
+                                {burgerRecipes[items[i + 1].name]?.map((ingredient, index) => (
+                                    <View key={index} style={styles.ingredientRow}>
+                                        {ingredientIcons[ingredient] && (
+                                            <Image 
+                                                source={ingredientIcons[ingredient]} 
+                                                style={styles.ingredientIcon} 
+                                                resizeMode="contain" 
+                                            />
+                                        )}
+                                        <Text style={styles.recipeIngredient}>{ingredient}</Text>
+                                    </View>
+                                ))}
+                                {items[i + 1].Ingredients?.map((customIngredient, index) => (
+                                    <View key={index} style={styles.ingredientRow}>
+                                        {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
+                                            <Image 
+                                                source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
+                                                style={styles.ingredientIcon} 
+                                                resizeMode="contain" 
+                                            />
+                                        )}
+                                        <Text
+                                            style={[
+                                                styles.recipeIngredient,
+                                                customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
+                                            ]}
+                                        >
+                                            {customIngredient}
+                                        </Text>
+                                    </View>
+                                ))}
+                            </View>
+                        )}
+                    </View>
+                );
+            }
         }
         return rows;
     };
@@ -562,7 +581,7 @@ const styles = StyleSheet.create({
         height: 20,
         marginRight: 8,
     },
-    closeButton: { position: 'absolute', top: 10, right: 10, zIndex: 1 },
+    closeButton: { position: 'absolute', top: 5, right: 5, zIndex: 1 },
     closeIcon: { width: 20, height: 20 }, 
 });
 
