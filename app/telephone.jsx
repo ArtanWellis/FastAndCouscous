@@ -100,7 +100,7 @@ let initialOrders = [
           type : "burger",
       },
       {
-          name: "Moyenne frites",
+          name: "Moyenne frite",
           quantity: 5,
           category : "hot",
           type : "frite",
@@ -389,33 +389,38 @@ const Telephone = () => {
                 {
                     text: "Confirmer",
                     onPress: () => {
+                        console.log(orders.length);
                         const updatedOrders = orders.filter((_, index) => index !== indiceOrder);
                         setOrders(updatedOrders);
 
                         if (updatedOrders.length === 0) {
-                            // Si aucune commande restante
+
                             setActualOrder(null);
                             setFilteredOrder(null);
                             setNextFilteredOrder(null);
                         } else {
-                            // Ajuster l'indice si nécessaire
+
                             const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
                             setIndiceOrder(newIndice);
-                            // Réappliquer le filtre pour mettre à jour l'affichage
+
                             const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
 
                             if (currentOrderResult) {
-                                const { order, filteredItems, index } = currentOrderResult;
-                                setActualOrder(order);
-                                setFilteredOrder({ ...order, items: filteredItems });
+                                console.log(orders.length);
 
-                                // Mettre à jour la prochaine commande filtrée
+                                const { order, filteredItems, index } = currentOrderResult;
+                                            setActualOrder(order);
+                                            setFilteredOrder({ ...order, items: filteredItems });
+
+
                                 const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
                                 if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
                                     setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
                                 } else {
                                     setNextFilteredOrder(null);
                                 }
+                                console.log(orders.length);
+                                setActualOrder(orders[0]);
                             }
                         }
                     },
@@ -477,6 +482,7 @@ const Telephone = () => {
                                 } else {
                                     setNextFilteredOrder(null);
                                 }
+
                             }
                         }
                     },
@@ -511,26 +517,26 @@ const Telephone = () => {
                 {filteredOrder && filteredOrder.items.length > 0 ? (
                     <View>
                         <View style={styles.buttonSuiv}>
-                    <Button
-                        title="Suivant"
-                        color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
-                        style={styles.button}
-                        onPress={switchOrder}
-                    />
+                            <TouchableOpacity
+                                style={[styles.button2, { display: "flex", justifyContent: "center",backgroundColor: '#0080FF' }]}
+                                onPress={switchOrder}
+                            >
+                                <Text style={{ color: 'white', textAlign: 'center',fontSize:20 }}>Suivant</Text>
+                            </TouchableOpacity>
                         </View>
-                    <View style={styles.buttonDiv}>
-                    <Button
-                        title="Valider filtre"
-                        color={Platform.OS === 'ios' ? '#FFB700' : '#FFB700'}
-                        style={styles.button}
-                        onPress={validateFilteredItems}
-                    />
-                    <Button
-                        title="Valider complet"
-                        color={Platform.OS === 'ios' ? '#19C319' : '#19C319'}
-                        style={styles.button}
-                        onPress={finishOrder}
-                    />
+                        <View style={styles.buttonDiv}>
+                            <TouchableOpacity
+                                style={[styles.button2, { display: "flex", justifyContent: "center",backgroundColor: '#FFB700' }]}
+                                onPress={validateFilteredItems}
+                            >
+                                <Text style={{ color: 'white', textAlign: 'center',fontSize:20 }}>Valider aliments</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.button2, { display: "flex", justifyContent: "center", backgroundColor: '#19C319' }]}
+                                onPress={finishOrder}
+                            >
+                                <Text style={{ color: 'white', textAlign: 'center',fontSize:20}}>Valider commande</Text>
+                            </TouchableOpacity>
                     </View>
                 </View>):(<Text> </Text>)}
             </View>
@@ -570,11 +576,13 @@ const styles = {
         justifyContent: 'center',
         height: '65%'
     },
-    button: {
+    button2: {
         borderRadius: 5,
-        width: '80%',
+        width: '40%',
         height: 50,
         marginTop: 10,
+        alignItems: 'center',
+
     },
     nbLeft: {
         textAlign: 'center',
@@ -594,7 +602,9 @@ const styles = {
         fontWeight: 'bold',
     },
     buttonSuiv:{
-        padding : 10
+        padding : 10,
+        display: "flex",
+        alignItems: "center",
 },
 
 

@@ -23,12 +23,12 @@ const imageMap = {
     "coca cola": require('../assets/images/coca cola.png'),
     "fish burger": require('../assets/images/fish burger.png'),
     "bbq burger": require('../assets/images/bbq burger.png'),
-    "mcfluzzy oreo": require('../assets/images/mcfluzzy oreo.png'),
+    "mcflurry oreo": require('../assets/images/mcfluzzy oreo.png'),
     "salade cesar": require('../assets/images/salade cesar.png'),
     "nuggets x6": require('../assets/images/nuggets x6.png'),
     "double meat burger": require('../assets/images/double meat burger.png'),
     "chicken burger": require('../assets/images/chicken burger.png'),
-
+    "burger bacon": require('../assets/images/burger bacon.png'),
 };
 const OrderItem = ({order , onOrderClick}) => {
   if (!order) {
@@ -60,7 +60,7 @@ const Items = ({ items }) => {
             {items.map((item, key) => (
                 <View style={styles.Items} key={item.id}>
                     <Image
-                        style={{ width: 25, height: 25 }}
+                        style={{ width: 25, height: 25, resizeMode: 'contain' }}
                         source={imageMap[item.name.toLowerCase()] || require('../assets/images/adaptive-icon.png')}
                         // Utilise une image par défaut si le nom de l'image n'existe pas
                     />
