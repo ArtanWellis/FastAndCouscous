@@ -443,6 +443,7 @@ const Telephone = () => {
                 onValueChange={(value) => setSelectedFilter(value)}
                 items={filterOptions}
                 value={selectedFilter}
+                placeholder={{}}
                 style={{
                     inputIOS: styles.input,
                     inputAndroid: styles.input,
