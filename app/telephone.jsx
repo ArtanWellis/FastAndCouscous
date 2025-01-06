@@ -3,6 +3,7 @@ import {View, Image, Text, Alert, Platform, StyleSheet, ScrollView, TouchableOpa
 import { Button  } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 import OrderItem from './orders';
+import OrderBlurred from "@/app/orderBlurred";
 
 let initialOrders = [
   {
@@ -238,37 +239,7 @@ let initialOrders = [
 },
 ];
 
-const OrderBlurred = ({order , onOrderClick}) => {
-    if (!order) {
-        return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
-    }
-    return (
-        <ScrollView style={styles.OrderItem}>
-            <TouchableOpacity onPress={() => onOrderClick ? onOrderClick(order) : onOrderClick(null)}>
 
-                <View style={styles.upOrder}>
-                    <Text style={[styles.textOrderBlurred]}>Prochaine commande : #{order.id} </Text>
-                </View>
-                <View style={styles.bottomOrder}>
-                    <ItemsBlurred items={order.items}/>
-                </View>
-            </TouchableOpacity>
-        </ScrollView>
-    );
-}
-const ItemsBlurred = ({ items }) =>{
-    return (
-        <View>
-            {items.map((item,key) => (
-                <View style={styles.Items} key={item.id}>
-                    <Text style = {styles.Quantity}>{item.quantity}X</Text>
-                    <Text style = {{fontSize:18,fontWeight:'bold'}} >       {item.name}</Text>
-                </View>
-
-            ))}
-        </View>
-    );
-}
 const Telephone = () => {
     const [orders, setOrders] = useState(initialOrders);
     const [indiceOrder, setIndiceOrder] = useState(0);
