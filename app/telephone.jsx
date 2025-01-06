@@ -360,45 +360,43 @@ const Telephone = () => {
                 {
                     text: "Confirmer",
                     onPress: () => {
-                        console.log(orders.length);
+
                         const updatedOrders = orders.filter((_, index) => index !== indiceOrder);
                         setOrders(updatedOrders);
 
-                        if (updatedOrders.length === 0) {
 
-                            setActualOrder(null);
-                            setFilteredOrder(null);
-                            setNextFilteredOrder(null);
-                        } else {
-
-                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
-                            setIndiceOrder(newIndice);
-
-                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
-
-                            if (currentOrderResult) {
-                                console.log(orders.length);
-
-                                const { order, filteredItems, index } = currentOrderResult;
-                                            setActualOrder(order);
-                                            setFilteredOrder({ ...order, items: filteredItems });
-
-
-                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
-                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
-                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
-                                } else {
-                                    setNextFilteredOrder(null);
-                                }
-                                console.log(orders.length);
-                                setActualOrder(orders[0]);
-                            }
-                        }
                     },
                 },
             ]
         );
     };
+    React.useEffect(() =>{
+        if (orders.length === 0) {
+            setActualOrder(null);
+            setFilteredOrder(null);
+            setNextFilteredOrder(null);
+        } else {
+            // Ajuster l'indice si nécessaire
+            const newIndice = indiceOrder >= orders.length ? 0 : indiceOrder;
+            setIndiceOrder(newIndice);
+            // Réappliquer le filtre pour mettre à jour l'affichage
+            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
+
+            if (currentOrderResult) {
+                const { order, filteredItems, index } = currentOrderResult;
+                setActualOrder(order);
+                setFilteredOrder({ ...order, items: filteredItems });
+
+                // Mettre à jour la prochaine commande filtrée
+                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
+                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+                } else {
+                    setNextFilteredOrder(null);
+                }
+
+            }
+        }},[orders]);
 
     const validateFilteredItems = () => {
         Alert.alert(
@@ -430,32 +428,6 @@ const Telephone = () => {
 
                         setOrders(updatedOrders);
 
-                        if (updatedOrders.length === 0) {
-                            setActualOrder(null);
-                            setFilteredOrder(null);
-                            setNextFilteredOrder(null);
-                        } else {
-                            // Ajuster l'indice si nécessaire
-                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
-                            setIndiceOrder(newIndice);
-                            // Réappliquer le filtre pour mettre à jour l'affichage
-                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
-
-                            if (currentOrderResult) {
-                                const { order, filteredItems, index } = currentOrderResult;
-                                setActualOrder(order);
-                                setFilteredOrder({ ...order, items: filteredItems });
-
-                                // Mettre à jour la prochaine commande filtrée
-                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
-                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
-                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
-                                } else {
-                                    setNextFilteredOrder(null);
-                                }
-
-                            }
-                        }
                     },
                 },
             ]
