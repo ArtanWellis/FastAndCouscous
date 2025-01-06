@@ -271,7 +271,7 @@ const Kitchen = () => {
                                 >
                                     <Image 
                                         source={require('../assets/images/close.png')} 
-                                        style={{ width: 35, height: 35 }} 
+                                        style={{ width: 20, height: 20 }} 
                                         resizeMode="contain" 
                                     />
                                 </TouchableOpacity>
@@ -318,7 +318,7 @@ const Kitchen = () => {
                                 >
                                     <Image 
                                         source={require('../assets/images/close.png')} 
-                                        style={{ width: 35, height: 35 }} 
+                                        style={{ width: 20, height: 20 }} 
                                         resizeMode="contain" 
                                     />
                                 </TouchableOpacity>
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     OrderItemFull: { flex: 0.95 },
-    OrderItemPartial: { flex: 0.3 },
+    OrderItemPartial: { flex: 0.4 },
     BottomButton: {
         flex: 0.1,
         justifyContent: 'flex-end',
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     recipeContainer: {
-        flex: 0.7,
+        flex: 0.6,
         padding: 10,
         marginLeft: 10,
         borderRadius: 10,
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     recipeIngredient: {
-        fontSize: 17,
+        fontSize: 14,
         marginLeft: 10,
     },
     recipeScroll: {
@@ -581,9 +581,9 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     ingredientIcon: {
-        width: 35,
-        height: 35,
-        marginRight: 8,
+        width: 28,
+        height: 28,
+        marginRight: 5,
     },
     closeButton: { position: 'absolute', top: 5, right: 5, zIndex: 1 },
     closeIcon: { width: 400, height: 40 }, 
