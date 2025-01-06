@@ -89,7 +89,44 @@ const Comptoir = () => {
       <html>
         <head>
           <title>Plats Froids</title>
-          <style>${stylesCSS}</style>
+          <style>
+        /* Appliquez les styles généraux de Comptoir.js ici */
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 20px;
+          background-color: #F5FCFF;
+        }
+        .title {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+        .orders-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+        .order-card {
+          width: 48%;
+          margin-bottom: 15px;
+          background-color: #FFF;
+          padding: 10px;
+          border-radius: 5px;
+          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .validate-button {
+          background-color: #19C319;
+          padding: 10px;
+          margin-top: 10px;
+          border-radius: 5px;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      </style>
         </head>
         <body>
           <h1 class="title">Plats Froids et Boissons</h1>
@@ -103,10 +140,31 @@ const Comptoir = () => {
               orderDiv.innerHTML = \`
                 <h3>Commande #\${order.id}</h3>
                 \${order.items.map(item => \`<p>\${item.quantity}x \${item.name}</p>\`).join("")}
-                <button class="validate-button">Valider</button>
+                <button class="validate-button" onclick="validateOrder(\${order.id})">Valider</button>
               \`;
               coldOrdersContainer.appendChild(orderDiv);
             });
+            
+            // Fonction pour valider la commande dans la fenêtre secondaire
+            function validateOrder(orderId) {
+            // Juste retirer de la liste des plats froids (dans la fenêtre secondaire)
+                let coldOrders = ${JSON.stringify(coldItems)};
+                coldOrders = coldOrders.filter(order => order.id !== orderId);
+
+                // Mettre à jour les plats froids dans la fenêtre secondaire
+                const coldOrdersContainer = document.getElementById("cold-orders");
+                coldOrdersContainer.innerHTML = "";
+                coldOrders.forEach(order => {
+                  const orderDiv = document.createElement("div");
+                  orderDiv.classList.add("order-card");
+                  orderDiv.innerHTML = \`
+                    <h3> Commande #\${order.id}</h3>
+                    \${order.items.map(item => \`<p>\${item.quantity} x \${item.name} < /p>\`).join("")}
+                  \`;
+                  coldOrdersContainer.appendChild(orderDiv);
+                });
+              }
+ 
           </script>
         </body>
       </html>
