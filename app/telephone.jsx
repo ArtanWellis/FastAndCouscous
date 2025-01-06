@@ -477,7 +477,7 @@ const Telephone = () => {
                 }}
             />
             <Text style={styles.nbLeft}>
-                Commande actuelle Numéro : {indiceOrder + 1} / {orders.length}
+                Commande actuelle N° {indiceOrder + 1} / {orders.length}
             </Text>
             <View style={styles.actualOrder}>
                 {filteredOrder && filteredOrder.items.length > 0 ? (
@@ -513,7 +513,9 @@ const Telephone = () => {
             </View>
             <View style={styles.centeredContainer}>
             {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
+                    <View style={{display:'flex'}}>
                 <OrderBlurred  order={nextFilteredOrder} onOrderClick={function (){}}/>
+                    </View>
             ) : (
                 <Text>Aucune autre commande ne correspond au filtre.</Text>
             )}
@@ -559,19 +561,9 @@ const styles = {
         textAlign: 'center',
         fontWeight: 'bold',
         marginTop: 20,
-        fontSize: 16,
+        fontSize: 25,
     },
-    Items:{
-        flexDirection: 'row',
-        width: '80%',
-        borderBottomWidth: 1,
-        borderBottomColor: '#E3E3E3',
-    },
-    textOrderBlurred:{
-        flex:0.49,
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
+
     buttonSuiv:{
         padding : 10,
         display: "flex",
