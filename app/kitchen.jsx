@@ -257,6 +257,7 @@ const Kitchen = () => {
 
     const renderRecipeRows = (orderIndex, items) => {
         const rows = [];
+        if(items == null) return rows;
         for (let i = 0; i < items.length; i += 2) {
             const recipe1Id = `${orders[orderIndex]?.id}-${i}`;
             const recipe2Id = `${orders[orderIndex]?.id}-${i + 1}`;
