@@ -69,7 +69,7 @@ const Index = ({ navigation }) => {
           style={styles.button}
           onPress={() => navigation.navigate("Telephone")}
         >
-          <Text style={styles.buttonText}>Adaptation pour téléphone</Text>
+          <Text style={[styles.buttonText,{textAlign: 'center'}]}>Adaptation pour téléphone</Text>
         </TouchableOpacity>
       </View>
     </View>
