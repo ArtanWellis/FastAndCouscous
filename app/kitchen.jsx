@@ -204,7 +204,7 @@ const Kitchen = () => {
     };
 
     const handleCloseRecipe = (orderIndex, itemIndex) => {
-        const recipeId = `${orderIndex}-${itemIndex}`;
+        const recipeId = `${orders[orderIndex]?.id}-${itemIndex}`;
         setHiddenRecipes(prev => {
             const newHidden = new Set(prev);
             newHidden.add(recipeId);
@@ -242,6 +242,7 @@ const Kitchen = () => {
         const newOrders = orders.slice(1);
         setOrders(newOrders);
         setLastOrder(firstOrder);
+        setHiddenRecipes(new Set());
         console.log(lastOrder);
     };
 
@@ -257,8 +258,8 @@ const Kitchen = () => {
     const renderRecipeRows = (orderIndex, items) => {
         const rows = [];
         for (let i = 0; i < items.length; i += 2) {
-            const recipe1Id = `${orderIndex}-${i}`;
-            const recipe2Id = `${orderIndex}-${i + 1}`;
+            const recipe1Id = `${orders[orderIndex]?.id}-${i}`;
+            const recipe2Id = `${orders[orderIndex]?.id}-${i + 1}`;
             
             if (!hiddenRecipes.has(recipe1Id) || (items[i + 1] && !hiddenRecipes.has(recipe2Id))) {
                 rows.push(
@@ -386,8 +387,8 @@ const Kitchen = () => {
                                 styles.Button,
                                 { backgroundColor: isNoviceMode ? '#19C319' : '#FFA500' }
                             ]}
-                            titleStyle={[styles.titleStyle, { fontSize: 15 }]}
-                            title='Mode novice'
+                            titleStyle={[styles.titleStyle, { fontSize: 17 }]}
+                            title='Mode novice : '
                             icon={
                                 <Image
                                     source={
@@ -483,7 +484,7 @@ const styles = StyleSheet.create({
 
     titleStyle: {
         color: 'white',
-        fontSize: 9,
+        fontSize: 17,
 
     },
     ButtonWrapper: {
