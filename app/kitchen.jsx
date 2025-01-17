@@ -2,6 +2,8 @@ import React , {useState} from 'react';
 import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button  } from 'react-native-elements';
 import OrderItem from './orders';
+import {renderRecipeRows} from "@/app/recette";
+import {NoviceButton} from "@/app/noviceButton";
 
 let initialOrders = [
   {   
@@ -198,12 +200,9 @@ const Kitchen = () => {
     const waitingOrders = orders.slice(1, 4);
     let nbLeft = orders.length - 4 > 0 ? orders.length - 4 : 0;
 
-    const toggleNoviceMode = () => {
-        setIsNoviceMode(!isNoviceMode);
-        setHiddenRecipes(new Set());
-    };
 
     const handleCloseRecipe = (orderIndex, itemIndex) => {
+        console.log("ok");
         const recipeId = `${orders[orderIndex]?.id}-${itemIndex}`;
         setHiddenRecipes(prev => {
             const newHidden = new Set(prev);
@@ -255,117 +254,6 @@ const Kitchen = () => {
         }
     };
 
-    const renderRecipeRows = (orderIndex, items) => {
-        const rows = [];
-        if(items == null) return rows;
-        for (let i = 0; i < items.length; i += 2) {
-            const recipe1Id = `${orders[orderIndex]?.id}-${i}`;
-            const recipe2Id = `${orders[orderIndex]?.id}-${i + 1}`;
-            
-            if (!hiddenRecipes.has(recipe1Id) || (items[i + 1] && !hiddenRecipes.has(recipe2Id))) {
-                rows.push(
-                    <View style={styles.recipeRow} key={i}>
-                        {!hiddenRecipes.has(recipe1Id) && (
-                            <View style={styles.recipeBox}>
-                                <TouchableOpacity 
-                                    style={styles.closeButton} 
-                                    onPress={() => handleCloseRecipe(orderIndex, i)}
-                                >
-                                    <Image 
-                                        source={require('../assets/images/close.png')} 
-                                        style={{ width: 20, height: 20 }} 
-                                        resizeMode="contain" 
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.recipeItem}>{items[i].name}:</Text>
-                                {burgerRecipes[items[i].name]?.map((ingredient, index) => (
-                                    <View key={index} style={styles.ingredientRow}>
-                                        {ingredientIcons[ingredient] && (
-                                            <Image 
-                                                source={ingredientIcons[ingredient]} 
-                                                style={styles.ingredientIcon} 
-                                                resizeMode="contain" 
-                                            />
-                                        )}
-                                        <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                                    </View>
-                                ))}
-                                {items[i].Ingredients?.map((customIngredient, index) => (
-                                    <View key={index} style={styles.ingredientRow}>
-                                        {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                            <Image 
-                                                source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
-                                                style={styles.ingredientIcon} 
-                                                resizeMode="contain" 
-                                            />
-                                        )}
-                                        <Text
-                                            style={[
-                                                styles.recipeIngredient,
-                                                customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                            ]}
-                                        >
-                                            {customIngredient}
-                                        </Text>
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-    
-                        {items[i + 1] && !hiddenRecipes.has(recipe2Id) && (
-                            <View style={styles.recipeBox}>
-                                <TouchableOpacity 
-                                    style={styles.closeButton} 
-                                    onPress={() => handleCloseRecipe(orderIndex, i + 1)}
-                                >
-                                    <Image 
-                                        source={require('../assets/images/close.png')} 
-                                        style={{ width: 20, height: 20 }} 
-                                        resizeMode="contain" 
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.recipeItem}>{items[i + 1].name}:</Text>
-                                {burgerRecipes[items[i + 1].name]?.map((ingredient, index) => (
-                                    <View key={index} style={styles.ingredientRow}>
-                                        {ingredientIcons[ingredient] && (
-                                            <Image 
-                                                source={ingredientIcons[ingredient]} 
-                                                style={styles.ingredientIcon} 
-                                                resizeMode="contain" 
-                                            />
-                                        )}
-                                        <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                                    </View>
-                                ))}
-                                {items[i + 1].Ingredients?.map((customIngredient, index) => (
-                                    <View key={index} style={styles.ingredientRow}>
-                                        {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                            <Image 
-                                                source={ingredientIcons[customIngredient.replace(/[+-]/, '')]} 
-                                                style={styles.ingredientIcon} 
-                                                resizeMode="contain" 
-                                            />
-                                        )}
-                                        <Text
-                                            style={[
-                                                styles.recipeIngredient,
-                                                customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                            ]}
-                                        >
-                                            {customIngredient}
-                                        </Text>
-                                    </View>
-                                ))}
-                            </View>
-                        )}
-                    </View>
-                );
-            }
-        }
-        return rows;
-    };
-    
-
     return (
         <View style={styles.container}>
             <View style={[
@@ -382,27 +270,8 @@ const Kitchen = () => {
                         />
                     </View>
                     <View style={styles.ButtonWrapper}>
-                        <Button
-                            onPress={toggleNoviceMode}
-                            buttonStyle={[
-                                styles.Button,
-                                { backgroundColor: isNoviceMode ? '#19C319' : '#FFA500' }
-                            ]}
-                            titleStyle={[styles.titleStyle, { fontSize: 17 }]}
-                            title='Mode novice : '
-                            icon={
-                                <Image
-                                    source={
-                                        isNoviceMode
-                                            ? require('../assets/images/unlock.png')
-                                            : require('../assets/images/lock.png')
-                                    }
-                                    style={{ width: 20, height: 20 }}
-                                    resizeMode="contain"
-                                />
-                            }
-                            iconRight
-                        />
+                        <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} />
+
                     </View>
                 </View>
                 <View style={styles.firstOrder}>
@@ -420,8 +289,11 @@ const Kitchen = () => {
                             <View style={styles.recipeContainer}>
                                 <Text style={styles.recipeTitle}>Recettes :</Text>
                                 <ScrollView style={styles.recipeScroll} showsVerticalScrollIndicator={true}>
-                                    {renderRecipeRows(orderIndex, firstOrder?.items)}
-                                </ScrollView>
+                                    {orders.map((order, index) => (
+                                        <View key={order.id}>
+                                            {renderRecipeRows(index, order.items, hiddenRecipes, handleCloseRecipe, burgerRecipes, ingredientIcons)}
+                                        </View>
+                                    ))}  </ScrollView>
                             </View>
                         )}
                     </View>
