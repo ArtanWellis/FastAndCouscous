@@ -4,9 +4,10 @@ import React from "react";
 
 
 
-export const NoviceButton = ({ isNoviceMode, setIsNoviceMode }) => {
+export const NoviceButton = ({ isNoviceMode, setIsNoviceMode,setHiddenRecipes }) => {
     const toggleNoviceMode = () => {
         setIsNoviceMode(!isNoviceMode);
+        setHiddenRecipes(new Set());
     };
     return (
         <Button

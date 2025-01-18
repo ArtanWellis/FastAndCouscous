@@ -2,8 +2,9 @@ import React , {useState} from 'react';
 import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button  } from 'react-native-elements';
 import OrderItem from './orders';
-import {renderRecipeRows} from "@/app/recette";
+import {RenderRecipe} from "@/app/recette";
 import {NoviceButton} from "@/app/noviceButton";
+
 
 let initialOrders = [
   {   
@@ -202,7 +203,6 @@ const Kitchen = () => {
 
 
     const handleCloseRecipe = (orderIndex, itemIndex) => {
-        console.log("ok");
         const recipeId = `${orders[orderIndex]?.id}-${itemIndex}`;
         setHiddenRecipes(prev => {
             const newHidden = new Set(prev);
@@ -270,7 +270,7 @@ const Kitchen = () => {
                         />
                     </View>
                     <View style={styles.ButtonWrapper}>
-                        <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} />
+                        <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} setHiddenRecipes={setHiddenRecipes} />
 
                     </View>
                 </View>
@@ -289,11 +289,16 @@ const Kitchen = () => {
                             <View style={styles.recipeContainer}>
                                 <Text style={styles.recipeTitle}>Recettes :</Text>
                                 <ScrollView style={styles.recipeScroll} showsVerticalScrollIndicator={true}>
-                                    {orders.map((order, index) => (
-                                        <View key={order.id}>
-                                            {renderRecipeRows(index, order.items, hiddenRecipes, handleCloseRecipe, burgerRecipes, ingredientIcons)}
+
+                                        <View key={orders[orderIndex].id} style={styles.recipeFlex}>
+                                            {orders[orderIndex].items.map((item, index) => (
+                                                <View key={index} style={styles.recipeItem}>
+                                            <RenderRecipe orders={orders} orderIndex={orderIndex} item={item}
+                                                          hiddenRecipes ={hiddenRecipes} setHiddenRecipes = {setHiddenRecipes}/>
+
+                                                </View>))}
                                         </View>
-                                    ))}  </ScrollView>
+                                    </ScrollView>
                             </View>
                         )}
                     </View>
@@ -413,6 +418,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     recipeItem: {
+        width: "48%",
         fontSize: 18,
         fontWeight: 'bold',
         marginTop: 5,
@@ -426,10 +432,10 @@ const styles = StyleSheet.create({
         maxHeight: 550,
         paddingRight: 5,
     },
-    recipeRow: {
+    recipeFlex: {
         flexDirection: 'row',
+        flexWrap: "wrap",
         justifyContent: 'space-between',
-        marginBottom: 10,
     },
     recipeBox: {
         flex: 0.48,

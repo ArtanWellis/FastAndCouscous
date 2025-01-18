@@ -1,205 +1,99 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React from "react";
 
-export const renderRecipeRows = (orderIndex, items, hiddenRecipes, handleCloseRecipe, burgerRecipes, ingredientIcons) => {
-    const rows = [];
-    if (items == null) return rows;
+export const RenderRecipe = ({orders,orderIndex, item, hiddenRecipes, setHiddenRecipes} ) => {
+    const burgerRecipes = {
+        "Cheese Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+        "Bacon Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Bacon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+        "Double Cheese Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+        "Veggie Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak veggie", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 7min"],
+        "Chicken Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poulet pané", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson poulet : 8min"],
+        "Fish Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poisson pané", "Tartare sauce", "Pain sésame bas", "Temps cuisson poisson : 6min"],
+        "BBQ Burger": ["Pain sésame haut", "Salade", "Tomate", "Onion rings", "Cornichon", "Cheddar", "Steak haché", "BBQ Sauce", "Pain sésame bas", "Temps cuisson steak : 5min"],
+    };
 
-    for (let i = 0; i < items.length; i += 2) {
-        const recipe1Id = `${orderIndex}-${i}`;
-        const recipe2Id = `${orderIndex}-${i + 1}`;
-
-        if (!hiddenRecipes.has(recipe1Id) || (items[i + 1] && !hiddenRecipes.has(recipe2Id))) {
-            rows.push(
-                <View style={styles.recipeRow} key={i}>
-                    {!hiddenRecipes.has(recipe1Id) && (
-                        <View style={styles.recipeBox}>
-                            <TouchableOpacity
-                                style={styles.closeButton}
-                                onPress={() => handleCloseRecipe(orderIndex, i)}
-                            >
+    const ingredientIcons = {
+        "Ketchup": require('../assets/images/ketchup.png'),
+        "Moutarde": require('../assets/images/moutarde.png'),
+        "Salade": require('../assets/images/salade.png'),
+        "Tomate": require('../assets/images/tomate.png'),
+        "Oignon": require('../assets/images/onion.png'),
+        "Cornichon": require('../assets/images/cornichon.png'),
+        "Cheddar": require('../assets/images/cheese.png'),
+        "Steak haché": require('../assets/images/steak.png'),
+        "Pain sésame haut": require('../assets/images/pain-haut.png'),
+        "Pain sésame bas": require('../assets/images/pain-bas.png'),
+        "Bacon": require('../assets/images/bacon.png'),
+        "Steak veggie": require('../assets/images/veggie.png'),
+        "Poulet pané": require('../assets/images/chicken.png'),
+        "Poisson pané": require('../assets/images/fish.png'),
+        "Tartare sauce": require('../assets/images/tartare.png'),
+        "BBQ Sauce": require('../assets/images/BBQ.png'),
+        "Onion rings": require('../assets/images/onion-rings.png'),
+        "Avocado": require('../assets/images/avocat.png'),
+        "Spicy Sauce": require('../assets/images/spicy.png'),
+    };
+    const handleCloseRecipe = () => {
+        setHiddenRecipes(prev => {
+            const newHidden = new Set(prev);
+            newHidden.add(item);
+            return newHidden;
+        });
+    };
+    return(
+        <View>
+            {!hiddenRecipes.has(item) && (
+                <View style={styles.recipeBox}>
+                    <TouchableOpacity
+                        style={styles.closeButton}
+                        onPress={() => handleCloseRecipe()}
+                    >
+                        <Image
+                            source={require('../assets/images/close.png')}
+                            style={{ width: 20, height: 20 }}
+                            resizeMode="contain"
+                        />
+                    </TouchableOpacity>
+                    <Text style={styles.recipeItem}>{item.name}:</Text>
+                    {burgerRecipes[item.name]?.map((ingredient, index) => (
+                        <View key={index} style={styles.ingredientRow}>
+                            {ingredientIcons[ingredient] && (
                                 <Image
-                                    source={require('../assets/images/close.png')}
-                                    style={{ width: 20, height: 20 }}
+                                    source={ingredientIcons[ingredient]}
+                                    style={styles.ingredientIcon}
                                     resizeMode="contain"
                                 />
-                            </TouchableOpacity>
-                            <Text style={styles.recipeItem}>{items[i].name}:</Text>
-                            {burgerRecipes[items[i].name]?.map((ingredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[ingredient] && (
-                                        <Image
-                                            source={ingredientIcons[ingredient]}
-                                            style={styles.ingredientIcon}
-                                            resizeMode="contain"
-                                        />
-                                    )}
-                                    <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                                </View>
-                            ))}
-                            {items[i].Ingredients?.map((customIngredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                        <Image
-                                            source={ingredientIcons[customIngredient.replace(/[+-]/, '')]}
-                                            style={styles.ingredientIcon}
-                                            resizeMode="contain"
-                                        />
-                                    )}
-                                    <Text
-                                        style={[
-                                            styles.recipeIngredient,
-                                            customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                        ]}
-                                    >
-                                        {customIngredient}
-                                    </Text>
-                                </View>
-                            ))}
+                            )}
+                            <Text style={styles.recipeIngredient}>{ingredient}</Text>
                         </View>
-                    )}
-
-                    {items[i + 1] && !hiddenRecipes.has(recipe2Id) && (
-                        <View style={styles.recipeBox}>
-                            <TouchableOpacity
-                                style={styles.closeButton}
-                                onPress={() => handleCloseRecipe(orderIndex, i + 1)}
-                            >
+                    ))}
+                    {item.Ingredients?.map((customIngredient, index) => (
+                        <View key={index} style={styles.ingredientRow}>
+                            {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
                                 <Image
-                                    source={require('../assets/images/close.png')}
-                                    style={{ width: 20, height: 20 }}
+                                    source={ingredientIcons[customIngredient.replace(/[+-]/, '')]}
+                                    style={styles.ingredientIcon}
                                     resizeMode="contain"
                                 />
-                            </TouchableOpacity>
-                            <Text style={styles.recipeItem}>{items[i + 1].name}:</Text>
-                            {burgerRecipes[items[i + 1].name]?.map((ingredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[ingredient] && (
-                                        <Image
-                                            source={ingredientIcons[ingredient]}
-                                            style={styles.ingredientIcon}
-                                            resizeMode="contain"
-                                        />
-                                    )}
-                                    <Text style={styles.recipeIngredient}>{ingredient}</Text>
-                                </View>
-                            ))}
-                            {items[i + 1].Ingredients?.map((customIngredient, index) => (
-                                <View key={index} style={styles.ingredientRow}>
-                                    {ingredientIcons[customIngredient.replace(/[+-]/, '')] && (
-                                        <Image
-                                            source={ingredientIcons[customIngredient.replace(/[+-]/, '')]}
-                                            style={styles.ingredientIcon}
-                                            resizeMode="contain"
-                                        />
-                                    )}
-                                    <Text
-                                        style={[
-                                            styles.recipeIngredient,
-                                            customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
-                                        ]}
-                                    >
-                                        {customIngredient}
-                                    </Text>
-                                </View>
-                            ))}
+                            )}
+                            <Text
+                                style={[
+                                    styles.recipeIngredient,
+                                    customIngredient.startsWith('+') ? styles.ingredientAdd : styles.ingredientRemove
+                                ]}
+                            >
+                                {customIngredient}
+                            </Text>
                         </View>
-                    )}
+                    ))}
                 </View>
-            );
-        }
-    }
-
-    return rows;
+            )}
+        </View>
+    );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        margin: 20,
-        flex: 1,
-        flexDirection: 'row',
-    },
-    InProgress: {
-        flex: 0.35,
-
-        flexDirection: 'column',
-        marginRight: 40,
-    },
-
-    Waiting: {
-        flex: 0.7,
-        flexDirection: 'column',
-    },
-    ButtonDiv: {
-        flex: 0.08,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-    },
-    Button: {
-        borderRadius: 5,
-        width: '100%',
-        height: '100%',
-    },
-
-    titleStyle: {
-        color: 'white',
-        fontSize: 17,
-
-    },
-    ButtonWrapper: {
-        flex: 0.45,
-    },
-    firstOrder: {
-        flex: 0.92,
-        flexDirection: 'column',
-        borderRadius: 10,
-        backgroundColor: '#F0CA81',
-        padding: 10,
-    },
-    TextWrapper: {
-        flex: 0.05,
-        justifyContent: 'center',
-        marginBottom: 10,
-    },
-    Text: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    OrderItemFull: { flex: 0.95 },
-    OrderItemPartial: { flex: 0.4 },
-    BottomButton: {
-        flex: 0.1,
-        justifyContent: 'flex-end',
-        marginTop: 'auto',
-    },
-    OrdersWrapper: {
-        flex: 0.95,
-    },
-    nbLeft: {
-        flex: 0.03,
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    orderAndRecipe: {
-        flexDirection: 'row',
-        flex: 1,
-    },
-    recipeContainer: {
-        flex: 0.6,
-        padding: 10,
-        marginLeft: 10,
-        borderRadius: 10,
-        backgroundColor: '#FFF8DC',
-        marginBottom: 10,
-    },
-    recipeTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
     recipeItem: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -220,7 +114,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     recipeBox: {
-        flex: 0.48,
+        flex: 1,
         backgroundColor: '#F9F9F9',
         borderRadius: 8,
         padding: 10,
