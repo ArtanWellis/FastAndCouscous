@@ -4,6 +4,7 @@ import { Button  } from 'react-native-elements';
 import OrderItem from './orders';
 import {RenderRecipe} from "@/app/recette";
 import {NoviceButton} from "@/app/noviceButton";
+import {RetrieveButton} from "@/app/retrieveButton";
 
 
 let initialOrders = [
@@ -158,37 +159,6 @@ let initialOrders = [
 },
 ];
 
-const burgerRecipes = {
-    "Cheese Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
-    "Bacon Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Bacon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
-    "Double Cheese Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
-    "Veggie Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak veggie", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 7min"],
-    "Chicken Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poulet pané", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson poulet : 8min"],
-    "Fish Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poisson pané", "Tartare sauce", "Pain sésame bas", "Temps cuisson poisson : 6min"],
-    "BBQ Burger": ["Pain sésame haut", "Salade", "Tomate", "Onion rings", "Cornichon", "Cheddar", "Steak haché", "BBQ Sauce", "Pain sésame bas", "Temps cuisson steak : 5min"],
-};
-
-const ingredientIcons = {
-    "Ketchup": require('../assets/images/ketchup.png'),
-    "Moutarde": require('../assets/images/moutarde.png'),
-    "Salade": require('../assets/images/salade.png'),
-    "Tomate": require('../assets/images/tomate.png'),
-    "Oignon": require('../assets/images/onion.png'),
-    "Cornichon": require('../assets/images/cornichon.png'),
-    "Cheddar": require('../assets/images/cheese.png'),
-    "Steak haché": require('../assets/images/steak.png'),
-    "Pain sésame haut": require('../assets/images/pain-haut.png'),
-    "Pain sésame bas": require('../assets/images/pain-bas.png'),
-    "Bacon": require('../assets/images/bacon.png'),
-    "Steak veggie": require('../assets/images/veggie.png'),
-    "Poulet pané": require('../assets/images/chicken.png'),
-    "Poisson pané": require('../assets/images/fish.png'),
-    "Tartare sauce": require('../assets/images/tartare.png'),
-    "BBQ Sauce": require('../assets/images/BBQ.png'),
-    "Onion rings": require('../assets/images/onion-rings.png'),
-    "Avocado": require('../assets/images/avocat.png'),
-    "Spicy Sauce": require('../assets/images/spicy.png'),
-};
 
 
 const Kitchen = () => {
@@ -262,12 +232,7 @@ const Kitchen = () => {
             ]}>
                 <View style={styles.ButtonDiv}>
                     <View style={styles.ButtonWrapper}>
-                        <Button
-                            onPress={retrieveLastOrder}
-                            buttonStyle={[styles.Button, { backgroundColor: '#FF8181' }]}
-                            title='Récupérer la dernière commande'
-                            titleStyle={styles.titleStyle}
-                        />
+                       <RetrieveButton retrieveFunction={retrieveLastOrder} text={"Récupérer la dernière commande"}/>
                     </View>
                     <View style={styles.ButtonWrapper}>
                         <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} setHiddenRecipes={setHiddenRecipes} />
@@ -293,8 +258,8 @@ const Kitchen = () => {
                                         <View key={orders[orderIndex].id} style={styles.recipeFlex}>
                                             {orders[orderIndex].items.map((item, index) => (
                                                 <View key={index} style={styles.recipeItem}>
-                                            <RenderRecipe orders={orders} orderIndex={orderIndex} item={item}
-                                                          hiddenRecipes ={hiddenRecipes} setHiddenRecipes = {setHiddenRecipes}/>
+                                            <RenderRecipe  item={item} hiddenRecipes ={hiddenRecipes}
+                                                           setHiddenRecipes = {setHiddenRecipes}/>
 
                                                 </View>))}
                                         </View>

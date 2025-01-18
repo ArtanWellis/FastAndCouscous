@@ -7,7 +7,6 @@
     <list default="true" id="3126215d-d5a9-40dc-8c74-9e1bdd480aac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/kitchen.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/kitchen.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/noviceButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/noviceButton.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/recette.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/recette.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +76,7 @@
       <workItem from="1736108681104" duration="8122000" />
       <workItem from="1736944838263" duration="5946000" />
       <workItem from="1737130739322" duration="542000" />
-      <workItem from="1737195744567" duration="7567000" />
+      <workItem from="1737195744567" duration="8508000" />
     </task>
     <servers />
   </component>

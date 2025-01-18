@@ -1,7 +1,7 @@
 import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React from "react";
 
-export const RenderRecipe = ({orders,orderIndex, item, hiddenRecipes, setHiddenRecipes} ) => {
+export const RenderRecipe = ({ item, hiddenRecipes, setHiddenRecipes} ) => {
     const burgerRecipes = {
         "Cheese Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
         "Bacon Burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Bacon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
