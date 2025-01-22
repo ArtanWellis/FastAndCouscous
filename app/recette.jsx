@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
         height: 28,
         marginRight: 5,
     },
-    closeButton: { position: 'absolute', top: 5, right: 5, zIndex: 1 },
+    closeButton: { position: 'absolute', top: 2, right: 5, zIndex: 1 },
     closeIcon: { width: 400, height: 40 },
 });

@@ -18,6 +18,8 @@ let initialOrders = [
       },
       {
           name: "Burger Bacon",
+          category : "hot",
+          type : "burger",
           quantity: 3,
       },{
             name: "Double Cheese Burger",
