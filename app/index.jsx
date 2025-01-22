@@ -8,6 +8,8 @@ import Telephone from "./telephone";
 import Comptoir from './comptoir';
 import ColdPage from './ColdPage';
 
+import Table from './tableTactile/tableTactile'
+
 
 const Stack = createStackNavigator();
 
@@ -26,7 +28,7 @@ const App = () => {
 
         <Stack.Screen name="Comptoir" component={Comptoir} options={{ title: 'Comptoir' }} />
         <Stack.Screen name="ColdScreen" component={ColdPage} />
-
+       <Stack.Screen name="Table" component={Table} />
     </Stack.Navigator>
   );
 };
@@ -71,6 +73,12 @@ const Index = ({ navigation }) => {
         >
           <Text style={[styles.buttonText,{textAlign: 'center'}]}>Adaptation pour téléphone</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Table")}
+        >
+          <Text style={[styles.buttonText,{textAlign: 'center'}]}>Table tactile</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   buttonContainer: {
-    width: '80%',
+    width: '40%',
     alignItems: 'center',
   },
   button: {

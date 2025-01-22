@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3126215d-d5a9-40dc-8c74-9e1bdd480aac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/orderBlurred.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/orderBlurred.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/recette.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/recette.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tableTactile/dishEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/tableTactile/dishEmplacement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/tableTactile/tableTactile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/tableTactile/tableTactile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/telephone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/telephone.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,9 +42,9 @@
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tableTactile&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Documents/1.polytech/S9/adaptation/FastAndCouscous&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Documents/1.polytech/S9/adaptation/FastAndCouscous/app&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -74,6 +76,11 @@
       <workItem from="1735997307821" duration="10892000" />
       <workItem from="1736094885742" duration="2078000" />
       <workItem from="1736108681104" duration="8122000" />
+      <workItem from="1736944838263" duration="5946000" />
+      <workItem from="1737130739322" duration="542000" />
+      <workItem from="1737195744567" duration="15116000" />
+      <workItem from="1737356934322" duration="1831000" />
+      <workItem from="1737540254887" duration="935000" />
     </task>
     <servers />
   </component>
