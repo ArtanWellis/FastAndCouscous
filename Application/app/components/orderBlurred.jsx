@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 const OrderBlurred = ({ order, onOrderClick }) => {
     if (!order) {

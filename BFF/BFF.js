@@ -4,7 +4,8 @@ const app = express();
 const port = 3010;
 
 const Order = require('../Application/app/models/Order');
-
+let orders = [];
+let validatedOrders = [];
 // Middleware pour gérer les requêtes JSON
 app.use(express.json());
 
@@ -20,15 +21,36 @@ app.get('/kitchen/preparations', async (req, res) => {
         const response = await axios.get(`${API_BASE_URL}/preparations`, {
             params: { state },
         });
-        const orders = response.data.flatMap(preparation => {
-            const order = new Order(preparation._id,preparation.PayedHour);
-            order.id = preparation.id,
-            order.PayedHours = preparation.PayedHours,
-            order.preparedItems = order.setItems(preparation.preparedItems)
+        const filteredPreparations = response.data.filter(preparation => 
+            !validatedOrders.find(order => order.id === preparation._id)&&
+            !orders.find(order => order.id === preparation._id)
+        );
+
+        const localOrders = filteredPreparations.map(preparation => {
+            const currentHour = new Date().toISOString(); // Obtenir l'heure actuelle
+            const order = new Order(preparation._id, preparation.preparedItems, currentHour);
+            order.setItems(preparation.preparedItems);
             return order;
         });
 
-        console.log('Réponse de lAPI externe:'+orders);
+        console.log('Commandes récupérées:', localOrders);
+
+        for(const order of localOrders){
+            for(const item of order.items){
+                try {
+                    const response = await axios.get(`${API_BASE_URL}/preparedItems/${item.id}/recipe`);
+                    item.category = response.data.post;
+                    item.type = response.data.cookingSteps[0];
+                    item.ingredients = response.data.cookingSteps.slice(1); // Récupérer tous les ingrédients à partir du deuxième élément
+                } catch (error) {
+                    console.error(`Erreur lors de la récupération des ingrédients pour l'item ${item.id}:`, error.message);
+                }
+            }
+            orders.push(order);
+        }
+
+        console.log('Commande ajoutée:', orders);
+
         res.status(200).json(response.data);
     } catch (error) {
         console.error('Erreur lors de la requête à lAPI externe:', error.message);
@@ -39,6 +61,51 @@ app.get('/kitchen/preparations', async (req, res) => {
         }
     }
 });
+
+app.get('/kitchen/validation/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log('id:', id);
+    const orderIndex = orders.findIndex(order => order.id === id);
+
+    if (orderIndex !== -1) {
+        try {
+
+            validatedOrders.push(orders[orderIndex]);
+
+            orders = orders.filter(order => order.id !== id);
+
+            console.log('Commande validée:', validatedOrders);
+            console.log('Commandes restantes:', orders);
+
+            res.status(200).json({ message: 'Commande validée et supprimée de la liste.' });
+        } catch (error) {
+            console.error('Erreur lors de la validation de la commande:', error.message);
+            if (error.response) {
+                res.status(error.response.status).json({ error: error.response.data });
+            } else {
+                res.status(500).json({ error: 'Erreur interne du serveur.' });
+            }
+        }
+    } else {
+        res.status(404).json({ error: 'Commande non trouvée.' });
+    }
+});
+
+app.get('/kitchen/retrieve/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log('id:', id);
+    const orderIndex = validatedOrders.findIndex(order => order.id === id);
+    if (orderIndex !== -1) {
+        const order = validatedOrders[orderIndex];
+        orders.unshift(order); // Ajouter la commande au début de la liste
+        validatedOrders = validatedOrders.filter(order => order.id !== id);
+        res.status(200).json({ message: 'Commande récupérée et ajoutée au début de la liste.' });
+    } else {
+        res.status(404).json({ error: 'Commande non trouvée.' });
+    }
+});
+
+
 
 // Démarrage du serveur
 app.listen(port, () => {
