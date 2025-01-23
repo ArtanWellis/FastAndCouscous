@@ -6,9 +6,10 @@ import OrderItem from '@/app/components/orderItem';
 import {RenderRecipe} from "@/app/components/recette";
 import {NoviceButton} from "@/app/components/UI/noviceButton";
 import {RetrieveButton} from "@/app/components/UI/retrieveButton";
+import config from '@/config';
 
 
-const ip = '192.168.1.16';
+const ip = config.serverIp;
 
 const Kitchen = () => {
     const [orders, setOrders] = useState([]);
