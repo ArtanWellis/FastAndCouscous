@@ -1,4 +1,5 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
+import axios from 'axios';
 import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button  } from 'react-native-elements';
 import OrderItem from '@/app/components/orderItem'; 
@@ -7,170 +8,60 @@ import {NoviceButton} from "@/app/components/UI/noviceButton";
 import {RetrieveButton} from "@/app/components/UI/retrieveButton";
 
 
-let initialOrders = [
-  {   
-      id:351,
-      items :[
-      {
-          name: "Cheese Burger",
-          quantity: 2,
-          Ingredients : ["-Cheddar" , "+Bacon"],
-      },
-      {
-          name: "Bacon Burger",
-          quantity: 3,
-      },{
-        name: "Double Cheese Burger",
-        quantity: 1,
-        Ingredients: ["+Cheddar"],
-      },
-      {
-        name: "Veggie Burger",
-        quantity: 2,
-        Ingredients: ["-Steak veggie", "+Avocado"],
-      },
-      {
-        name: "Chicken Burger",
-        quantity: 1,
-        Ingredients: ["+Spicy Sauce"],
-      },
-      {
-        name: "Fish Burger",
-        quantity: 1,
-        Ingredients: ["-Tartare sauce"],
-      },
-      {
-        name: "BBQ Burger",
-        quantity: 2,
-        Ingredients: ["+BBQ Sauce", "-Onion rings"],
-      },
-      
-    ],
-      PayedHour: "18h38",
-      Type : "TAKE_AWAY"
-  },
-  {   
-      id:352,
-      items :[
-      {
-          name: "Cheese Burger",
-          quantity: 2,
-          Ingredients : ["+Cheddar" , "-Bacon"]
-
-      },
-      {
-          name: "Bacon Burger",
-          quantity: 3,
-      }],
-      PayedHour: "18h48",
-      Type : "DINE_IN"
-  },
-  {   
-      id:353,
-      items :[
-      {
-          name: "Veggie Burger",
-          quantity: 2,
-          Ingredients : ["+Cheddar" ,"+Tomate","-Oignon"]
-      },
-      {
-          name: "Bacon Burger",
-          quantity: 3,
-      },
-      {
-          name: "Cheese Burger",
-          quantity: 3,
-      },
-      {
-          name: "Double Cheese Burger",
-          quantity: 5,
-      }],
-      PayedHour: "19h08",
-      Type : "DELIVERY"
-  },
-  {   
-    id:354,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        Ingredients : ["+Cheddar" ,"+Tomate","-Oignon","-Bacon"]
-    },
-    {
-        name: "Bacon Burger",
-        quantity: 3,
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-    },
-    {
-        name: "Double Cheese Burger",
-        quantity: 5,
-    }],
-    PayedHour: "19h08",
-    Type : "DELIVERY"
-},
-{   
-    id:355,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        Ingredients : ["+Cheddar" ,"+Tomate","-Oignon"]
-    },
-    {
-        name: "Bacon Burger",
-        quantity: 3,
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-    },
-    {
-        name: "Double Cheese Burger",
-        quantity: 5,
-    }],
-    PayedHour: "19h08",
-    Type : "DELIVERY"
-},
-{   
-    id:356,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        Ingredients : ["+Cheddar" ,"+Tomate","-Oignon"]
-    },
-    {
-        name: "Bacon Burger",
-        quantity: 3,
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-    },
-    {
-        name: "Double Cheese Burger",
-        quantity: 5,
-    }],
-    PayedHour: "19h08",
-    Type : "DELIVERY"
-},
-];
-
-
+const ip = '192.168.1.16';
 
 const Kitchen = () => {
-    const [orders, setOrders] = useState(initialOrders);
+    const [orders, setOrders] = useState([]);
     const [lastOrder, setLastOrder] = useState(null);
     const [isNoviceMode, setIsNoviceMode] = useState(false);
     const [orderIndex, setOrderIndex] = useState(0);
     const [hiddenRecipes, setHiddenRecipes] = useState(new Set());
     const firstOrder = orders[0];
     const waitingOrders = orders.slice(1, 4);
+    
     let nbLeft = orders.length - 4 > 0 ? orders.length - 4 : 0;
 
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('http://'+ip+':3010/kitchen/preparations');
+            console.log(response.data);
+            console.log('Commandes récupérées:', response.data[0]);
+            setOrders(response.data);
+        } catch (error) {
+            console.error('Erreur lors de la récupération des commandes:', error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
+
+    const retrieveLastOrder = async () => {
+        if (lastOrder) {
+            try {
+                const response = await axios.get('http://'+ip+':3010/kitchen/retrieve/' + lastOrder.id);
+                console.log('Commande validée:', response.data);
+                fetchOrders();
+            } catch (error) {
+                console.error('Erreur lors de la validation de la commande:', error.message);
+            }
+            setLastOrder(null);
+        }
+    };
+
+    const handleSuppOrder = async () => {
+        if (firstOrder) {
+            setLastOrder(firstOrder);
+            setHiddenRecipes(new Set());
+            fetchOrders();
+            try {
+                const response = await axios.get('http://'+ip+':3010/kitchen/validation/' + firstOrder.id);
+                console.log('Commande validée:', response.data);
+            } catch (error) {
+                console.error('Erreur lors de la validation de la commande:', error.message);
+            }
+        }
+    };
 
     const handleCloseRecipe = (orderIndex, itemIndex) => {
         const recipeId = `${orders[orderIndex]?.id}-${itemIndex}`;
@@ -183,6 +74,7 @@ const Kitchen = () => {
 
     const handleOrderClick = (order) => {
         if (order == firstOrder) return;
+
         Alert.alert(
             "Confirmer l'action",
             "Voulez-vous vraiment sélectionner cette commande ?",
@@ -206,23 +98,8 @@ const Kitchen = () => {
             ]
         );
     };
-
-    const handleSuppOrder = () => {
-        const newOrders = orders.slice(1);
-        setOrders(newOrders);
-        setLastOrder(firstOrder);
-        setHiddenRecipes(new Set());
-        console.log(lastOrder);
-    };
-
-    const retrieveLastOrder = () => {
-        console.log(lastOrder);
-        if (lastOrder) {
-            const newOrders = [lastOrder, ...orders];
-            setOrders(newOrders);
-            setLastOrder(null);
-        }
-    };
+   
+  
 
     return (
         <View style={styles.container}>

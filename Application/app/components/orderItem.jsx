@@ -4,7 +4,7 @@ import Type from '../models/Type.js';
 import Items  from './items.jsx';
 
 const OrderItem = ({order , onOrderClick}) => {
-
+    console.log(order);
     const getImageSource = (type) => {
         switch (type) {
           case Type.DINE_IN:

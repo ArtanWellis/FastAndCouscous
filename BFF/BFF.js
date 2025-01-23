@@ -2,12 +2,17 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const port = 3010;
+const cors = require('cors');
+
 
 const Order = require('../Application/app/models/Order');
 let orders = [];
 let validatedOrders = [];
 // Middleware pour gérer les requêtes JSON
 app.use(express.json());
+
+app.use(cors());
+
 
 // Configuration de l'URL de l'API externe
 const API_BASE_URL = 'http://localhost:3002';
@@ -33,7 +38,6 @@ app.get('/kitchen/preparations', async (req, res) => {
             return order;
         });
 
-        console.log('Commandes récupérées:', localOrders);
 
         for(const order of localOrders){
             for(const item of order.items){
@@ -49,9 +53,8 @@ app.get('/kitchen/preparations', async (req, res) => {
             orders.push(order);
         }
 
-        console.log('Commande ajoutée:', orders);
 
-        res.status(200).json(response.data);
+        res.status(200).json(orders);
     } catch (error) {
         console.error('Erreur lors de la requête à lAPI externe:', error.message);
         if (error.response) {
@@ -64,7 +67,7 @@ app.get('/kitchen/preparations', async (req, res) => {
 
 app.get('/kitchen/validation/:id', async (req, res) => {
     const id = req.params.id;
-    console.log('id:', id);
+    console.log('commande validée :', id);
     const orderIndex = orders.findIndex(order => order.id === id);
 
     if (orderIndex !== -1) {
@@ -75,7 +78,6 @@ app.get('/kitchen/validation/:id', async (req, res) => {
             orders = orders.filter(order => order.id !== id);
 
             console.log('Commande validée:', validatedOrders);
-            console.log('Commandes restantes:', orders);
 
             res.status(200).json({ message: 'Commande validée et supprimée de la liste.' });
         } catch (error) {
@@ -93,7 +95,7 @@ app.get('/kitchen/validation/:id', async (req, res) => {
 
 app.get('/kitchen/retrieve/:id', async (req, res) => {
     const id = req.params.id;
-    console.log('id:', id);
+    console.log(' retrouver id:', id);
     const orderIndex = validatedOrders.findIndex(order => order.id === id);
     if (orderIndex !== -1) {
         const order = validatedOrders[orderIndex];

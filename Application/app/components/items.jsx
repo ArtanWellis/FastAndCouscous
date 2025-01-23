@@ -28,7 +28,6 @@ const Items = ({ items }) => {
                     <Image
                         style={{ width: 25, height: 25, resizeMode: 'contain' }}
                         source={imageMap[item.name.toLowerCase()] || require('../../assets/images/adaptive-icon.png')}
-                        // Utilise une image par défaut si le nom de l'image n'existe pas
                     />
                     <Text style={styles.Quantity}>{item.quantity}X</Text>
                     <View style={styles.WrapperIngredient}>
