@@ -1,10 +1,8 @@
 import React  ,{ useState } from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Button} from 'react-native';
-import OrderItem from '../orders';
-import renderRecipeRows from '../kitchen';
-import {RetrieveButton} from "@/app/retrieveButton";
-import {NoviceButton} from "@/app/noviceButton";
-import {RenderRecipe} from "@/app/recette";
+import {RetrieveButton} from "@/app/components/UI/retrieveButton";
+import {NoviceButton} from "@/app/components/UI/noviceButton";
+import {RenderRecipe} from "@/app/components/recette";
 import DishEmplacement from "@/app/tableTactile/dishEmplacement";
 
 //mock

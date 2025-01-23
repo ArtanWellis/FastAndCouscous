@@ -1,10 +1,10 @@
 import React , {useState} from 'react';
 import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button  } from 'react-native-elements';
-import OrderItem from './orders';
-import {RenderRecipe} from "@/app/recette";
-import {NoviceButton} from "@/app/noviceButton";
-import {RetrieveButton} from "@/app/retrieveButton";
+import OrderItem from '@/app/components/orderItem'; 
+import {RenderRecipe} from "@/app/components/recette";
+import {NoviceButton} from "@/app/components/UI/noviceButton";
+import {RetrieveButton} from "@/app/components/UI/retrieveButton";
 
 
 let initialOrders = [
@@ -47,7 +47,7 @@ let initialOrders = [
       
     ],
       PayedHour: "18h38",
-      Type : "TakeAway"
+      Type : "TAKE_AWAY"
   },
   {   
       id:352,
@@ -63,7 +63,7 @@ let initialOrders = [
           quantity: 3,
       }],
       PayedHour: "18h48",
-      Type : "DineIn"
+      Type : "DINE_IN"
   },
   {   
       id:353,
@@ -86,7 +86,7 @@ let initialOrders = [
           quantity: 5,
       }],
       PayedHour: "19h08",
-      Type : "Delivery"
+      Type : "DELIVERY"
   },
   {   
     id:354,
@@ -109,7 +109,7 @@ let initialOrders = [
         quantity: 5,
     }],
     PayedHour: "19h08",
-    Type : "Delivery"
+    Type : "DELIVERY"
 },
 {   
     id:355,
@@ -132,7 +132,7 @@ let initialOrders = [
         quantity: 5,
     }],
     PayedHour: "19h08",
-    Type : "Delivery"
+    Type : "DELIVERY"
 },
 {   
     id:356,
@@ -155,7 +155,7 @@ let initialOrders = [
         quantity: 5,
     }],
     PayedHour: "19h08",
-    Type : "Delivery"
+    Type : "DELIVERY"
 },
 ];
 

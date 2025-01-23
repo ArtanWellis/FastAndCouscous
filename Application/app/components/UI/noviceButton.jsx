@@ -22,8 +22,8 @@ export const NoviceButton = ({ isNoviceMode, setIsNoviceMode,setHiddenRecipes })
                 <Image
                     source={
                         isNoviceMode
-                            ? require('../assets/images/unlock.png')
-                            : require('../assets/images/lock.png')
+                            ? require('../../../assets/images/unlock.png')
+                            : require('../../../assets/images/lock.png')
                     }
                     style={{ width: 20, height: 20 }}
                     resizeMode="contain"

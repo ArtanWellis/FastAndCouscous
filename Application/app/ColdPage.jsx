@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import OrderItem from './orders';
+import OrderItem from '@/app/components/orderItem';
 
 const ColdPage = ({ route }) => {
     const { coldOrders } = route.params; // Récupération des commandes froides via les props de navigation

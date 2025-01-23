@@ -13,25 +13,25 @@ export const RenderRecipe = ({ item, hiddenRecipes, setHiddenRecipes} ) => {
     };
 
     const ingredientIcons = {
-        "Ketchup": require('../assets/images/ketchup.png'),
-        "Moutarde": require('../assets/images/moutarde.png'),
-        "Salade": require('../assets/images/salade.png'),
-        "Tomate": require('../assets/images/tomate.png'),
-        "Oignon": require('../assets/images/onion.png'),
-        "Cornichon": require('../assets/images/cornichon.png'),
-        "Cheddar": require('../assets/images/cheese.png'),
-        "Steak haché": require('../assets/images/steak.png'),
-        "Pain sésame haut": require('../assets/images/pain-haut.png'),
-        "Pain sésame bas": require('../assets/images/pain-bas.png'),
-        "Bacon": require('../assets/images/bacon.png'),
-        "Steak veggie": require('../assets/images/veggie.png'),
-        "Poulet pané": require('../assets/images/chicken.png'),
-        "Poisson pané": require('../assets/images/fish.png'),
-        "Tartare sauce": require('../assets/images/tartare.png'),
-        "BBQ Sauce": require('../assets/images/BBQ.png'),
-        "Onion rings": require('../assets/images/onion-rings.png'),
-        "Avocado": require('../assets/images/avocat.png'),
-        "Spicy Sauce": require('../assets/images/spicy.png'),
+        "Ketchup": require('../../assets/images/ketchup.png'),
+        "Moutarde": require('../../assets/images/moutarde.png'),
+        "Salade": require('../../assets/images/salade.png'),
+        "Tomate": require('../../assets/images/tomate.png'),
+        "Oignon": require('../../assets/images/onion.png'),
+        "Cornichon": require('../../assets/images/cornichon.png'),
+        "Cheddar": require('../../assets/images/cheese.png'),
+        "Steak haché": require('../../assets/images/steak.png'),
+        "Pain sésame haut": require('../../assets/images/pain-haut.png'),
+        "Pain sésame bas": require('../../assets/images/pain-bas.png'),
+        "Bacon": require('../../assets/images/bacon.png'),
+        "Steak veggie": require('../../assets/images/veggie.png'),
+        "Poulet pané": require('../../assets/images/chicken.png'),
+        "Poisson pané": require('../../assets/images/fish.png'),
+        "Tartare sauce": require('../../assets/images/tartare.png'),
+        "BBQ Sauce": require('../../assets/images/BBQ.png'),
+        "Onion rings": require('../../assets/images/onion-rings.png'),
+        "Avocado": require('../../assets/images/avocat.png'),
+        "Spicy Sauce": require('../../assets/images/spicy.png'),
     };
     const handleCloseRecipe = () => {
         setHiddenRecipes(prev => {
@@ -49,7 +49,7 @@ export const RenderRecipe = ({ item, hiddenRecipes, setHiddenRecipes} ) => {
                         onPress={() => handleCloseRecipe()}
                     >
                         <Image
-                            source={require('../assets/images/close.png')}
+                            source={require('../../assets/images/close.png')}
                             style={{ width: 20, height: 20 }}
                             resizeMode="contain"
                         />

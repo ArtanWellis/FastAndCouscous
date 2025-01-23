@@ -2,8 +2,8 @@ import React , {useState} from 'react';
 import {View, Image, Text, Alert, Platform, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import { Button  } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import OrderItem from './orders';
-import OrderBlurred from "@/app/orderBlurred";
+import OrderItem from '@/app/components/orderItem';
+import OrderBlurred from "@/app/components/orderBlurred";
 
 let initialOrders = [
   {
