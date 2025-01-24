@@ -17,8 +17,13 @@ const OrderItem = ({order , onOrderClick}) => {
             return require('../../assets/images/icon.png');
         }
     };        
-    if (!order) {
-      return <Text>No order provided</Text>; // Gestion des cas où la prop est undefined
+    if (!order ) {
+      return <Text>No order provided</Text>; 
+    }
+
+    const hasBurger = order.items.some(item => item.type === 'burger');
+    if (!hasBurger) {
+        return null; 
     }
     return (
       <ScrollView style={styles.OrderItem}>

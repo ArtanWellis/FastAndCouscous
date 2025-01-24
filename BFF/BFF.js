@@ -4,6 +4,77 @@ const app = express();
 const port = 3010;
 const cors = require('cors');
 
+const data = [
+    {
+        tableNumber: 1,
+        itemsToBeCooked: [
+            {
+                menuItemShortName: "cheese-burger",
+                howMany: 1
+            },
+            {
+                menuItemShortName: "bacon-burger",
+                howMany: 2
+            }
+        ]
+    },
+    {
+        tableNumber: 2,
+        itemsToBeCooked: [
+            {
+                menuItemShortName: "cheese-burger",
+                howMany: 1
+            },
+            {
+                menuItemShortName: "fish-burger",
+                howMany: 3
+            },
+            {
+                menuItemShortName: "coca-cola",
+                howMany: 3
+            },
+        ]
+    },
+    {
+        tableNumber: 3,
+        itemsToBeCooked: [
+            {
+                menuItemShortName: "cheese-burger",
+                howMany: 1
+            },
+            {
+                menuItemShortName: "nuggets-x6",
+                howMany: 3
+            },
+            {
+                menuItemShortName: "moyenne-frites",
+                howMany: 3
+            },
+        ]
+    },
+    {
+        tableNumber: 4,
+        itemsToBeCooked: [
+            {
+                menuItemShortName: "veggie-burger",
+                howMany: 1
+            }
+        ]
+    },
+    
+
+]
+
+const burgerRecipes = {
+    "cheese-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+    "bacon-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Bacon", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+    "double-cheese-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak haché", "Cheddar", "Steak haché", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 5min"],
+    "veggie-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Steak veggie", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson steak : 7min"],
+    "chicken-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poulet pané", "Ketchup", "Moutarde", "Pain sésame bas", "Temps cuisson poulet : 8min"],
+    "fish-burger": ["Pain sésame haut", "Salade", "Tomate", "Oignon", "Cornichon", "Cheddar", "Poisson pané", "Tartare sauce", "Pain sésame bas", "Temps cuisson poisson : 6min"],
+    "bbq-burger": ["Pain sésame haut", "Salade", "Tomate", "Onion rings", "Cornichon", "Cheddar", "Steak haché", "BBQ Sauce", "Pain sésame bas", "Temps cuisson steak : 5min"],
+};
+
 
 const Order = require('../Application/app/models/Order');
 let orders = [];
@@ -50,8 +121,14 @@ app.get('/kitchen/preparations', async (req, res) => {
                     console.error(`Erreur lors de la récupération des ingrédients pour l'item ${item.id}:`, error.message);
                 }
             }
-            orders.push(order);
+            const hasBurger = order.items.some(item => item.type === 'burger');
+            if (hasBurger) {
+                orders.push(order);
+            } else {
+                validatedOrders.push(order);
+            }
         }
+
 
 
         res.status(200).json(orders);
@@ -67,17 +144,18 @@ app.get('/kitchen/preparations', async (req, res) => {
 
 app.get('/kitchen/validation/:id', async (req, res) => {
     const id = req.params.id;
-    console.log('commande validée :', id);
+    console.log('commande validée : ', id);
     const orderIndex = orders.findIndex(order => order.id === id);
 
     if (orderIndex !== -1) {
         try {
+            
+            console.log("validation ",orders[orderIndex]);
 
             validatedOrders.push(orders[orderIndex]);
 
             orders = orders.filter(order => order.id !== id);
 
-            console.log('Commande validée:', validatedOrders);
 
             res.status(200).json({ message: 'Commande validée et supprimée de la liste.' });
         } catch (error) {
@@ -108,8 +186,18 @@ app.get('/kitchen/retrieve/:id', async (req, res) => {
 });
 
 
+app.get('/kitchen/createDB/', async (req, res) => {
+    try {
+        for (const item of data) {
+            const response = await axios.post(`${API_BASE_URL}/preparations`, item);
+            console.log('Données initiales récupérées:', response.data);
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données initiales:', error.message);
+    }
+});
 
 // Démarrage du serveur
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`BFF en cours d'exécution sur http://localhost:${port}`);
 });

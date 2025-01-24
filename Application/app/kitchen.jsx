@@ -24,9 +24,8 @@ const Kitchen = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('http://'+ip+':3010/kitchen/preparations');
-            console.log(response.data);
-            console.log('Commandes récupérées:', response.data[0]);
+            const response = await axios.get('http://' + ip + ':3010/kitchen/preparations');
+            console.log('Commandes récupérées:', response.data);
             setOrders(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des commandes:', error.message);

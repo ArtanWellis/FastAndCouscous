@@ -23,7 +23,7 @@ const imageMap = {
 const Items = ({ items }) => {
     return (
         <View>
-            {items.map((item, key) => (
+            {items.filter(item => item.type === 'burger').map((item, key) => (
                 <View style={styles.items} key={item.id}>
                     <Image
                         style={{ width: 25, height: 25, resizeMode: 'contain' }}
