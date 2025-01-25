@@ -1,11 +1,12 @@
 import React  ,{ useState } from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Button} from 'react-native';
-import OrderItem from '../orders';
+import OrderItem, {Items} from '../orders';
 import renderRecipeRows from '../kitchen';
 import {RetrieveButton} from "@/app/retrieveButton";
 import {NoviceButton} from "@/app/noviceButton";
 import {RenderRecipe} from "@/app/recette";
 import DishEmplacement from "@/app/tableTactile/dishEmplacement";
+import KitchenEmplacement from "@/app/KitchenEmplacement";
 
 //mock
 let initialOrders = [
@@ -160,36 +161,22 @@ let initialOrders = [
     },
 ];
 
-const CookEmplacement = () =>{
+const CookEmplacement = ({order,orderList,onOrderFinish, onEmptyClicked}) =>{
     const [orders, setOrders] = useState(initialOrders);
     const [orderIndex, setOrderIndex] = useState(0);
-    const retrieveLastItem = () => {console.log("retrieveLastItem");}
+
     const [isNoviceMode, setIsNoviceMode] = useState(true);
     const [hiddenRecipes, setHiddenRecipes] = useState(new Set());
-    return(<View style={styles.container}>
-        <View style={styles.TodoDish}>
-            <View style={styles.ButtonContainer}>
-                <RetrieveButton retrieveFunction={retrieveLastItem} text={"Récupérer le dernier plat"}/>
-                <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} setHiddenRecipes={setHiddenRecipes}/>
-            </View>
-            <View style={styles.DishEmplacements}>
-                <View>
-                    <DishEmplacement/>
-                </View>
-            </View>
-        </View>
+    return(<View style={styles.container} >
+        <KitchenEmplacement onEmptyClicked={onEmptyClicked}
+                            firstOrder={order} orderList={orderList} noviceActive={false} onOrderFinish={onOrderFinish}/>
         <View style={styles.RecipesContainer}>
-            {orders[2].items.map((item, index) => (
-                <View style={styles.ARecipe}>
-
-                    <RenderRecipe  item={item} hiddenRecipes ={hiddenRecipes}
-                                   setHiddenRecipes = {setHiddenRecipes}/>
-
-                    <Button title={"Valider le plat"}/>
-
-                </View>
+            <ScrollView horizontal  contentContainerStyle={styles.scrollContainer}     showsHorizontalScrollIndicator={false}>
+            {order?.items.map((item, index) => (
+                <RenderRecipe  item={item} hiddenRecipes ={hiddenRecipes}
+                               setHiddenRecipes = {setHiddenRecipes}/>
             ))}
-
+            </ScrollView>
         </View>
     </View>);
 };
@@ -217,11 +204,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#F0CA81',
         padding: 10,},
 
-    RecipesContainer:{
-        flex:0.7,
-        flexDirection:'row',
-        justifyContent:"space-evenly"
-
+    RecipesContainer: {
+        flex: 1,
+        width:800,
+        justifyContent: "flex-start", // aligne le contenu en haut
+    },
+    scrollContainer: {
+        flexDirection:"row",
+        flexGrow: 1,
+        paddingHorizontal: 10, // pour un peu d'espacement
+        flexWrap:"nowrap"
     },
     ARecipe:{
         gap :10,

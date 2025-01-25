@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet,View,Text,Image,TouchableOpacity, ScrollView} from 'react-native';
+import {useDraggable} from "@dnd-kit/core";
 
 const getImageSource = (type) => {
   switch (type) {
@@ -41,13 +42,13 @@ const OrderItem = ({order , onOrderClick}) => {
         <View style={styles.upOrder}>
           <Text style={[styles.textOrder]}>Commande #{order.id}</Text>
           <Text style={[styles.textOrder ,{ color : "#797B7E"}]}>Payée à {order.PayedHour}</Text>
-          <Image 
+          <Image
             style={{width: 25, height: 25}}
             source = {(getImageSource(order.Type))}
           />
         </View>
         <View style={styles.bottomOrder}>
-          <Items items={order.items}/>  
+          <Items items={order.items}/>
         </View>
       </TouchableOpacity>
     </ScrollView>
@@ -58,22 +59,26 @@ const Items = ({ items }) => {
     return (
         <View>
             {items.map((item, key) => (
-                <View style={styles.Items} key={item.id}>
-                    <Image
-                        style={{ width: 25, height: 25, resizeMode: 'contain' }}
-                        source={imageMap[item.name.toLowerCase()] || require('../assets/images/adaptive-icon.png')}
-                        // Utilise une image par défaut si le nom de l'image n'existe pas
-                    />
-                    <Text style={styles.Quantity}>{item.quantity}X</Text>
-                    <View style={styles.WrapperIngredient}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
-                        <Ingredients ingredients={item.Ingredients} />
-                    </View>
-                </View>
+                <Item item={item}/>
             ))}
         </View>
     );
 };
+
+const Item = ({item}) =>{
+    return (   <View style={styles.Items} key={item.id}>
+        <Image
+            style={{ width: 25, height: 25, resizeMode: 'contain' }}
+            source={imageMap[item.name.toLowerCase()] || require('../assets/images/adaptive-icon.png')}
+            // Utilise une image par défaut si le nom de l'image n'existe pas
+        />
+        <Text style={styles.Quantity}>{item.quantity}X</Text>
+        <View style={styles.WrapperIngredient}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+            <Ingredients ingredients={item.Ingredients} />
+        </View>
+    </View>);
+}
 
 function Ingredients({ ingredients }) {
   if(!ingredients){
@@ -100,12 +105,12 @@ function Ingredients({ ingredients }) {
 
 const styles = StyleSheet.create({
     OrderItem:{
-      backgroundColor: '#FFFEEB', 
+      backgroundColor: '#FFFEEB',
       marginBottom:20,
       borderRadius: 10,
       width:'100%',
       height:'100%',
-      
+
     },
     upOrder:{
       flex:0.05,
@@ -114,10 +119,10 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       padding:10,
       borderBottomWidth: 1,
-      borderBottomColor: '#B0B0B0', 
+      borderBottomColor: '#B0B0B0',
     },
     textOrder:{
-      flex:0.49, 
+      flex:0.49,
       fontSize: 10,
       fontWeight: 'bold',
     },
@@ -126,10 +131,10 @@ const styles = StyleSheet.create({
       padding:10,
     },
     Items:{
-      flexDirection: 'row', 
+      flexDirection: 'row',
       justifyContent: 'space-around',
       borderBottomWidth: 1,
-      borderBottomColor: '#E3E3E3', 
+      borderBottomColor: '#E3E3E3',
     },
     WrapperIngredient:{
         flex:0.5,
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
     },
     ingredient: {
       fontWeight: 'bold',
-      
+
     },
     ingredientItem: {
       flexDirection: 'row',
@@ -154,6 +159,6 @@ const styles = StyleSheet.create({
       color: 'red',
     }
   });
-  
+
 export default OrderItem;
 export {Items,Ingredients};
