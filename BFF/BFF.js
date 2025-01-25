@@ -79,6 +79,7 @@ const burgerRecipes = {
 const Order = require('../Application/app/models/Order');
 let orders = [];
 let validatedOrders = [];
+let finishedOrders = [];
 // Middleware pour gérer les requêtes JSON
 app.use(express.json());
 
@@ -99,7 +100,9 @@ app.get('/kitchen/preparations', async (req, res) => {
         });
         const filteredPreparations = response.data.filter(preparation => 
             !validatedOrders.find(order => order.id === preparation._id)&&
-            !orders.find(order => order.id === preparation._id)
+            !orders.find(order => order.id === preparation._id)&&
+            !finishedOrders.find(order => order.id === preparation._id)
+
         );
 
         const localOrders = filteredPreparations.map(preparation => {
@@ -128,9 +131,6 @@ app.get('/kitchen/preparations', async (req, res) => {
                 validatedOrders.push(order);
             }
         }
-
-
-
         res.status(200).json(orders);
     } catch (error) {
         console.error('Erreur lors de la requête à lAPI externe:', error.message);
@@ -141,6 +141,7 @@ app.get('/kitchen/preparations', async (req, res) => {
         }
     }
 });
+
 
 app.get('/kitchen/validation/:id', async (req, res) => {
     const id = req.params.id;
@@ -171,6 +172,58 @@ app.get('/kitchen/validation/:id', async (req, res) => {
     }
 });
 
+
+app.get('/rush/validated', async (req, res) => {
+    try{
+        res.status(200).json(validatedOrders);
+    }catch (error) {
+        console.error('Erreur lors de la requête à lAPI externe:', error.message);
+        if (error.response) {
+            res.status(error.response.status).json({ error: error.response.data });
+        } else {
+            res.status(500).json({ error: 'Erreur interne du serveur.' });
+        }
+    }
+
+
+});
+
+app.get('/rush/finish/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log('commande finished : ', id);
+
+    const orderIndex = validatedOrders.findIndex(order => order.id === id);
+
+    if (orderIndex !== -1) {
+        try {
+            const finishedOrder = validatedOrders[orderIndex]; // Extraire l'ordre avant modification
+            console.log("finished ", finishedOrder);
+
+            // Ajouter dans finishedOrders
+            finishedOrders.push(finishedOrder);
+
+            // Supprimer de validatedOrders
+            validatedOrders = validatedOrders.filter(order => order.id !== id);
+
+            // Logs après mutation
+            console.log("validatedOrders après suppression :", validatedOrders);
+            console.log("finishedOrders après ajout :", finishedOrders);
+
+            res.status(200).json({ message: 'Commande finie et supprimée de la liste.' });
+        } catch (error) {
+            console.error('Erreur lors de la validation de la commande:', error.message);
+            if (error.response) {
+                res.status(error.response.status).json({ error: error.response.data });
+            } else {
+                res.status(500).json({ error: 'Erreur interne du serveur.' });
+            }
+        }
+    } else {
+        res.status(404).json({ error: 'Commande non trouvée.' });
+    }
+});
+
+
 app.get('/kitchen/retrieve/:id', async (req, res) => {
     const id = req.params.id;
     console.log(' retrouver id:', id);
@@ -184,6 +237,18 @@ app.get('/kitchen/retrieve/:id', async (req, res) => {
         res.status(404).json({ error: 'Commande non trouvée.' });
     }
 });
+
+app.get('/kitchen/recipes/', async (req, res) => {
+    try {
+        res.status(200).json(burgerRecipes);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des données initiales:', error.message);
+        res.status(500).json({ error: 'Erreur serveur lors de la récupération des recettes' });
+    }
+});
+
+
+
 
 
 app.get('/kitchen/createDB/', async (req, res) => {
