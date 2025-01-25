@@ -1,5 +1,5 @@
-import React  ,{ useState } from 'react';
-import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
+import React  ,{ useState , useEffect} from 'react';
+import { View, Text, StyleSheet, Alert, ScrollView,TouchableOpacity, Switch  } from 'react-native';
 import OrderItem from './orders';
 
 
@@ -36,7 +36,47 @@ const Comptoir = () => {
   };
 
 
-  const toggleRushMode = () => {
+  // Créer une commande aléatoire toutes les 10 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newOrder = {
+        id: Math.floor(Math.random() * 1000), // ID aléatoire pour la commande
+        items: [
+          { name: "CheeseBurger", quantity: 1, category: "hot" },
+          { name: "Coca", quantity: 1, category: "cold" }
+        ],
+        PayedHour: new Date().toLocaleTimeString(),
+        Type: "DineIn"
+      };
+      setOrders(prevOrders => [...prevOrders, newOrder]);
+
+      // Vérifier si le mode rush doit être activé
+      if (orders.length >= 5 && !isRushMode) {
+        setIsRushMode(true);
+        // Afficher une alerte pour signaler que le mode rush a été activé
+        Alert.alert(
+            "Mode Rush Activé!",
+            "Il y a plus de 5 commandes. Le mode rush est maintenant activé.",
+            [{ text: "OK", onPress: () => console.log("Rush Mode Activated") }]
+        );
+        openColdWindow();
+      }
+    }, 5000); // Ajoute une commande toutes les 10 secondes
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
+  }, [orders, isRushMode]);
+
+
+  // const displayedOrders = isRushMode
+  //     ? orders.map(order => ({
+  //       ...order,
+  //       items: order.items.filter(item => item.category === "hot"),
+  //     })).filter(order => order.items.length > 0)
+  //     : orders;
+
+
+  const openColdWindow = () => {
     if (!isRushMode) {
       // Séparer les plats froids
       const coldItems = orders.map((order) => ({
@@ -203,7 +243,7 @@ const Comptoir = () => {
         <Text style={styles.switchLabel}>Mode Rush</Text>
         <Switch
           value={isRushMode}
-          onValueChange={toggleRushMode}
+          onValueChange={() => {}}
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={isRushMode ? "#007AFF" : "#f4f3f4"}
         />
