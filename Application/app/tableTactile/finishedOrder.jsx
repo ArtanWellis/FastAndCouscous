@@ -37,10 +37,12 @@ const OrderTable = ({ order, finished = true ,onOrderItemClicked}) => {
                 </View>
             )}
 
-            <TouchableOpacity style={styles.container} onPress={handleNormalClick}>
+            <TouchableOpacity style={styles.container} onPress={ ()=>{if(!finished)
+                handleNormalClick()}}>
                 {/* Partie haute (flip) */}
                 {!finished ? (
-                    <TouchableOpacity onPress={handleFlipClick}>
+                    <TouchableOpacity onPress={()=>{if(!finished)
+                        handleFlipClick()}}>
                         <View>
                             <Text style={styles.textFlip}>Burger : x{totalQuantity}</Text>
                             <Text style={styles.textFlip}>Burger différents : x{order.items.length}</Text>

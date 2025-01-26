@@ -13,7 +13,7 @@ const FinishedOrdersList = ({ orders }) => {
             <FlatList
                 data={orders}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <OrderTable order={item} />}
+                renderItem={({ item }) => <OrderTable order={item} finished={true} />}
                 numColumns={2} // Afficher en 2 colonnes
                 contentContainerStyle={styles.list}
             />

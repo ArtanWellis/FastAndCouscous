@@ -157,7 +157,7 @@ let initialOrders = [
     },
 ];
 
-const CookEmplacement = ({order,orderList,onOrderFinish, onEmptyClicked}) =>{
+const CookEmplacement = ({order,orderList,onOrderFinish, onEmptyClicked, onOrderRetrive}) =>{
     const [orders, setOrders] = useState(initialOrders);
     const [orderIndex, setOrderIndex] = useState(0);
 
@@ -165,7 +165,7 @@ const CookEmplacement = ({order,orderList,onOrderFinish, onEmptyClicked}) =>{
     const [hiddenRecipes, setHiddenRecipes] = useState(new Set());
     return(<View style={styles.container} >
         <KitchenEmplacement onEmptyClicked={onEmptyClicked}
-                            firstOrder={order} orderList={orderList} noviceActive={false} onOrderFinish={onOrderFinish}/>
+                            firstOrder={order} orderList={orderList} noviceActive={false} onOrderFinish={onOrderFinish} onOrderRetrieve={onOrderRetrive}/>
         <View style={styles.RecipesContainer}>
             <ScrollView horizontal  contentContainerStyle={styles.scrollContainer}     showsHorizontalScrollIndicator={false}>
             {order?.items.map((item, index) => (

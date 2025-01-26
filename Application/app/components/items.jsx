@@ -20,10 +20,10 @@ const imageMap = {
     "burger-bacon": require('../../assets/images/burger bacon.png'),
 };
 
-const Items = ({ items }) => {
+const Items = ({ items, type }) => {
     return (
         <View>
-            {items.filter(item => item.type === 'burger').map((item, key) => (
+            {items.filter(item => type === "complet" || item.type === type).map((item, key) => (
                 <View style={styles.items} key={item.id}>
                     <Image
                         style={{ width: 25, height: 25, resizeMode: 'contain' }}

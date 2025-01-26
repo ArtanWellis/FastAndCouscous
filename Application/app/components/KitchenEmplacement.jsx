@@ -73,7 +73,7 @@ const KitchenEmplacement = ({onEmptyClicked,firstOrder,orderList,onOrderFinish,o
                     <ScrollView style={styles.recipeScroll} showsVerticalScrollIndicator={true}>
 
                         <View key={firstOrder.id} style={styles.recipeFlex}>
-                            {orders[orderIndex].items.map((item, index) => (
+                            {firstOrder.items.map((item, index) => (
                                 <View key={index} style={styles.recipeItem}>
                                     <RenderRecipe  item={item} hiddenRecipes ={hiddenRecipes}
                                                    setHiddenRecipes = {setHiddenRecipes}/>

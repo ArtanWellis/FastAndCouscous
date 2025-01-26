@@ -1,4 +1,4 @@
-import React  ,{ useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
 import OrderItem from '@/app/components/orderItem';
 import axios from 'axios';
@@ -8,52 +8,40 @@ import config from '@/config';
 const ip = config.serverIp;
 
 
-const initialOrders = [
-  {
-    id: 351,
-    items: [
-      { name: "Cheese Burger", quantity: 2, category: "hot"},
-      { name: "Moyenne frites", quantity: 1,category: "hot" },
-      { name: "Coca Cola", quantity: 1,category: "cold" },
-    ],
-    PayedHour: "18h38",
-    Type: "DineIn"
-  },
-  {
-    id: 352,
-    items: [
-      { name: "Nuggets x6", quantity: 1, category: "hot"  },
-      { name: "Salade cesar", quantity: 1, category: "cold" },
-      { name: "Jus d'orange", quantity: 1, category: "cold" },
-    ],
-    PayedHour: "18h48",
-    Type: "DineIn"
-  },
-];
+
 
 const Comptoir = () => {
-    const [orders, setOrders] = useState(initialOrders);
+    const [orders, setOrders] = useState([]);
     const [isRushMode, setIsRushMode] = useState(false);
     const [coldWindow, setColdWindow] = useState(null);
-
+    const pendingValidationIds = new Set();
 
       const fetchOrders = async () => {
           try {
-              const response = await axios.get('http://' + ip + ':3010/kitchen/preparations');
+              const response = await axios.get('http://' + ip + ':3010/rush/validated');
               console.log('Commandes récupérées:', response.data);
               setOrders(response.data);
           } catch (error) {
               console.error('Erreur lors de la récupération des commandes:', error.message);
           }
       };
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const handleValidate =async (id) => {
-    try {
-      await axios.get('http://' + ip + `:3010/kitchen/validation/${id}`);
-      setOrders(orders.filter((order) => order.id !== id));
-    } catch (error) {
-      console.error('Erreur lors de la validation de la commande :', error.message);
+    if(!isRushMode || pendingValidationIds.has(id)) {
+      try {
+        await axios.get('http://' + ip + `:3010/rush/finish/${id}`);
+        pendingValidationIds.delete(id);
+        setOrders(orders.filter((order) => order.id !== id));
+      } catch (error) {
+        console.error('Erreur lors de la validation de la commande :', error.message);
+      }
+    } else {
+      pendingValidationIds.add(id);
     }
+
   };
 
 
@@ -63,7 +51,7 @@ const Comptoir = () => {
       try {
         const response = await axios.get('http://' + ip + ':3010/rush/validated');
         const coldItems = response.data.filter((order) =>
-          order.items.some((item) => item.category === 'cold')
+          order.items.some((item) => item.category === 'COLD_DISH')
         );
 
       const stylesCSS = `
@@ -209,7 +197,7 @@ const Comptoir = () => {
   const displayedOrders = isRushMode
   ? orders.map(order => ({
       ...order,
-      items: order.items.filter(item => item.category === "hot"),
+      items: order.items.filter(item => item.category === "HOT_DISH"),
     })).filter(order => order.items.length > 0)
   : orders; // Afficher toutes les commandes si le mode rush est désactivé
 
@@ -236,7 +224,7 @@ const Comptoir = () => {
       <ScrollView contentContainerStyle={styles.ordersContainer}>
          {displayedOrders.map((order) => (
           <View key={order.id} style={styles.orderCard}>
-            <OrderItem order={order} />
+            <OrderItem order={order} onOrderClick={()=>{}} type={"complet"} />
             <TouchableOpacity
               style={styles.validateButton}
               onPress={() => handleValidate(order.id)}

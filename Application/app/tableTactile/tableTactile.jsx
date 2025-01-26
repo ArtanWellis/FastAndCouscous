@@ -311,10 +311,14 @@ const Table = () =>{
     }
     const handleRetrieveOrder= (newOrders) =>{
         setOrders(newOrders);
+        const filteredOrders = finishedOrders.filter(order =>
+            !newOrders.some(finishedOrder => finishedOrder.id === order.id)
+        );
+        setFinishedOrders(filteredOrders);
 
     }
     return(
-        <View style={{flex:1, justifyContent:"space-between", }}>
+        <View style={{flex:1, justifyContent:"space-between" }}>
         <View style={styles.cookUp}>
             <View style={{maxWidth:"50%"}} >
 

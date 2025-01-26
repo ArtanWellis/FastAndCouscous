@@ -14,7 +14,7 @@ const OrdersEmplacement = ({orders, onOrderClick}) => {
                     key={order.id}
                     order={order}
                     finished={false}
-                    onOrderItemClicked={() => {onOrderClick(order)}}
+                    onOrderItemClicked={() => { onOrderClick(order)}}
                 />
             ))}
         </View>

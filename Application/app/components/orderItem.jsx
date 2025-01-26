@@ -3,8 +3,8 @@ import {StyleSheet,View,Text,Image,TouchableOpacity, ScrollView} from 'react-nat
 import Type from '../models/Type.js';
 import Items  from './items.jsx';
 
-const OrderItem = ({order , onOrderClick}) => {
-    console.log(order);
+const OrderItem = ({order , onOrderClick, type = "burger"}) => {
+    //console.log(order);
     const getImageSource = (type) => {
         switch (type) {
           case Type.DINE_IN:
@@ -20,10 +20,11 @@ const OrderItem = ({order , onOrderClick}) => {
     if (!order ) {
       return <Text>No order provided</Text>; 
     }
-
-    const hasBurger = order.items.some(item => item.type === 'burger');
-    if (!hasBurger) {
-        return null; 
+    if(type == "burger") {
+        const hasBurger = order.items.some(item => item.type === 'burger');
+        if (!hasBurger) {
+            return null;
+        }
     }
     return (
       <ScrollView style={styles.OrderItem}>
@@ -38,7 +39,7 @@ const OrderItem = ({order , onOrderClick}) => {
             />
           </View>
           <View style={styles.bottomOrder}>
-            <Items items={order.items}/>  
+            <Items items={order.items} type={type}/>
           </View>
         </TouchableOpacity>
       </ScrollView>
