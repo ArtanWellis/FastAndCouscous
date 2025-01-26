@@ -1,6 +1,11 @@
 import React  ,{ useState } from 'react';
 import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
 import OrderItem from '@/app/components/orderItem';
+import axios from 'axios';
+import config from '@/config';
+
+
+const ip = config.serverIp;
 
 
 const initialOrders = [
@@ -31,18 +36,35 @@ const Comptoir = () => {
     const [isRushMode, setIsRushMode] = useState(false);
     const [coldWindow, setColdWindow] = useState(null);
 
-  const handleValidate = (id) => {
-    setOrders(orders.filter(order => order.id !== id));
+
+      const fetchOrders = async () => {
+          try {
+              const response = await axios.get('http://' + ip + ':3010/kitchen/preparations');
+              console.log('Commandes récupérées:', response.data);
+              setOrders(response.data);
+          } catch (error) {
+              console.error('Erreur lors de la récupération des commandes:', error.message);
+          }
+      };
+
+  const handleValidate =async (id) => {
+    try {
+      await axios.get('http://' + ip + `:3010/kitchen/validation/${id}`);
+      setOrders(orders.filter((order) => order.id !== id));
+    } catch (error) {
+      console.error('Erreur lors de la validation de la commande :', error.message);
+    }
   };
 
 
-  const toggleRushMode = () => {
+  const toggleRushMode =async () => {
     if (!isRushMode) {
       // Séparer les plats froids
-      const coldItems = orders.map((order) => ({
-        ...order,
-        items: order.items.filter((item) => item.category === "cold"),
-      })).filter((order) => order.items.length > 0);
+      try {
+        const response = await axios.get('http://' + ip + ':3010/rush/validated');
+        const coldItems = response.data.filter((order) =>
+          order.items.some((item) => item.category === 'cold')
+        );
 
       const stylesCSS = `
       body {
@@ -170,6 +192,9 @@ const Comptoir = () => {
       </html>
     `);
       setColdWindow(newWindow);
+    } catch (error) {
+      console.error('Erreur lors du basculement en mode rush :', error.message);
+    }
     } else {
       // Fermer la fenêtre ouverte
       if (coldWindow) {
