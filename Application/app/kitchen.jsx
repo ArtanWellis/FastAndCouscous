@@ -1,12 +1,15 @@
+
 import React , {useState, useEffect} from 'react';
 import axios from 'axios';
-import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, Alert, ScrollView, StyleSheet, TouchableOpacity,Modal } from 'react-native';
 import { Button  } from 'react-native-elements';
 import OrderItem from '@/app/components/orderItem'; 
 import {RenderRecipe} from "@/app/components/recette";
 import {NoviceButton} from "@/app/components/UI/noviceButton";
 import {RetrieveButton} from "@/app/components/UI/retrieveButton";
 import config from '@/config';
+import KitchenEmplacement from "@/app/components/KitchenEmplacement";
+
 
 
 const ip = config.serverIp;
@@ -17,16 +20,39 @@ const Kitchen = () => {
     const [isNoviceMode, setIsNoviceMode] = useState(false);
     const [orderIndex, setOrderIndex] = useState(0);
     const [hiddenRecipes, setHiddenRecipes] = useState(new Set());
-    const firstOrder = orders[0];
+    const [firstOrder, setFirstOrder] = useState(orders[0]);
+    const [isIntervalRunning, setIsIntervalRunning] = useState(false);
     const waitingOrders = orders.slice(1, 4);
     
     let nbLeft = orders.length - 4 > 0 ? orders.length - 4 : 0;
+    const [isRushMode, setIsRushMode] = useState(false);
+    const generateRandomOrder = () => {
+        const burgerTypes = [
+            "cheese-burger", "bacon-burger", "veggie-burger",
+            "chicken-burger", "fish-burger", "bbq-burger",
+            "double-cheese-burger"
+        ];
+        const orderTypes = ["TakeAway", "DineIn", "Delivery"];
 
+
+        const newOrder = {
+            id: orders.length + 350,
+            items: Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () => ({
+                name: burgerTypes[Math.floor(Math.random() * burgerTypes.length)],
+                type:"burger",
+                quantity: Math.floor(Math.random() * 3) + 1,
+                })),
+            PayedHour: `${Math.floor(Math.random() * 24)}h${Math.floor(Math.random() * 60).toString().padStart(2, '0')}`,
+            Type: orderTypes[Math.floor(Math.random() * orderTypes.length)]
+        };
+        return newOrder;
+    };
     const fetchOrders = async () => {
         try {
             const response = await axios.get('http://' + ip + ':3010/kitchen/preparations');
             console.log('Commandes récupérées:', response.data);
             setOrders(response.data);
+            setFirstOrder(response.data[0])
         } catch (error) {
             console.error('Erreur lors de la récupération des commandes:', error.message);
         }
@@ -42,6 +68,7 @@ const Kitchen = () => {
                 const response = await axios.get('http://'+ip+':3010/kitchen/retrieve/' + lastOrder.id);
                 console.log('Commande validée:', response.data);
                 fetchOrders();
+                //handleOrderRetrieve();
             } catch (error) {
                 console.error('Erreur lors de la validation de la commande:', error.message);
             }
@@ -54,6 +81,7 @@ const Kitchen = () => {
             setLastOrder(firstOrder);
             setHiddenRecipes(new Set());
             fetchOrders();
+            handleOrderFinish();
             try {
                 const response = await axios.get('http://'+ip+':3010/kitchen/validation/' + firstOrder.id);
                 console.log('Commande validée:', response.data);
@@ -63,17 +91,33 @@ const Kitchen = () => {
         }
     };
 
-    const handleCloseRecipe = (orderIndex, itemIndex) => {
-        const recipeId = `${orders[orderIndex]?.id}-${itemIndex}`;
-        setHiddenRecipes(prev => {
-            const newHidden = new Set(prev);
-            newHidden.add(recipeId);
-            return newHidden;
-        });
+
+    const startOrderInterval = () => {
+        if (!isIntervalRunning) {
+            setIsIntervalRunning(true);
+
+            const orderInterval = setInterval(() => {
+                setOrders((prevOrders) => {
+                    const newOrders = [...prevOrders, generateRandomOrder()];
+                    setFirstOrder(newOrders[0]);
+                    if (newOrders.length >= 10) {
+                        setIsRushMode(true);
+                        clearInterval(orderInterval);
+                        setIsIntervalRunning(false); // Arrête l'intervalle quand rush mode est atteint
+                    }
+                    return newOrders;
+                });
+            }, 3000);
+
+            // Nettoyage si le composant est démonté
+            return () => clearInterval(orderInterval);
+        }
     };
 
     const handleOrderClick = (order) => {
+
         if (order == firstOrder) return;
+
 
         Alert.alert(
             "Confirmer l'action",
@@ -86,94 +130,99 @@ const Kitchen = () => {
                 {
                     text: "Confirmer",
                     onPress: () => {
-                        const index = orders.findIndex(o => o.id === order.id);
+                        const newOrders = [...orders];
+                        const index = newOrders.findIndex(o => o.id === order.id);
+
                         if (index !== -1) {
-                            const newOrders = [...orders];
-                            newOrders[0] = order;
-                            newOrders[index] = firstOrder;
-                            setOrders(newOrders);
+                            // Swap the orders
+                            [newOrders[0], newOrders[index]] = [newOrders[index], newOrders[0]];
+
+                            // Update both orders and firstOrder
+                            setOrders([...newOrders]);
+                            setFirstOrder(newOrders[0]); // Explicitly update firstOrder
                         }
                     }
                 }
             ]
         );
     };
-   
-  
+
+
+
+    const handleOrderFinish = () => {
+        const newOrders = orders.slice(1);
+        setOrders(newOrders);
+        setFirstOrder(newOrders[0] || null);
+    };
+
 
     return (
         <View style={styles.container}>
-            <View style={[
-                styles.InProgress,
-                isNoviceMode ? { flex: 0.6 } : { flex: 0.5}
-            ]}>
-                <View style={styles.ButtonDiv}>
-                    <View style={styles.ButtonWrapper}>
-                       <RetrieveButton retrieveFunction={retrieveLastOrder} text={"Récupérer la dernière commande"}/>
-                    </View>
-                    <View style={styles.ButtonWrapper}>
-                        <NoviceButton isNoviceMode={isNoviceMode} setIsNoviceMode={setIsNoviceMode} setHiddenRecipes={setHiddenRecipes} />
-
-                    </View>
-                </View>
-                <View style={styles.firstOrder}>
-                    <View style={styles.TextWrapper}>
-                        <Text style={styles.Text}>EN COURS</Text>
-                    </View>
-                    <View style={styles.orderAndRecipe}>
-                        <View style={[
-                            styles.OrderItem,
-                            isNoviceMode ? styles.OrderItemPartial : styles.OrderItemFull
-                        ]}>
-                            <OrderItem order={firstOrder} onOrderClick={handleOrderClick} />
-                        </View>
-                        {isNoviceMode && (
-                            <View style={styles.recipeContainer}>
-                                <Text style={styles.recipeTitle}>Recettes :</Text>
-                                <ScrollView style={styles.recipeScroll} showsVerticalScrollIndicator={true}>
-
-                                        <View key={orders[orderIndex].id} style={styles.recipeFlex}>
-                                            {orders[orderIndex].items.map((item, index) => (
-                                                <View key={index} style={styles.recipeItem}>
-                                            <RenderRecipe  item={item} hiddenRecipes ={hiddenRecipes}
-                                                           setHiddenRecipes = {setHiddenRecipes}/>
-
-                                                </View>))}
-                                        </View>
-                                    </ScrollView>
-                            </View>
-                        )}
-                    </View>
-                    <View style={styles.BottomButton}>
-                        <Button
-                            onPress={handleSuppOrder}
-                            buttonStyle={[styles.Button, { backgroundColor: '#87B6A1' }]}
-                            title='Terminer la commande'
-                            titleStyle={[styles.titleStyle, { fontSize: 15 }]}
-                        />
-                    </View>
-                </View>
-            </View>
+            <KitchenEmplacement onEmptyClicked={()=>{}} firstOrder={firstOrder} orderList={orders} onOrderFinish={handleSuppOrder} onOrderRetrieve={retrieveLastOrder}/>
 
             <View style={[
                 styles.Waiting,
-                isNoviceMode ? { flex: 0.4 } : { flex: 0.5 }
+                isNoviceMode ? {flex: 0.4} : {flex: 0.5}
             ]}>
                 <View style={styles.OrdersWrapper}>
                     {waitingOrders.map((order, index) => (
-                        <OrderItem key={index} order={order} onOrderClick={handleOrderClick} />
+                        <OrderItem key={index} order={order} onOrderClick={handleOrderClick}/>
                     ))}
 
                 </View>
                 <Text style={styles.nbLeft}>
                     Nombre de commande restantes : {nbLeft} / {orders.length}
                 </Text>
+                <button
+                    onClick={startOrderInterval}
+                    disabled={isIntervalRunning}
+                    style={{
+                        padding: "10px 20px",
+                        backgroundColor: isIntervalRunning ? "#ccc" : "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: isIntervalRunning ? "not-allowed" : "pointer",
+                    }}
+                >
+                    {isIntervalRunning ? "Interval Running..." : "Start Orders"}
+                </button>
             </View>
+            <Modal
+                transparent={true}
+                visible={isRushMode}
+                animationType="fade"
+            >
+                <View style={styles.rushModeOverlay}>
+                    <View style={styles.rushModeContainer}>
+                        <Text style={styles.rushModeText}>Mode Rush - Allez sur la table !</Text>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    rushModeOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    rushModeContainer: {
+        backgroundColor: 'red',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    rushModeText: {
+        color: 'white',
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
     container: {
         margin: 20,
         flex: 1,
