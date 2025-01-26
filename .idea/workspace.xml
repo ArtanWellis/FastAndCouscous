@@ -6,17 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ab6ea27b-42c7-45f6-83aa-16ba6d642b41" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/components/KitchenEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/KitchenEmplacement.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/app/components/items.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/items.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/components/orderBlurred.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/orderBlurred.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/components/orderItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/orderItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/components/recette.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/recette.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/comptoir.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/comptoir.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/ContainerFinishedOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/ContainerFinishedOrder.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/cookEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/cookEmplacement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/finishedOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/finishedOrder.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/ordersEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/ordersEmplacement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/app/telephone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/telephone.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" afterDir="false" />

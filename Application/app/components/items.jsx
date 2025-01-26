@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,View,Text,Image} from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import Ingredients from './ingredients';
 
 const imageMap = {
@@ -21,9 +21,19 @@ const imageMap = {
 };
 
 const Items = ({ items, type }) => {
+    const filteredItems = items.filter(item => {
+        if (type === "complet") {
+            return true;
+        }
+        if (type === "HOT_DISH" || type === "COLD_DISH") {
+            return item.category === type;
+        }
+        return item.type === type;
+    });
+
     return (
         <View>
-            {items.filter(item => type === "complet" || item.type === type).map((item, key) => (
+            {filteredItems.map((item) => (
                 <View style={styles.items} key={item.id}>
                     <Image
                         style={{ width: 25, height: 25, resizeMode: 'contain' }}
@@ -41,18 +51,18 @@ const Items = ({ items, type }) => {
 };
 
 const styles = StyleSheet.create({
-    items:{
-      flexDirection: 'row', 
-      justifyContent: 'space-around',
-      borderBottomWidth: 1,
-      borderBottomColor: '#E3E3E3', 
+    items: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderBottomWidth: 1,
+        borderBottomColor: '#E3E3E3',
     },
-    WrapperIngredient:{
-        flex:0.5,
+    WrapperIngredient: {
+        flex: 0.5,
     },
-    Quantity:{
-      fontSize:22,
-    }
-  });
-  
+    Quantity: {
+        fontSize: 22,
+    },
+});
+
 export default Items;

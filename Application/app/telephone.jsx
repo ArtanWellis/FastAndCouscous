@@ -20,8 +20,8 @@ const Telephone = () => {
 
     const filterOptions = [
         { label: 'Complet', value: 'complet' },
-        { label: 'Chaud', value: 'hot' },
-        { label: 'Froid', value: 'cold' },
+        { label: 'Chaud', value: 'HOT_DISH' },
+        { label: 'Froid', value: 'COLD_DISH' },
         { label: 'Burger', value: 'burger' },
         { label: 'Nuggets', value: 'nugget' },
         { label: 'Frites', value: 'frite' },
@@ -62,7 +62,7 @@ const Telephone = () => {
             if(order == null) return ;
             if (filter === 'complet') {
                 filteredItems = order.items;
-            } else if (filter === 'hot' || filter === 'cold') {
+            } else if (filter === 'HOT_DISH' || filter === 'COLD_DISH') {
                 filteredItems = order.items.filter(item => item.category === filter);
             } else {
                 filteredItems = order.items.filter(item => item.type === filter);
