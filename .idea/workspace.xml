@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="NONE" />
+    <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3126215d-d5a9-40dc-8c74-9e1bdd480aac" name="Changes" comment="">
+    <list default="true" id="ab6ea27b-42c7-45f6-83aa-16ba6d642b41" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/telephone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/telephone.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ClangdSettings">
-    <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,10 +22,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 4
+  &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="2pyoAnD4716BWJDHacIVGqRRBGr" />
+  <component name="ProjectId" id="2sABQSVJXTMm0QmCZ0XOw25dDQv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -35,44 +33,32 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
     "git-widget-placeholder": "develop",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/user/Documents/1.polytech/S9/adaptation/FastAndCouscous",
+    "last_opened_file_path": "C:/Users/user/Documents/1.polytech/S9/adaptation/2/FastAndCouscous",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\user\\Documents\\1.polytech\\S9\\adaptation\\FastAndCouscous\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\user\\Documents\\1.polytech\\S9\\adaptation\\2\\FastAndCouscous\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\user\Documents\1.polytech\S9\adaptation\FastAndCouscous\app" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\user\Documents\1.polytech\S9\adaptation\FastAndCouscous\assets\images" />
+      <recent name="C:\Users\user\Documents\1.polytech\S9\adaptation\2\FastAndCouscous\Application\app\components" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3126215d-d5a9-40dc-8c74-9e1bdd480aac" name="Changes" comment="" />
-      <created>1733747535439</created>
+      <changelist id="ab6ea27b-42c7-45f6-83aa-16ba6d642b41" name="Changes" comment="" />
+      <created>1737888482387</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1733747535439</updated>
-      <workItem from="1735307433168" duration="10993000" />
-      <workItem from="1735917765421" duration="160000" />
-      <workItem from="1735996519873" duration="763000" />
-      <workItem from="1735997307821" duration="10892000" />
-      <workItem from="1736094885742" duration="2078000" />
-      <workItem from="1736108681104" duration="8122000" />
+      <updated>1737888482387</updated>
+      <workItem from="1737888483426" duration="3203000" />
+      <workItem from="1737969014805" duration="2915000" />
     </task>
     <servers />
   </component>
