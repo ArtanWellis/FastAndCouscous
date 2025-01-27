@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, FlatList, StyleSheet, Text} from 'react-native';
-import FinishedOrder from './finishedOrder';
-import OrderTable from "./finishedOrder";
+import FinishedOrder from '../finishedOrder';
+import OrderTable from "../finishedOrder";
 
 const FinishedOrdersList = ({ orders }) => {
     return (

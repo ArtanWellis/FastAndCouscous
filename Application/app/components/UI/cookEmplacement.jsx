@@ -1,8 +1,8 @@
 import React  ,{ useState } from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Button} from 'react-native';
-import OrderItem, {Items} from '../components/orderItem';
-import {RenderRecipe} from "../components/recette";
-import KitchenEmplacement from "../components/KitchenEmplacement";
+import OrderItem, {Items} from '../orderItem';
+import {RenderRecipe} from "../recette";
+import KitchenEmplacement from "./KitchenEmplacement";
 
 //mock
 let initialOrders = [

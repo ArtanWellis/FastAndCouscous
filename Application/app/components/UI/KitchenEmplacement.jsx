@@ -1,11 +1,11 @@
 import {ScrollView, StyleSheet, Text, View} from "react-native";
-import {RetrieveButton} from "./UI/retrieveButton";
-import {NoviceButton} from "./UI/noviceButton";
-import OrderItem from "./orderItem";
-import {RenderRecipe} from "./recette";
+import {RetrieveButton} from "./retrieveButton";
+import {NoviceButton} from "./noviceButton";
+import OrderItem from "../orderItem";
+import {RenderRecipe} from "../recette";
 import {Button} from "react-native-elements";
 import React, {useState} from "react";
-import DishEmplacement from "../tableTactile/dishEmplacement";
+import DishEmplacement from "./dishEmplacement";
 
 
 const KitchenEmplacement = ({onEmptyClicked,firstOrder,orderList,onOrderFinish,onOrderRetrieve,noviceActive=true})=>{

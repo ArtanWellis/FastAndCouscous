@@ -8,7 +8,7 @@ import {RenderRecipe} from "@/app/components/recette";
 import {NoviceButton} from "@/app/components/UI/noviceButton";
 import {RetrieveButton} from "@/app/components/UI/retrieveButton";
 import config from '@/config';
-import KitchenEmplacement from "@/app/components/KitchenEmplacement";
+import KitchenEmplacement from "@/app/components/UI/KitchenEmplacement";
 
 
 

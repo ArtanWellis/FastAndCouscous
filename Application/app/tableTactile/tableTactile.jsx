@@ -1,11 +1,11 @@
 import React  ,{ useState,useEffect } from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Button} from 'react-native';
-import CookEmplacement from "@/app/tableTactile/cookEmplacement";
-import OrdersEmplacement from "@/app/tableTactile/ordersEmplacement";
+import CookEmplacement from "@/app/components/UI/cookEmplacement";
+import OrdersEmplacement from "@/app/components/UI/ordersEmplacement";
 
 
-import FinishedOrdersList from "@/app/tableTactile/ContainerFinishedOrder";
-import OrderTable from "@/app/tableTactile/finishedOrder";
+import FinishedOrdersList from "@/app/components/UI/ContainerFinishedOrder";
+import OrderTable from "@/app/components/finishedOrder";
 
 //mock
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import OrderItem from "../components/orderItem";
+import OrderItem from "./orderItem";
 
 const OrderTable = ({ order, finished = true ,onOrderItemClicked}) => {
     const [isOrderItemVisible, setOrderItemVisible] = useState(false);

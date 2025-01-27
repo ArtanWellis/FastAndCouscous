@@ -6,6 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="ab6ea27b-42c7-45f6-83aa-16ba6d642b41" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/components/KitchenEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/UI/KitchenEmplacement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/kitchen.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/kitchen.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/ContainerFinishedOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/UI/ContainerFinishedOrder.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/cookEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/UI/cookEmplacement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/dishEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/UI/dishEmplacement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/finishedOrder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/finishedOrder.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/ordersEmplacement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/UI/ordersEmplacement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
@@ -29,24 +37,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/user/Documents/1.polytech/S9/adaptation/2/FastAndCouscous",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\user\\Documents\\1.polytech\\S9\\adaptation\\2\\FastAndCouscous\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Documents/1.polytech/S9/adaptation/2/FastAndCouscous&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\user\\Documents\\1.polytech\\S9\\adaptation\\2\\FastAndCouscous\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\Documents\1.polytech\S9\adaptation\2\FastAndCouscous\Application\app\components" />
+      <recent name="C:\Users\user\Documents\1.polytech\S9\adaptation\2\FastAndCouscous\Application\app\components\UI" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -59,6 +68,7 @@
       <updated>1737888482387</updated>
       <workItem from="1737888483426" duration="3203000" />
       <workItem from="1737969014805" duration="2915000" />
+      <workItem from="1737972589058" duration="1569000" />
     </task>
     <servers />
   </component>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import OrderItem from "../components/orderItem";
-import OrderTable from "@/app/tableTactile/finishedOrder";
+import OrderItem from "../orderItem";
+import OrderTable from "@/app/components/finishedOrder";
 
 
 const OrdersEmplacement = ({orders, onOrderClick}) => {
