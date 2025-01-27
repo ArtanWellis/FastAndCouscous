@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 const OrderBlurred = ({ order, onOrderClick }) => {
     if (!order) {
@@ -16,7 +16,7 @@ const OrderBlurred = ({ order, onOrderClick }) => {
             <TouchableOpacity onPress={() => (onOrderClick ? onOrderClick(order) : onOrderClick(null))}>
                 <View style={styles.upOrder}>
                     <Text style={styles.textOrderBlurred}>
-                        Prochaine commande : #{order.id} ({getTotalItems(order.items)} items)
+                        Prochaine commande : #{order.id.substring(0, 10)}... ({getTotalItems(order.items)} items)
                     </Text>
                 </View>
                 <View style={styles.bottomOrder}>

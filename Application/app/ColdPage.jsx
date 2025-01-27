@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import OrderItem from '@/app/components/orderItem';
+import axios from 'axios';
+import config from '@/config';
+
+const ip = config.serverIp;
 
 const ColdPage = ({ route }) => {
-    const { coldOrders } = route.params; // Récupération des commandes froides via les props de navigation
-  
-
+  const [coldOrders, setColdOrders] = useState([]); // Récupération des commandes froides via les props de navigation
+ 
+  useEffect(() => {
+    const fetchColdOrders = async () => {
+      try {
+        const response = await axios.get('http://' + ip + ':3010/rush/validated');
+        setColdOrders(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des commandes froides :', error.message);
+      }
+    };
+    fetchColdOrders();
+  }, []);
 
   return (
     <View style={styles.container}>

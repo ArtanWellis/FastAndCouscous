@@ -1,26 +1,28 @@
+const Item = require('./Item');
+
 class Order {
-    constructor(id, items = [],PayedHour) {
+    constructor(id, items = []) {
         this.id = id;
         this.items = items;
-        this.PayedHour= PayedHour;
+        this.PayedHour = "";
         this.Type="DINE_IN";
     }
 
 
-    setItems(items) {
-        items.forEach(item => {
-            if(item.shortName != undefined){
-                this.items.push(item);
+    setItems(plats) {
+        const itemMap = {};
+
+        plats.forEach(plat => {
+            if (plat.shortName) {
+                if (!itemMap[plat.shortName]) {
+                    itemMap[plat.shortName] = { id : plat._id, shortName:plat.shortName , quantity: 0 };
+                }
+                itemMap[plat.shortName].quantity += 1;
             }
         });
-        console.log(this.items);
+        this.items = Object.values(itemMap).map(item => new Item(item.id,item.shortName, item.quantity));
     }
-
-
     
-    toString() {
-        return `Order ID: ${this.id}, Payed Hour: ${this.PayedHour}, Type: ${this.Type}, Items: ${JSON.stringify(this.items)}`;
-    }
 }
 
 

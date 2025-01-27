@@ -1,249 +1,17 @@
-import React , {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Image, Text, Alert, Platform, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import { Button  } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import OrderItem from '@/app/components/orderItem';
-import OrderBlurred from "@/app/components/orderBlurred";
+import OrderItem from './components/orderItem';
+import OrderBlurred from "./components/orderBlurred";
+import config from "@/config";
+import axios from "axios";
 
-let initialOrders = [
-  {
-      id:351,
-      items :[
-      {
-          name: "Cheese Burger",
-          quantity: 2,
-          category : "hot",
-          type : "burger",
-          Ingredients : ["-Fromage" , "+Bacon"]
-      },
-      {
-          name: "Burger Bacon",
-          category : "hot",
-          type : "burger",
-          quantity: 3,
-      },{
-            name: "Double Cheese Burger",
-            quantity: 1,
-            category : "hot",
-              type : "burger",
-            Ingredients: ["+Extra Cheese"]
-      },
-      {
-        name: "Veggie Burger",
-        quantity: 2,
-          category : "hot",
-          type : "burger",
-        Ingredients: ["-Meat", "+Avocado"]
-      },
-      {
-        name: "McFlurry Oreo",
-        quantity: 1,
-          category : "cold",
-          type : "glace",
-      },
-      {
-        name: "Fish Burger",
-        quantity: 1,
-          category : "hot",
-          type : "burger",
-        Ingredients: ["-Tartar Sauce"]
-      },
-      {
-        name: "BBQ Burger",
-        quantity: 2,
-          category : "hot",
-          type : "burger",
-        Ingredients: ["+BBQ Sauce", "-Onion Rings"]
-      },
 
-    ],
-      PayedHour: "18h38",
-      Type : "TakeAway"
-  },
-  {
-      id:352,
-      items :[
-      {
-          name: "Cheese Burger",
-          quantity: 2,
-          category : "hot",
-          type : "burger",
-          Ingredients : ["+Fromage" , "-Bacon"]
-
-      },
-      {
-          name: "Bacon Burger",
-          quantity: 3,
-          category : "hot",
-          type : "burger",
-      }],
-      PayedHour: "18h48",
-      Type : "DineIn"
-  },
-  {
-      id:353,
-      items :[
-      {
-          name: "Veggie Burger",
-          quantity: 2,
-          category : "hot",
-          type : "burger",
-          Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
-      },
-      {
-          name: "Coca cola",
-          quantity: 3,
-          category : "cold",
-          type : "boisson",
-      },
-      {
-          name: "Cheese Burger",
-          quantity: 3,
-          category : "hot",
-          type : "burger",
-      },
-      {
-          name: "Moyenne frites",
-          quantity: 5,
-          category : "hot",
-          type : "frite",
-      }],
-      PayedHour: "19h08",
-      Type : "Delivery"
-  },
-  {
-    id:354,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        category : "hot",
-        type : "burger",
-        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
-    },
-    {
-        name: "Nuggets x6",
-        quantity: 3,
-        category : "hot",
-        type : "nugget",
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-        category : "hot",
-        type : "burger",
-    },
-    {
-        name: "Salade cesar",
-        quantity: 5,
-        category : "cold",
-        type : "salade",
-    }],
-    PayedHour: "19h08",
-    Type : "Delivery"
-},
-{
-    id:355,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        category : "hot",
-        type : "burger",
-        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
-    },
-    {
-        name: "Bacon Burger",
-        quantity: 3,
-        category : "hot",
-        type : "burger",
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-        category : "hot",
-        type : "burger",
-    },
-    {
-        name: "Double Meat Burger",
-        quantity: 5,
-        category : "hot",
-        type : "burger",
-    }],
-    PayedHour: "19h08",
-    Type : "Delivery"
-},
-{
-    id:356,
-    items :[
-    {
-        name: "Veggie Burger",
-        quantity: 2,
-        category : "hot",
-        type : "burger",
-        Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
-    },
-    {
-        name: "Bacon Burger",
-        quantity: 3,
-        category : "hot",
-        type : "burger",
-    },
-    {
-        name: "Cheese Burger",
-        quantity: 3,
-        category : "hot",
-        type : "burger",
-    },
-    {
-        name: "Double Meat Burger",
-        quantity: 5,
-        category : "hot",
-        type : "burger",
-    },{
-            name: "Veggie Burger",
-            quantity: 2,
-            category : "hot",
-            type : "burger",
-            Ingredients : ["+Fromage" ,"+Tomates","-Oignons","-Bacon"]
-        },
-        {
-            name: "Bacon Burger",
-            quantity: 3,
-            category : "hot",
-            type : "burger",
-        },
-        {
-            name: "Cheese Burger",
-            quantity: 3,
-            category : "hot",
-            type : "burger",
-        },
-        {
-            name: "Double Meat Burger",
-            quantity: 5,
-            category : "hot",
-            type : "burger",
-        },{
-            name: "Cheese Burger",
-            quantity: 3,
-            category : "hot",
-            type : "burger",
-        },
-        {
-            name: "Double Meat Burger",
-            quantity: 5,
-            category : "hot",
-            type : "burger",
-        }],
-    PayedHour: "19h08",
-    Type : "Delivery"
-},
-];
-
+const ip = config.serverIp;
 
 const Telephone = () => {
-    const [orders, setOrders] = useState(initialOrders);
+    const [orders, setOrders] = useState([]);
     const [indiceOrder, setIndiceOrder] = useState(0);
     const [actualOrder, setActualOrder] = useState(orders[0]);
     const [filteredOrder, setFilteredOrder] = useState(orders[0]);
@@ -252,8 +20,8 @@ const Telephone = () => {
 
     const filterOptions = [
         { label: 'Complet', value: 'complet' },
-        { label: 'Chaud', value: 'hot' },
-        { label: 'Froid', value: 'cold' },
+        { label: 'Chaud', value: 'HOT_DISH' },
+        { label: 'Froid', value: 'COLD_DISH' },
         { label: 'Burger', value: 'burger' },
         { label: 'Nuggets', value: 'nugget' },
         { label: 'Frites', value: 'frite' },
@@ -262,6 +30,20 @@ const Telephone = () => {
         { label: 'Glaces', value: 'glace' },
     ];
 
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('http://' + ip + ':3010/rush/validated');
+            console.log('Commandes récupérées:', response.data);
+            setOrders(response.data);
+            setFirstOrder(response.data[0])
+        } catch (error) {
+            console.error('Erreur lors de la récupération des commandes:', error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
 
 
     const findNextOrderWithFilter = (currentIndex, filter, includeCurrentIndex = true) => {
@@ -277,10 +59,10 @@ const Telephone = () => {
 
             const order = orders[index];
             let filteredItems;
-
+            if(order == null) return ;
             if (filter === 'complet') {
                 filteredItems = order.items;
-            } else if (filter === 'hot' || filter === 'cold') {
+            } else if (filter === 'HOT_DISH' || filter === 'COLD_DISH') {
                 filteredItems = order.items.filter(item => item.category === filter);
             } else {
                 filteredItems = order.items.filter(item => item.type === filter);
@@ -362,45 +144,53 @@ const Telephone = () => {
                 {
                     text: "Confirmer",
                     onPress: () => {
-                        console.log(orders.length);
+                        deleteOrderBFF(orders[indiceOrder].id);
                         const updatedOrders = orders.filter((_, index) => index !== indiceOrder);
                         setOrders(updatedOrders);
 
-                        if (updatedOrders.length === 0) {
-
-                            setActualOrder(null);
-                            setFilteredOrder(null);
-                            setNextFilteredOrder(null);
-                        } else {
-
-                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
-                            setIndiceOrder(newIndice);
-
-                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
-
-                            if (currentOrderResult) {
-                                console.log(orders.length);
-
-                                const { order, filteredItems, index } = currentOrderResult;
-                                            setActualOrder(order);
-                                            setFilteredOrder({ ...order, items: filteredItems });
 
 
-                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
-                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
-                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
-                                } else {
-                                    setNextFilteredOrder(null);
-                                }
-                                console.log(orders.length);
-                                setActualOrder(orders[0]);
-                            }
-                        }
                     },
                 },
             ]
         );
     };
+    const deleteOrderBFF =async (id) => {
+        try {
+            const response = await axios.get('http://' + ip + ':3010/rush/finish/' + id);
+            console.log('Commande validée:', response.data);
+        } catch (error) {
+            console.error('Erreur lors de la validation de la commande:', error.message);
+        }
+    }
+
+    React.useEffect(() =>{
+        if (orders.length === 0) {
+            setActualOrder(null);
+            setFilteredOrder(null);
+            setNextFilteredOrder(null);
+        } else {
+            // Ajuster l'indice si nécessaire
+            const newIndice = indiceOrder >= orders.length ? 0 : indiceOrder;
+            setIndiceOrder(newIndice);
+            // Réappliquer le filtre pour mettre à jour l'affichage
+            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
+
+            if (currentOrderResult) {
+                const { order, filteredItems, index } = currentOrderResult;
+                setActualOrder(order);
+                setFilteredOrder({ ...order, items: filteredItems });
+
+                // Mettre à jour la prochaine commande filtrée
+                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
+                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
+                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
+                } else {
+                    setNextFilteredOrder(null);
+                }
+
+            }
+        }},[orders]);
 
     const validateFilteredItems = () => {
         Alert.alert(
@@ -414,6 +204,8 @@ const Telephone = () => {
                 {
                     text: "Confirmer",
                     onPress: () => {
+                        const removedOrders = []; // Stockera les commandes supprimées
+
                         const updatedOrders = orders.map((order, index) => {
                             if (index === indiceOrder) {
                                 const filteredItemNames = new Set(
@@ -422,6 +214,12 @@ const Telephone = () => {
                                 const remainingItems = order.items.filter(
                                     item => !filteredItemNames.has(item.name)
                                 );
+
+                                if (remainingItems.length === 0) {
+                                    // Ajout à la liste des commandes supprimées
+                                    removedOrders.push(order);
+                                }
+
                                 return {
                                     ...order,
                                     items: remainingItems
@@ -430,34 +228,11 @@ const Telephone = () => {
                             return order;
                         }).filter(order => order.items.length > 0);
 
+
+                        removedOrders.forEach(order => deleteOrderBFF(order.id));
+
+
                         setOrders(updatedOrders);
-
-                        if (updatedOrders.length === 0) {
-                            setActualOrder(null);
-                            setFilteredOrder(null);
-                            setNextFilteredOrder(null);
-                        } else {
-                            // Ajuster l'indice si nécessaire
-                            const newIndice = indiceOrder >= updatedOrders.length ? 0 : indiceOrder;
-                            setIndiceOrder(newIndice);
-                            // Réappliquer le filtre pour mettre à jour l'affichage
-                            const currentOrderResult = findNextOrderWithFilter(newIndice, selectedFilter, true);
-
-                            if (currentOrderResult) {
-                                const { order, filteredItems, index } = currentOrderResult;
-                                setActualOrder(order);
-                                setFilteredOrder({ ...order, items: filteredItems });
-
-                                // Mettre à jour la prochaine commande filtrée
-                                const nextOrderResult = findNextOrderWithFilter(index, selectedFilter, false);
-                                if (nextOrderResult && !areOrdersEqual(nextOrderResult.order, order)) {
-                                    setNextFilteredOrder({ ...nextOrderResult.order, items: nextOrderResult.filteredItems });
-                                } else {
-                                    setNextFilteredOrder(null);
-                                }
-
-                            }
-                        }
                     },
                 },
             ]
@@ -473,6 +248,7 @@ const Telephone = () => {
                 onValueChange={(value) => setSelectedFilter(value)}
                 items={filterOptions}
                 value={selectedFilter}
+                placeholder={{}}
                 style={{
                     inputIOS: styles.input,
                     inputAndroid: styles.input,
@@ -483,7 +259,7 @@ const Telephone = () => {
             </Text>
             <View style={styles.actualOrder}>
                 {filteredOrder && filteredOrder.items.length > 0 ? (
-                    <OrderItem order={filteredOrder} onOrderClick={function (){}}/>
+                    <OrderItem order={filteredOrder} onOrderClick={function (){}} type={selectedFilter}/>
                 ) : (
                     <Text>Aucune commande ne correspond au filtre.</Text>
                 )}
@@ -510,17 +286,17 @@ const Telephone = () => {
                             >
                                 <Text style={{ color: 'white', textAlign: 'center',fontSize:20}}>Valider commande</Text>
                             </TouchableOpacity>
-                    </View>
-                </View>):(<Text> </Text>)}
+                        </View>
+                    </View>):(<Text> </Text>)}
             </View>
             <View style={styles.centeredContainer}>
-            {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
+                {nextFilteredOrder && nextFilteredOrder.items.length > 0 ? (
                     <View style={{display:'flex'}}>
-                <OrderBlurred  order={nextFilteredOrder} onOrderClick={function (){}}/>
+                        <OrderBlurred  order={nextFilteredOrder} onOrderClick={function (){}}/>
                     </View>
-            ) : (
-                <Text>Aucune autre commande ne correspond au filtre.</Text>
-            )}
+                ) : (
+                    <Text>Aucune autre commande ne correspond au filtre.</Text>
+                )}
             </View>
         </View>
     );
@@ -540,7 +316,7 @@ const styles = {
     },
     buttonDiv:  {
         flexDirection : 'row',
-       gap : 50
+        gap : 50
     },
     actualOrder: {
         backgroundColor: '#DEDEDE80',
@@ -570,9 +346,8 @@ const styles = {
         padding : 10,
         display: "flex",
         alignItems: "center",
-},
+    },
 
 
 };
 export default Telephone;
-
