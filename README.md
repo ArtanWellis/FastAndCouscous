@@ -30,15 +30,15 @@ Dans le terminal, on retrouve différentes options pour ouvrir l'application :
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 - [Expo Go](https://expo.dev/go)
 
-Pour ce qui est du lancement du BFF: 
-Il suffira d'ajouter son adresse ip dans le fichier "config.js" contenu dans le dossier Application.
+**Coté BFF :**
 
+Il suffira d'ajouter son adresse ip dans le fichier "config.js" contenu dans le dossier Application.
 Pour ce qui est du lancement du BFF , il vous suffira d'aller dans le dossier BFF et de lancer cette commande:
   ```bash
     node BFF.js
    ```
 
-Coté Back-End : 
+**Coté Back-End :**
 Du au fait que le back-end ne contient pas les informations qu'il nous fallait , nous les avons rajouter dans le code du back-end.
 
 Dans le fichier micro-restaurant-nestjs-public\menu-service\src\shared\services\startup-logic.service.ts , vous pouvez rajouter le code suivant afin de créer les items manquants :
