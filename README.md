@@ -31,8 +31,8 @@ Dans le terminal, on retrouve différentes options pour ouvrir l'application :
 - [Expo Go](https://expo.dev/go)
 
 **Coté BFF :**
-
 Il suffira d'ajouter son adresse ip dans le fichier "config.js" contenu dans le dossier Application.
+
 Pour ce qui est du lancement du BFF , il vous suffira d'aller dans le dossier BFF et de lancer cette commande:
   ```bash
     node BFF.js
