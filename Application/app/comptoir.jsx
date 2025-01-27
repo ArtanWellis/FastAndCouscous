@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Switch  } from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert} from 'react-native';
 import OrderItem from '@/app/components/orderItem';
 import axios from 'axios';
 import config from '@/config';
@@ -15,7 +15,22 @@ const Comptoir = () => {
     const [isRushMode, setIsRushMode] = useState(false);
     const [coldWindow, setColdWindow] = useState(null);
     const pendingValidationIds = new Set();
-
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Vérifier si le mode rush doit être activé
+      if (orders.length >= 5 && !isRushMode) {
+        //setIsRushMode(true);
+        // Afficher une alerte pour signaler que le mode rush a été activé
+        Alert.alert(
+            "Mode Rush Activé!",
+            "Il y a plus de 5 commandes. Le mode rush est maintenant activé.",
+            [{ text: "OK", onPress: () => console.log("Rush Mode Activated") }]
+        );
+        toggleRushMode();
+      }
+    }, 2000)  // Clean up interval on component unmount
+    return () => clearInterval(interval);
+  }, [orders, isRushMode]);
       const fetchOrders = async () => {
           try {
               const response = await axios.get('http://' + ip + ':3010/rush/validated');

@@ -310,10 +310,25 @@ const Table = () =>{
         }
     }
     const handleRetrieveOrder= (newOrders) =>{
-        setOrders(newOrders);
+
+        const updatedOrders = new Set([
+            ...orders,
+            ...newOrders
+        ]);
+
+
+        const updatedOrdersArray = Array.from(updatedOrders).sort((a, b) => a.id - b.id);
+
+        updatedOrdersArray.map((order) =>{
+            console.log("id : " + order.id);
+        })
+
+        setOrders(updatedOrdersArray);
+
         const filteredOrders = finishedOrders.filter(order =>
-            !newOrders.some(finishedOrder => finishedOrder.id === order.id)
+            !updatedOrdersArray.some(finishedOrder => finishedOrder.id === order.id)
         );
+
         setFinishedOrders(filteredOrders);
 
     }

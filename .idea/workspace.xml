@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ab6ea27b-42c7-45f6-83aa-16ba6d642b41" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/components/items.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/components/items.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/app/telephone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/telephone.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/comptoir.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/comptoir.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Application/app/tableTactile/tableTactile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Application/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/kitchen-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/micro-restaurant-nestjs-public/menu-service/src/shared/services/startup-logic.service.ts" afterDir="false" />
@@ -60,6 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1737888482387</updated>
       <workItem from="1737888483426" duration="3203000" />
+      <workItem from="1737969014805" duration="2530000" />
     </task>
     <servers />
   </component>
